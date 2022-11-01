@@ -46,9 +46,6 @@ function DrawerLeft() {
                 <Button colorScheme="blue">My Profile</Button>
               </ListItem>
               <ListItem>
-                <Button colorScheme="blue">Feed</Button>
-              </ListItem>
-              <ListItem>
                 <Button colorScheme="blue">NFTs</Button>
               </ListItem>
               <ListItem>
@@ -59,9 +56,6 @@ function DrawerLeft() {
               </ListItem>
               <ListItem>
                 <Button colorScheme="blue">Staff Recruitment</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Movie</Button>
               </ListItem>
               <ListItem>
                 <Button colorScheme="blue">Cloud Funding</Button>
