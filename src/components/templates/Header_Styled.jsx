@@ -4,7 +4,7 @@ import * as colors from 'src/styles/colors.js';
 export const Container = styled.header`
   width: 100%;
   height: 64px;
-  background-color: #141a1e;
+  background-color: #f28585;
   position: fixed;
   top: 0px;
   left: auto;
@@ -42,12 +42,12 @@ export const GrayRoundBox = styled.div`
 `;
 
 export const WalletBox = styled(GrayRoundBox)`
-  background-color: ${colors.textYellow};
+  background-color: #ff794d;
   margin-right: 8px;
 `;
 
 export const ProfileBox = styled(GrayRoundBox)`
-  background-color: ${colors.textYellow};
+  background-color: #ff794d;
   margin-right: 8px;
 `;
 

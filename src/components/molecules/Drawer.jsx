@@ -23,7 +23,7 @@ function DrawerLeft() {
 
   return (
     <>
-      <IconButton ref={btnRef} colorScheme="purple" onClick={onOpen}>
+      <IconButton ref={btnRef} colorScheme="orange" onClick={onOpen}>
         <Icon as={HamburgerIcon} />
       </IconButton>
       <Drawer

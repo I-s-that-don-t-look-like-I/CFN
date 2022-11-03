@@ -17,7 +17,7 @@ function SearchPopover() {
     <Popover placement="bottom-start">
       <PopoverTrigger>
         <IconButton
-          colorScheme="purple"
+          colorScheme="orange"
           aria-label="Search database"
           icon={<SearchIcon />}
         />

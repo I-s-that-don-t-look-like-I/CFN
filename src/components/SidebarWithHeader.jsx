@@ -87,6 +87,7 @@ export default function SidebarWithHeader({ children }) {
     React.createElement(Box, { ml: { base: 0, md: 60 }, p: '4' }, children)
   );
 }
+
 const SidebarContent = _a => {
   var { onClose } = _a,
     rest = __rest(_a, ['onClose']);

@@ -1,8 +1,8 @@
-import * as HS from 'src/components/Header_Styled.jsx';
+import * as HS from 'src/components/templates/Header_Styled.jsx';
 import Wallet from 'src/components/atoms/Wallet.jsx';
 import { Image } from '@chakra-ui/react';
-import DrawerLeft from './Drawer';
-import SearchPopover from './SearchPopover';
+import DrawerLeft from '../molecules/Drawer';
+import SearchPopover from '../molecules/SearchPopover';
 import { HStack, Text } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
 
