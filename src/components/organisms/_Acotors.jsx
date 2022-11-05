@@ -1,6 +1,6 @@
 import React from 'react';
 import HideScrollX from '../molecules/HideScrollX';
-import Actor from '../molecules/Actor';
+import Actor from '../molecules/_Actor';
 import styled from 'styled-components';
 import LoadingSpinner from '../atoms/LoadingSpinner';
 import useData from 'src/hooks/useData';
@@ -13,7 +13,7 @@ const LoadingWrapper = styled.div`
   justify-items: center;
 `;
 
-export default function Actors() {
+export default function _Actors() {
   const { data, isLoading, isError } = useData(
     { items: [] },
     'http://localhost:3000/api/items'

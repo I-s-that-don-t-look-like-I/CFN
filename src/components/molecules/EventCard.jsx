@@ -10,8 +10,9 @@ const EventCardWrapper = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
-  background: ${colors.cardGradient};
-
+  background: ${colors.cardGradient}, ${props => `url(${props.imgUrl})`};
+  background-size: cover;
+  background-position: 50% 50%;
   flex-shrink: 0;
   overflow: hidden;
 `;
@@ -23,7 +24,7 @@ const EventTitles = styled.div`
 const EventSubTitle = styled.div`
   font-weight: 600;
   font-size: 14px;
-  color: ${colors.textSecondary};
+  color: black;
 `;
 
 const EventTitle = styled.div`
@@ -32,15 +33,20 @@ const EventTitle = styled.div`
   font-size: 16px;
 `;
 
-export default function EventCard() {
+export default function EventCard({
+  title,
+  subtitle,
+  imgUrl,
+  targetDate,
+} = {}) {
   return (
     <div>
-      <EventCardWrapper>
-        <CountDown />
+      <EventCardWrapper imgUrl={imgUrl}>
+        <CountDown targetDate={targetDate} />
       </EventCardWrapper>
       <EventTitles>
-        <EventSubTitle>영화 : 귀향</EventSubTitle>
-        <EventTitle>영화 크라우드 펀딩</EventTitle>
+        <EventSubTitle>{subtitle}</EventSubTitle>
+        <EventTitle>{title}</EventTitle>
       </EventTitles>
     </div>
   );

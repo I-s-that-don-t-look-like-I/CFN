@@ -1,84 +1,74 @@
+import React from 'react';
 import styled from 'styled-components';
 import * as colors from 'src/styles/colors.js';
-import Ether from '../atoms/Ether copy';
 
-const CardWrapper = styled.div`
+const ActorsWrapper = styled.div`
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
+
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
+
+const ActorWrapper = styled.div`
   border-radius: 16px;
   flex-shrink: 0;
   overflow: hidden;
 `;
 
-const CardImage = styled.img`
-  width: 150px;
-  height: 150px;
+const ActorImage = styled.div`
+  width: 240px;
+  height: 240px;
   object-fit: contain;
-  vertical-align: middle;
+  display: block;
+  background: ${colors.cardGradient}, ${props => `url(${props.imgUrl})`};
+  background-size: cover;
+  background-position: 50% 50%;
+  flex-shrink: 0;
+  overflow: hidden;
 `;
 
 const InfoBox = styled.div`
-  width: 150px;
+  width: 240px;
   height: 73px;
-  padding: 16px;
+  padding: 12px;
   background-color: ${colors.bgSecondary};
-`;
-
-const PriceBox = styled.div`
-  padding: 8px 16px 16px 16px;
-  width: 150px;
-  height: 50px;
-  background-color: ${colors.bgSecondary};
-`;
-
-const CollectionTitle = styled.div`
-  font-size: 12px;
-  color: ${colors.textSecondary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const Title = styled.div`
-  font-family: MarkPro-Heavy;
-  font-size: 14px;
-  margin-top: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const PriceTitle = styled.div`
-  font-size: 10px;
-  color: ${colors.textSecondary};
-  font-weight: 700;
-`;
-
-const PriceWrapper = styled.div`
-  display: flex;
   align-items: center;
-  gap: 4px;
-  margin-top: 4px;
+  justify-content: center;
 `;
 
-const PriceText = styled.div`
-  font-family: MarkPro-Heavy;
+const ActorName = styled.div`
+  font-size: 20px;
+  color: ${colors.textSecondary};
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+const ActorBirth = styled.div`
   font-size: 14px;
+  color: ${colors.textSecondary};
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `;
 
-export default function Actor({ item }) {
+export default function Actor({ name, birthYear, imgUrl } = {}) {
   return (
-    <CardWrapper>
-      <CardImage src={item.mediaUrl}></CardImage>
-      <InfoBox>
-        <CollectionTitle>{item.collectionTitle}</CollectionTitle>
-        <Title>{item.title}</Title>
-      </InfoBox>
-      <PriceBox>
-        <PriceTitle>판매가</PriceTitle>
-        <PriceWrapper>
-          <Ether />
-          <PriceText>{item.price}</PriceText>
-        </PriceWrapper>
-      </PriceBox>
-    </CardWrapper>
+    <div>
+      <ActorsWrapper>
+        <ActorWrapper>
+          <ActorImage imgUrl={imgUrl} />
+          <InfoBox>
+            <ActorName>{name}</ActorName>
+            <ActorBirth>{birthYear}</ActorBirth>
+          </InfoBox>
+        </ActorWrapper>
+      </ActorsWrapper>
+    </div>
   );
 }
