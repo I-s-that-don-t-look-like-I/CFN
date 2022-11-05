@@ -75,7 +75,7 @@ function Events() {
   return (
     <SectionLayout>
       <EventsTopWrapper>
-        <GradientSectionTitle>Cloud Fundings</GradientSectionTitle>
+        <GradientSectionTitle>Crowd Fundings</GradientSectionTitle>
         <ShowAllText>클라우드 펀딩전체 보기</ShowAllText>
       </EventsTopWrapper>
       <HideScrollX>

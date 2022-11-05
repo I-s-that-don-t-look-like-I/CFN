@@ -43,7 +43,7 @@ const InfoBox = styled.div`
 `;
 
 const ActorName = styled.div`
-  font-size: 20px;
+  font-size: 21px;
   color: ${colors.textSecondary};
   align-items: center;
   justify-content: center;
@@ -52,7 +52,6 @@ const ActorName = styled.div`
 const ActorBirth = styled.div`
   font-size: 14px;
   color: ${colors.textSecondary};
-  align-items: center;
   justify-content: center;
   display: flex;
 `;
