@@ -14,7 +14,7 @@ const SectionTitle = styled.span`
 `;
 const ShowAllText = styled.span`
   font-size: 14px;
-  color: ${colors.textSecondary};
+  color: black;
   margin-right: 4px;
 `;
 

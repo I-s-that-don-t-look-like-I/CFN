@@ -1,5 +1,5 @@
 import React from 'react';
-import SidebarWithHeader from 'src/components/SidebarWithHeader';
+import SidebarWithHeader from 'src/components/templates/SidebarWithHeader';
 import TopBanner from 'src/components/templates/TopBanner';
 import Events from 'src/components/templates/Events';
 import Profiles from 'src/components/templates/Profiles';
