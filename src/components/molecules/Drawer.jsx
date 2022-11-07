@@ -58,7 +58,7 @@ function DrawerLeft() {
                 <Button colorScheme="blue">Staff Recruitment</Button>
               </ListItem>
               <ListItem>
-                <Button colorScheme="blue">Cloud Funding</Button>
+                <Button colorScheme="blue">Crowd Funding</Button>
               </ListItem>
               <ListItem>
                 <Button colorScheme="blue">FreeBoard</Button>

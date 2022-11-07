@@ -51,9 +51,9 @@ var __rest =
 
 const LinkItems = [
   { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
+  { name: 'Crowd Funding', icon: FiTrendingUp },
+  { name: 'Actor Pofiles', icon: FiCompass },
+  { name: 'Recruitment', icon: FiStar },
   { name: 'Settings', icon: FiSettings },
 ];
 
