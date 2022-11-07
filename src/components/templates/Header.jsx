@@ -1,24 +1,13 @@
-import styled from 'styled-components';
-import * as colors from 'src/styles/colors.js';
 import Wallet from 'src/components/atoms/Wallet.jsx';
-<<<<<<< Updated upstream
-import { Image, HStack, Text } from '@chakra-ui/react';
-=======
-import {
-  Image,
-  HStack,
-  Text,
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-} from '@chakra-ui/react';
->>>>>>> Stashed changes
+import { Image, HStack, Text, IconButton } from '@chakra-ui/react';
 import DrawerLeft from '../molecules/Drawer';
 import SearchPopover from '../molecules/SearchPopover';
 import { SettingsIcon } from '@chakra-ui/icons';
 import kaikasImageUrl from 'src/assets/img/kaikas.png';
 import { toast } from 'react-toastify';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
+import styled from 'styled-components';
+import * as colors from 'src/styles/colors.js';
 
 const Container = styled.header`
   width: 100%;
@@ -50,11 +39,7 @@ const SearchBarWrapper = styled.div`
   border-style: solid;
 `;
 
-<<<<<<< Updated upstream
 const GrayRoundBox = styled.button`
-=======
-const GrayRoundBox = styled.div`
->>>>>>> Stashed changes
   display: flex;
   justify-content: center;
   align-items: center;
@@ -168,15 +153,12 @@ function Header() {
       <WalletBox onClick={user ? handleDone : handleLogin}>
         {user ? <KaikasImage src={kaikasImageUrl} /> : <Wallet />}
       </WalletBox>
-<<<<<<< Updated upstream
-=======
       <IconButton
         colorScheme="orange"
         aria-label="Search database"
         icon={user ? <KaikasImage src={kaikasImageUrl} /> : <Wallet />}
         onClick={user ? handleDone : handleLogin}
       />
->>>>>>> Stashed changes
       <ProfileBox>
         <SettingsIcon color="white" />
       </ProfileBox>
