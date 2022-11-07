@@ -23,7 +23,7 @@ function DrawerLeft() {
 
   return (
     <>
-      <IconButton ref={btnRef} colorScheme="purple" onClick={onOpen}>
+      <IconButton ref={btnRef} colorScheme="orange" onClick={onOpen}>
         <Icon as={HamburgerIcon} />
       </IconButton>
       <Drawer
@@ -46,9 +46,6 @@ function DrawerLeft() {
                 <Button colorScheme="blue">My Profile</Button>
               </ListItem>
               <ListItem>
-                <Button colorScheme="blue">Feed</Button>
-              </ListItem>
-              <ListItem>
                 <Button colorScheme="blue">NFTs</Button>
               </ListItem>
               <ListItem>
@@ -61,10 +58,7 @@ function DrawerLeft() {
                 <Button colorScheme="blue">Staff Recruitment</Button>
               </ListItem>
               <ListItem>
-                <Button colorScheme="blue">Movie</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Cloud Funding</Button>
+                <Button colorScheme="blue">Crowd Funding</Button>
               </ListItem>
               <ListItem>
                 <Button colorScheme="blue">FreeBoard</Button>
