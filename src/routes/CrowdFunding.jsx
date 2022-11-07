@@ -1,4 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-const CrowdFunding = () => <span>Auth</span>;
-export default CrowdFunding;
+export default function CrowdFunding() {
+  return (
+    <div>CrowdFunding</div>
+  )
+}
