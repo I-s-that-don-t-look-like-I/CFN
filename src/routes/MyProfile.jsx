@@ -10,7 +10,7 @@ export default function MyProfile() {
         <Box h={'full'}>
           <Flex h={'full'}>
             <Box w={'250px'} h={'full'} bgColor={'#FBAB3B'}>
-              SIDE
+              SIDE AREA
             </Box>
             <Box flexGrow={1} bgColor={'blue.300'}>
               <Flex h={'full'}>
