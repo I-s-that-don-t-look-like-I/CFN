@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import Home from './routes/Home';
+import PageContents from './routes/PageContents';
+import { useState } from 'react';
 
 function App() {
-  // 2. Wrap ChakraProvider at the root of your app
-  return (
-    <ChakraProvider>
-      <Home />
-    </ChakraProvider>
-  );
+  const [pageState, setPageState] = useState(<Home />);
+  function
+  useEffect(() => {
+
+  }, [pageState]);
+  return <ChakraProvider>{pageState}</ChakraProvider>;
 }
 
 export default App;

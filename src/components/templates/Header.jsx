@@ -12,7 +12,8 @@ import * as colors from 'src/styles/colors.js';
 const Container = styled.header`
   width: 100%;
   height: 64px;
-  background-color: #f28585;
+  background-color: #a15365;
+  //#82c371
   position: fixed;
   top: 0px;
   left: auto;

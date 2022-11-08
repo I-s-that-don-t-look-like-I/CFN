@@ -1,4 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-const MyProfile = () => <span>Auth</span>;
-export default MyProfile;
+export default function MyProfile() {
+  return (
+    <div>MyProfile</div>
+  )
+}
