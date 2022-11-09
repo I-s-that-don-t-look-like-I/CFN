@@ -6,26 +6,27 @@ const CardWrapper = styled.div`
   border-radius: 16px;
   flex-shrink: 0;
   overflow: hidden;
+  background-color: gray;
 `;
 
 const CardImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 300px;
   object-fit: contain;
   vertical-align: middle;
 `;
 
 const InfoBox = styled.div`
-  width: 150px;
-  height: 73px;
+  width: 100%;
+  height: 60px;
   padding: 16px;
   background-color: ${colors.bgSecondary};
 `;
 
 const PriceBox = styled.div`
   padding: 8px 16px 16px 16px;
-  width: 150px;
-  height: 50px;
+  width: 100%;
+  height: 60px;
   background-color: ${colors.bgSecondary};
 `;
 
@@ -64,19 +65,19 @@ const PriceText = styled.div`
   font-size: 14px;
 `;
 
-export default function Item({ item }) {
+export default function NFT({ NFT }) {
   return (
     <CardWrapper>
-      <CardImage src={item.mediaUrl}></CardImage>
+      <CardImage src={NFT.mediaUrl}></CardImage>
       <InfoBox>
-        <CollectionTitle>{item.collectionTitle}</CollectionTitle>
-        <Title>{item.title}</Title>
+        <CollectionTitle>{NFT.collectionTitle}</CollectionTitle>
+        <Title>{NFT.title}</Title>
       </InfoBox>
       <PriceBox>
         <PriceTitle>판매가</PriceTitle>
         <PriceWrapper>
           <Ether />
-          <PriceText>{item.price}</PriceText>
+          <PriceText>{NFT.price}</PriceText>
         </PriceWrapper>
       </PriceBox>
     </CardWrapper>

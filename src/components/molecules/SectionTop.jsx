@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import * as colors from 'src/styles/colors.js';
 
 const SectionTopWrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,7 +15,7 @@ const SectionTitle = styled.span`
 `;
 const ShowAllText = styled.span`
   font-size: 14px;
-  color: black;
+  color: #746464;
   margin-right: 4px;
 `;
 

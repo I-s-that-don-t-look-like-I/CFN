@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import {
   Drawer,
   DrawerBody,
@@ -14,6 +15,7 @@ import {
   ListItem,
   UnorderedList,
 } from '@chakra-ui/react';
+import NFTs from 'src/routes/NFTs';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
 
@@ -35,43 +37,32 @@ function DrawerLeft() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>CFN</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">CFN</DrawerHeader>
 
           <DrawerBody>
-            <UnorderedList>
-              <ListItem>
-                <Button colorScheme="blue">Home</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">My Profile</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">NFTs</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Actor Profile</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Actor Recruitment</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Staff Recruitment</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">Crowd Funding</Button>
-              </ListItem>
-              <ListItem>
-                <Button colorScheme="blue">FreeBoard</Button>
-              </ListItem>
-            </UnorderedList>
-          </DrawerBody>
+            <Router>
+              <UnorderedList>
+                <Link to="/">
+                  <Button colorScheme="orange">Home </Button>
+                </Link>
 
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
+                <Button colorScheme="blue">My Profile</Button>
+
+                <Link to="/NFTs">
+                  <Button colorScheme="blue">NFTs</Button>
+                </Link>
+                <Button colorScheme="blue">Actor Profile</Button>
+
+                <Button colorScheme="blue">Actor Recruitment</Button>
+
+                <Button colorScheme="blue">Staff Recruitment</Button>
+
+                <Button colorScheme="blue">Crowd Funding</Button>
+
+                <Button colorScheme="blue">FreeBoard</Button>
+              </UnorderedList>
+            </Router>
+          </DrawerBody>
         </DrawerContent>
       </Drawer>
     </>

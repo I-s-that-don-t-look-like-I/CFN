@@ -5,6 +5,11 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 import KaikasAuthPorvider from './components/molecules/KaikasAuthProviedr';
 
+if (process.env.NODE_ENV === 'development') {
+  const { worker } = require('./mock/browser');
+  worker.start({ onUnhandledRequest: 'bypass' });
+}
+
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 

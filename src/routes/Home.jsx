@@ -1,15 +1,15 @@
 import React from 'react';
-
 import TopBanner from 'src/components/templates/TopBanner';
 import Events from 'src/components/templates/Events';
 import Profiles from 'src/components/templates/Profiles';
 import ItemsOnsale from 'src/components/templates/ItemsOnSale';
-import Header from 'src/components/templates/Header';
-import SidebarWithHeader from 'src/components/templates/SidebarWithHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
 import { useEffect } from 'react';
+import Main from 'src/components/templates/Main.jsx';
+import TopBanner2 from 'src/components/templates/TopBanner copy';
+import Footer from './Footer';
 
 const klaytn = window.klaytn;
 
@@ -90,11 +90,11 @@ function Home() {
   }, [setUser]);
   return (
     <>
-      <Header />
-      <TopBanner />
+      <Main />
       <Events />
       <Profiles />
       <ItemsOnsale />
+      <Footer />
     </>
   );
 }
