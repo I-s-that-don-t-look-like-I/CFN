@@ -1,9 +1,10 @@
-import { ColorModeScript } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import { ToastContainer } from 'react-toastify';
 import KaikasAuthPorvider from './components/molecules/KaikasAuthProviedr';
+import { BrowserRouter } from 'react-router-dom';
 
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./mock/browser');
@@ -17,7 +18,11 @@ root.render(
   <StrictMode>
     <ColorModeScript />
     <KaikasAuthPorvider>
-      <App />
+      <ChakraProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChakraProvider>
     </KaikasAuthPorvider>
     <ToastContainer theme="colored" />
   </StrictMode>

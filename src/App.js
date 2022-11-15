@@ -1,20 +1,47 @@
-import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import Home from './routes/Home';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 
-import Header from './components/templates/Header';
-import NFTs from './routes/NFTs';
-import Actors from './routes/Actors';
+import { authService } from './fbase';
+import AppRouter from './routes/Router';
 
 function App() {
-  // 2. Wrap ChakraProvider at the root of your app
+  const [init, setInit] = useState(false);
+  const [userObj, setUserObj] = useState(null);
+  useEffect(() => {
+    authService.onAuthStateChanged(user => {
+      if (user) {
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: args => user.updateProfile(args),
+        });
+      } else {
+        setUserObj(null);
+      }
+      setInit(true);
+    });
+  }, []);
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: args => user.updateProfile(args),
+    });
+  };
+
   return (
-    <ChakraProvider>
-      <Header />
-      <main>
-        <Home />
-      </main>
-    </ChakraProvider>
+    <>
+      {init ? (
+        <AppRouter
+          refreshUser={refreshUser}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
+      ) : (
+        'Initializing...'
+      )}
+    </>
   );
 }
 

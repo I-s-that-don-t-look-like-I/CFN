@@ -10,6 +10,15 @@ import { useEffect } from 'react';
 import Main from 'src/components/templates/Main.jsx';
 import TopBanner2 from 'src/components/templates/TopBanner copy';
 import Footer from './Footer';
+import { Button } from '@chakra-ui/react';
+
+import {
+  FirebaseRead,
+  FirebaseReadAll,
+  FirebaseWrite,
+} from 'src/components/molecules/FirebaseDbManager';
+import { addDoc, collection } from 'firebase/firestore';
+import { dbService } from 'src/fbase';
 
 const klaytn = window.klaytn;
 
@@ -88,12 +97,63 @@ function Home() {
       klaytn?.removeListener('networkChanged', handleNetworkChanged);
     };
   }, [setUser]);
+
+  const obj = {
+    _id: 'test123',
+    _contents: 'test_text123',
+    object: { name: 'test', age: 33 },
+  };
+  const detail = {
+    name: 'name',
+    age: 111,
+  };
   return (
     <>
       <Main />
       <Events />
       <Profiles />
       <ItemsOnsale />
+      <Button
+        onClick={() => {
+          FirebaseWrite({
+            _collection: 'user',
+            _dataObj: { obj: obj, detail: detail },
+          });
+        }}
+      >
+        TEST BTN(Writer)
+      </Button>
+      <Button
+        onClick={() => {
+          FirebaseRead({
+            _collection: 'cities',
+            _column: 'country',
+            _value: 'USA',
+            _compOpt: '==',
+          });
+        }}
+      >
+        TEST BTN(Reader)
+      </Button>
+      <Button
+        onClick={() => {
+          FirebaseReadAll('user');
+        }}
+      >
+        TEST BTN(ReadAll)
+      </Button>
+      <Button
+        onClick={() => {
+          FirebaseRead({
+            _collection: 'user',
+            _column: 'detail',
+            _value: { age: 111, name: 'name' },
+            _compOpt: '==',
+          });
+        }}
+      >
+        TEST BTN(ReadByObj)
+      </Button>
       <Footer />
     </>
   );
