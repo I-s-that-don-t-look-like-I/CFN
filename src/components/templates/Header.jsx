@@ -137,7 +137,7 @@ function Header() {
         <Image
           borderRadius="full"
           boxSize="40px"
-          src={require('src/assets/img/cfn_logo.png')}
+          src={require('src/assets/img/CFN.png')}
         />
         <Text fontSize="20px" color="white">
           CFN
