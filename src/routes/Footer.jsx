@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as colors from 'src/styles/colors.js';
-import modernLionImage from 'src/assets/img/cfn_logo.png';
+import modernLionImage from 'src/assets/img/CFN.png';
 import Divider from 'src/components/atoms/Divider.jsx';
 
 const Container = styled.div`

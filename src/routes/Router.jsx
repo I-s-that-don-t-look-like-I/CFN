@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from 'src/routes/Home';
 import Freeboard from 'src/routes/FreeBoard';
 import Landing from './Landing';
-import Header from '../components/templates/Header';
+import NavBar from 'src/components/templates/landing/NavBar';
 import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
 import { useEffect } from 'react';
 
@@ -27,7 +27,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
           path="/"
           element={
             <>
-              <Header />
+              <NavBar />
               <Home />
             </>
           }
@@ -37,7 +37,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
           path="/freeboard"
           element={
             <>
-              <Header />
+              <NavBar />
               <Freeboard />
             </>
           }
@@ -51,7 +51,7 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
           path="/home"
           element={
             <>
-              <Header />
+              <NavBar />
               <Home />
             </>
           }
