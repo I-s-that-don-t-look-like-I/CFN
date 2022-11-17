@@ -1,5 +1,4 @@
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import { toast } from 'react-toastify';
 import { dbService } from 'src/fbase';
 
 export async function FirebaseWrite({ _collection, _dataObj }) {
@@ -15,17 +14,19 @@ export async function FirebaseRead({ _collection, _column, _value, _compOpt }) {
   );
 
   const querySnapshot = await getDocs(q);
-  // querySnapshot.forEach(doc => {
-  //   console.log(doc.id, ' => ', doc.data());
-  // });
-  return querySnapshot;
+  if (querySnapshot.docChanges().length >= 1) {
+    return querySnapshot;
+  } else {
+    console.error('No Data Exist');
+    console.error(querySnapshot);
+  }
 }
 
 export async function FirebaseReadAll(_collection) {
   const q = query(collection(dbService, _collection));
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot);
+  // console.log(querySnapshot.docChanges().length);
   querySnapshot.forEach(doc => {
     console.log(doc.id, ' => ', doc.data());
   });

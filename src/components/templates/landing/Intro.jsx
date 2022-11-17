@@ -4,10 +4,10 @@ import {
   Heading,
   Stack,
   Text,
-  Img,
   Box,
   keyframes,
 } from '@chakra-ui/react';
+import Orange from 'src/components/atoms/Orange';
 
 const rolling = keyframes`
     0% {
@@ -23,7 +23,7 @@ const rolling = keyframes`
     }
     60% {
       transform: rotate(-660deg);
-      margin-left: -50px;
+      margin-left: -40px;
     }
     80%{
       transform: rotate(-645deg);
@@ -70,21 +70,12 @@ export default function CallToActionWithIllustration() {
 
         <Stack spacing={6} direction={'row'}></Stack>
         <Flex w={'full'} align={'center'} justify={'center'} pos={'relative'}>
-          <Img src="https://cdn-icons-png.flaticon.com/512/7992/7992207.png" />
-          <Img
-            src="https://cdn-icons-png.flaticon.com/512/1101/1101762.png"
-            w={200}
-            h={200}
-            pos={'absolute'}
-            ml={138}
-            mt={135}
-          />
+          <Orange />
           <rolling>
             <Text
               fontSize={100}
               animation={spinAnimation}
               position={'absolute'}
-              animatio
             >
               CFN
             </Text>

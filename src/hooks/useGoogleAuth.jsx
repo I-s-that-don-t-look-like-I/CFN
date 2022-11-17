@@ -1,6 +1,9 @@
-import { GoogleAuthContext } from 'src/contexts/GoogleAuthContext';
-import { useContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useState } from 'react';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+} from 'firebase/auth';
 import { authService } from 'src/fbase';
 import { FirebaseGoogleLogin } from 'src/components/molecules/FirebaseDbManager';
 
@@ -34,5 +37,19 @@ export const useGoogleAuth = () => {
     }
   };
 
-  return { user, signInAccount, signOutAccount };
+  const getAccount = async () => {
+    try {
+      onAuthStateChanged(authService, user => {
+        if (user) {
+          setUser(user);
+        } else {
+          console.log('NO USER');
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { user, signInAccount, signOutAccount, getAccount };
 };

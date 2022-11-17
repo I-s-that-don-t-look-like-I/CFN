@@ -6,20 +6,9 @@ import Landing from './Landing';
 import NavBar from 'src/components/templates/landing/NavBar';
 import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
 import { useEffect } from 'react';
+import Test from 'src/components/templates/Test';
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
-  // <Switch>
-  //   <Route exact path="/">
-  //     <Home />
-  //   </Route>
-  //   <Route exact path="/NFts">
-  //     <NFTs />
-  //   </Route>
-  //   <Route exact path="/Actors">
-  //     <Actors />
-  //   </Route>
-  //   <Redirect from="*" to="/" />
-  // </Switch>
   <Routes>
     {isLoggedIn ? (
       <>
@@ -43,9 +32,11 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
           }
         />
         <Route path="/MyProfile" />
+        <Route path="/test" element={<Test />} />
       </>
     ) : (
       <>
+        <Route path="/test" element={<Test />} />
         <Route path="/" element={<Landing />} />
         <Route
           path="/home"

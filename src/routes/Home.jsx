@@ -1,5 +1,4 @@
 import React from 'react';
-import TopBanner from 'src/components/templates/TopBanner';
 import Events from 'src/components/templates/Events';
 import Profiles from 'src/components/templates/Profiles';
 import ItemsOnsale from 'src/components/templates/ItemsOnSale';
@@ -8,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
 import { useEffect } from 'react';
 import Main from 'src/components/templates/Main.jsx';
-import TopBanner2 from 'src/components/templates/TopBanner copy';
 import Footer from './Footer';
 import { Button } from '@chakra-ui/react';
 
@@ -17,8 +15,6 @@ import {
   FirebaseReadAll,
   FirebaseWrite,
 } from 'src/components/molecules/FirebaseDbManager';
-import { addDoc, collection } from 'firebase/firestore';
-import { dbService } from 'src/fbase';
 
 const klaytn = window.klaytn;
 
