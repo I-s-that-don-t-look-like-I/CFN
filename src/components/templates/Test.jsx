@@ -4,14 +4,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { authService } from 'src/fbase';
 import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
 import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
-import { Auth } from '../organisms/Auth';
+import { SocialLogin } from '../organisms/SocialLogin';
 
 export default function Test() {
-  const [userObj, setUserObj] = useState();
+  // const [userObj, setUserObj] = useState();
+  const [userObj, setUserObj] = useOutletContext();
   // const { user, getAccount } = useGoogleAuth();
   const [film, setFilm] = useState();
   const [isFunding, setIsFunding] = useState(false);
@@ -20,7 +22,7 @@ export default function Test() {
     setIsFunding(true);
     // getAccount();
     if (userObj) {
-      console.log(userObj.uid);
+      // console.log(userObj.uid);
       const fundingData = {
         film_id: film.film_id,
         funding_status: 'PENDING',
@@ -40,7 +42,7 @@ export default function Test() {
   }
 
   async function getFundingData(film_name) {
-    console.log(film_name);
+    // console.log(film_name);
     try {
       const filmResponse = await FirebaseRead({
         _collection: 'crowdfunding.film',
@@ -126,7 +128,7 @@ export default function Test() {
       await setUserObj(authService.currentUser);
     }
     getUserObj();
-    console.log(userObj);
+    // console.log(userObj);
     if (film) {
       getFundingData('IDLE_STORY');
     }
@@ -156,13 +158,13 @@ export default function Test() {
             <Button onClick={fundingBtnClick}>Funding</Button>
           </Box>
         </Box>
-        {userObj ? `${userObj.displayName}님 안녕하세요` : <Auth />}
+        {userObj ? `${userObj.displayName}님 안녕하세요` : <SocialLogin />}
         <Button onClick={() => getFundingData('IDLE_STORY')}>
           IDLE_STORY 펀딩 데이터 가져오기
         </Button>
         <Box position={'absolute'} left={300} top={300}>
           <form onSubmit={onSubmit} className="container articleEdit">
-            <Input
+            {/* <Input
               type="text"
               placeholder="film_id"
               value=""
@@ -249,7 +251,7 @@ export default function Test() {
               type="submit"
               value="크라우드 펀딩 영화 추가하기"
               className="formBtn"
-            />
+            /> */}
           </form>
         </Box>
       </Box>

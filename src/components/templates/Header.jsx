@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
 import styled from 'styled-components';
 import * as colors from 'src/styles/colors.js';
-import { Auth } from 'src/components/organisms/Auth';
+import { SocialLogin } from 'src/components/organisms/SocialLogin';
 
 const Container = styled.header`
   width: 100%;
@@ -151,7 +151,7 @@ function Header() {
           </HStack>
         </SearchIconWrapper>
       </SearchBarWrapper>
-      <Auth />
+      <SocialLogin />
       <WalletBox onClick={user ? handleDone : handleLogin}>
         {user ? <KaikasImage src={kaikasImageUrl} /> : <Wallet />}
       </WalletBox>

@@ -3,7 +3,6 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
@@ -13,13 +12,6 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
-  Avatar,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  Center,
   Image,
 } from '@chakra-ui/react';
 import {
@@ -28,81 +20,15 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
-import { toast } from 'react-toastify';
-import kaikasImageUrl from 'src/assets/img/kaikas.png';
-import useKaikasAuth from 'src/hooks/useKaikasAuth';
-import styled from 'styled-components';
-import { Auth } from 'src/components/organisms/Auth';
-import Wallet from 'src/components/atoms/Wallet.jsx';
+
+import { SocialLogin } from 'src/components/organisms/SocialLogin';
 import CFNLogo from 'src/assets/img/CFN.png';
 
-const KaikasImage = styled.img`
-  width: 20px;
-  height: 20px;
-`;
-
-const klaytn = window.klaytn;
-
-async function isKaikasAvailable() {
-  const klaytn = window?.klaytn;
-  if (!klaytn) {
-    return false;
-  }
-
-  const results = await Promise.all([
-    klaytn._kaikas.isApproved(),
-    klaytn._kaikas.isEnabled(),
-    klaytn._kaikas.isUnlocked(),
-  ]);
-
-  return results.every(res => res);
-}
-export default function WithSubnavigation() {
+export default function NavBarOnTop({ googleUser }) {
   const { isOpen, onToggle } = useDisclosure();
-  const { user, setUser } = useKaikasAuth();
-
-  async function logInWithKaikas() {
-    if (!klaytn) {
-      toast.error('kaikas 설치 해주세요!', {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      return;
-    }
-
-    try {
-      const accounts = await toast.promise(
-        klaytn.enable(),
-        {
-          pending: 'Kaikas 지갑 연동 중',
-        },
-        { closeButton: true }
-      );
-      setUser(accounts[0]);
-      localStorage.setItem('_user', accounts[0]);
-      toast.success(`${accounts[0].slice(0, 13)}...님 환영합니다.`);
-    } catch {
-      toast.error('로그인을 실패했습니다.');
-    }
-  }
-
-  function handleLogin() {
-    logInWithKaikas();
-  }
-
-  async function handleDone() {
-    const isAvailable = await isKaikasAvailable();
-    if (isAvailable) {
-      toast.success('이미 로그인이 되어있습니다.');
-      return;
-    }
-
-    toast.warn('로그인을 다시 시도해주세요.');
-    setUser('');
-    localStorage.removeItem('_user');
-  }
 
   return (
-    <Box pos={'fixed'} top={0} width={'100%'} zIndex={999}>
+    <Box pos={'fixed'} top={0} width={'100%'} zIndex={999} h={'72px'}>
       <Flex
         bg={'rgba(255, 255, 255, 0.6)'}
         color={useColorModeValue('gray.600', 'white')}
@@ -130,7 +56,7 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Image boxSize={'32px'} src={CFNLogo} />
+          <Image boxSize={'32px'} src={CFNLogo} href="/" />
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -144,68 +70,10 @@ export default function WithSubnavigation() {
           direction={'row'}
           spacing={2}
         >
-          <IconButton
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'md'}
-            fontWeight={600}
-            color={'white'}
-            bg={'blue.400'}
-            href={'#'}
-            _hover={{
-              bg: 'blue.300',
-            }}
-            icon={user ? <KaikasImage src={kaikasImageUrl} /> : <Wallet />}
-            onClick={user ? handleDone : handleLogin}
-          />
-          <Text>(</Text>
-          <Auth />
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'pink.800'}
-            bg={'yellow.400'}
-            size="xs"
-            href={'#'}
-            _hover={{
-              bg: 'yellow.300',
-            }}
-          >
-            Kakao
-          </Button>
-          <Text>)</Text>
-          <Menu>
-            <MenuButton
-              as={Button}
-              rounded={'full'}
-              variant={'link'}
-              cursor={'pointer'}
-              minW={0}
-            >
-              <Avatar
-                size={'sm'}
-                src={'https://avatars.dicebear.com/api/male/username.svg'}
-              />
-            </MenuButton>
-            <MenuList alignItems={'center'}>
-              <br />
-              <Center>
-                <Avatar
-                  size={'2xl'}
-                  src={'https://avatars.dicebear.com/api/male/username.svg'}
-                />
-              </Center>
-              <br />
-              <Center>
-                <p>Username</p>
-              </Center>
-              <br />
-              <MenuDivider />
-              <MenuItem>Your Servers</MenuItem>
-              <MenuItem>Account Settings</MenuItem>
-              <MenuItem>Logout</MenuItem>
-            </MenuList>
-          </Menu>
+          {/* --------------------
+          --------- Login---------
+           -----------------------*/}
+          <SocialLogin googleUser={googleUser} />
         </Stack>
       </Flex>
 
@@ -230,13 +98,14 @@ const DesktopNav = () => {
               <Link
                 p={2}
                 href={navItem.href ?? '#'}
-                fontSize={'md'}
-                fontWeight={500}
+                fontSize={'lg'}
+                fontWeight={600}
                 color={linkColor}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
                   bg: 'pink.50',
+                  borderRadius: '10',
                 }}
               >
                 {navItem.label}
