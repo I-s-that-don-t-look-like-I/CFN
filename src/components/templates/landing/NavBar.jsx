@@ -12,7 +12,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Avatar,
   Menu,
@@ -380,22 +379,11 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
   {
     label: 'CrowdFunding',
-    children: [
-      {
-        label: '독립영화 제작 비용',
-        href: '#',
-      },
-    ],
+    href: '/crowdfunding',
   },
   {
     label: 'Profiles',
-    children: [
-      {
-        label: '포트폴리오',
-        subLabel: '(ref. Git)',
-        href: '#',
-      },
-    ],
+    href: '/myprofile',
   },
   {
     label: 'Recruits',
@@ -421,12 +409,11 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'NFTs',
+    label: 'TestingPages',
     children: [
       {
-        label: '뱃지 NFTs',
-        subLabel: '',
-        href: '#',
+        label: 'crowdfundingTest',
+        href: '/test',
       },
       {
         label: 'NFTs',

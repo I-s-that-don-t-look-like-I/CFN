@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { dbService } from '../fbase';
+import { authService, dbService } from '../fbase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 
 import Article from '../components/molecules/FirebaseBoard';
 import FirebaseManager from '../components/molecules/FirebaseManager';
 import Header from 'src/components/templates/Header';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
-const Freeboard = ({ userObj }) => {
+function Freeboard() {
+  const [userObj, setUserObj] = useState();
   const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    setUserObj(authService.currentUser);
+  }, [userObj]);
+
   useEffect(() => {
     const q = query(
       collection(dbService, 'articles'),
@@ -25,6 +31,11 @@ const Freeboard = ({ userObj }) => {
   return (
     <Box>
       <Box mt={100}></Box>
+      {userObj ? (
+        <Text>{userObj.displayName} 님 안녕하세요</Text>
+      ) : (
+        '로그인해주세요'
+      )}
       <FirebaseManager userObj={userObj} />
       <div style={{ marginTop: 30 }}>
         {articles.map(article => (
@@ -37,5 +48,5 @@ const Freeboard = ({ userObj }) => {
       </div>
     </Box>
   );
-};
+}
 export default Freeboard;

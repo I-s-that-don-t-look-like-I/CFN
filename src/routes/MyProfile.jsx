@@ -5,13 +5,12 @@ import Header from 'src/components/templates/Header';
 export default function MyProfile() {
   return (
     <Box h={'100vh'}>
-      <Header />
-      <Box pt={'64px'} bgColor={'green.300'} h={'full'}>
+      <Box pt={'72px'} h={'full'}>
         <Box h={'full'}>
           <Flex h={'full'}>
-            <Box w={'250px'} h={'full'} bgColor={'#FBAB3B'}>
+            {/* <Box w={'250px'} h={'full'} bgColor={'#FBAB3B'}>
               SIDE AREA
-            </Box>
+            </Box> */}
             <Box flexGrow={1} bgColor={'blue.300'}>
               <Flex h={'full'}>
                 <Box bgColor={'#664F4F'} h={'full'} w={'380px'}>
@@ -42,7 +41,7 @@ export default function MyProfile() {
                     ></Image>
                   </Box>
                 </Box>
-                <Box bgColor={'pink.400'} h={'full'} flexGrow={1}>
+                <Box bgColor={'pink.400'} h={'100vh'} flexGrow={1}>
                   <Box h={'140px'} bgColor={'teal.400'}>
                     김태리 일이삼사
                   </Box>

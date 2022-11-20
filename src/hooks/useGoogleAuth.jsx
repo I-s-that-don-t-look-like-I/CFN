@@ -22,6 +22,9 @@ export const useGoogleAuth = () => {
         _googleProfileUrl: us.photoURL,
         _googleUid: us.uid,
       });
+      console.log(us);
+      
+      localStorage.setItem('_user', user);
     } catch (error) {
       console.error(error);
     }

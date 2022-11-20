@@ -4,52 +4,31 @@ import Home from 'src/routes/Home';
 import Freeboard from 'src/routes/FreeBoard';
 import Landing from './Landing';
 import NavBar from 'src/components/templates/landing/NavBar';
-import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
-import { useEffect } from 'react';
 import Test from 'src/components/templates/Test';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { authService } from 'src/fbase';
+import Layout from './Layout';
+import MyProfile from './MyProfile';
 
-const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => (
-  <Routes>
-    {isLoggedIn ? (
-      <>
-        <Route
-          path="/"
-          element={
-            <>
-              <NavBar />
-              <Home />
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/freeboard"
-          element={
-            <>
-              <NavBar />
-              <Freeboard />
-            </>
-          }
-        />
-        <Route path="/MyProfile" />
+function AppRouter() {
+  const [userObj, setUserObj] = useState();
+
+  useEffect(() => {
+    setUserObj(authService.currentUser);
+  }, [userObj]);
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/crowdfunding" element={<Test />} />
+        <Route path="/freeboard" element={<Freeboard />} />
+        <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/test" element={<Test />} />
-      </>
-    ) : (
-      <>
-        <Route path="/test" element={<Test />} />
-        <Route path="/" element={<Landing />} />
-        <Route
-          path="/home"
-          element={
-            <>
-              <NavBar />
-              <Home />
-            </>
-          }
-        />
-      </>
-    )}
-  </Routes>
-);
+        <Route path="/landing" element={<Landing />} />
+      </Route>
+    </Routes>
+  );
+}
 
 export default AppRouter;

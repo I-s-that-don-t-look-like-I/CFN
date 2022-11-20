@@ -1,29 +1,33 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, FormControl, Input } from '@chakra-ui/react';
+import { async } from '@firebase/util';
+import { onAuthStateChanged } from 'firebase/auth';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { authService } from 'src/fbase';
 import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
 import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
 import { Auth } from '../organisms/Auth';
 
 export default function Test() {
-  const { user, getAccount } = useGoogleAuth();
+  const [userObj, setUserObj] = useState();
+  // const { user, getAccount } = useGoogleAuth();
   const [film, setFilm] = useState();
   const [isFunding, setIsFunding] = useState(false);
 
   async function fundingBtnClick() {
     setIsFunding(true);
-    getAccount();
-    if (user) {
-      console.log(user);
+    // getAccount();
+    if (userObj) {
+      console.log(userObj.uid);
       const fundingData = {
         film_id: film.film_id,
-        funding_status: 'Wait',
+        funding_status: 'PENDING',
         payment_time: '',
-        support_amount: 10000,
+        support_amount: 50000,
         support_time: Date.now(),
-        supporter_id: user.uid,
+        supporter_id: userObj.uid,
       };
       await FirebaseWrite({
         _collection: 'crowdfunding.funding',
@@ -35,12 +39,13 @@ export default function Test() {
     }
   }
 
-  async function getFundingData() {
+  async function getFundingData(film_name) {
+    console.log(film_name);
     try {
       const filmResponse = await FirebaseRead({
         _collection: 'crowdfunding.film',
         _column: 'film_name',
-        _value: 'IDLE_STORY',
+        _value: film_name,
         _compOpt: '==',
       });
 
@@ -78,14 +83,63 @@ export default function Test() {
     }
   }
 
-  useEffect(() => {
-    if (film) {
-      getFundingData();
+  async function addCrowdfundingFilm(
+    _film_id,
+    _film_director,
+    _film_name,
+    _film_target_amount,
+    _fund_maker_id,
+    _imgUrl,
+    _isFunding,
+    _max_amount,
+    _min_amount,
+    _start_date,
+    _end_date,
+    _status
+  ) {
+    const dataObj = {
+      film_id: _film_id,
+      film_director: _film_director,
+      film_name: _film_name,
+      film_target_amount: _film_target_amount,
+      fund_maker_id: _fund_maker_id,
+      imgUrl: _imgUrl,
+      isFunding: _isFunding,
+      max_amount: _max_amount,
+      min_amount: _min_amount,
+      start_date: _start_date,
+      end_date: _end_date,
+      status: _status,
+    };
+    try {
+      const response = await FirebaseWrite({
+        _collection: 'crowdfunding.film',
+        _dataObj: dataObj,
+      });
+    } catch (error) {
+      console.error(error);
     }
-  }, [isFunding]);
+  }
+
+  useEffect(() => {
+    async function getUserObj() {
+      await setUserObj(authService.currentUser);
+    }
+    getUserObj();
+    console.log(userObj);
+    if (film) {
+      getFundingData('IDLE_STORY');
+    }
+  }, [userObj, isFunding]);
+
+  const onSubmit = async event => {
+    event.preventDefault();
+    addCrowdfundingFilm();
+  };
 
   return (
     <>
+      <Box w={'100vw'} mt={'72px'} />
       <Box display={'flex'} flexDirection={'row'}>
         <Box
           w={300}
@@ -102,10 +156,102 @@ export default function Test() {
             <Button onClick={fundingBtnClick}>Funding</Button>
           </Box>
         </Box>
-        <Auth />
-        <Button onClick={getFundingData}>
+        {userObj ? `${userObj.displayName}님 안녕하세요` : <Auth />}
+        <Button onClick={() => getFundingData('IDLE_STORY')}>
           IDLE_STORY 펀딩 데이터 가져오기
         </Button>
+        <Box position={'absolute'} left={300} top={300}>
+          <form onSubmit={onSubmit} className="container articleEdit">
+            <Input
+              type="text"
+              placeholder="film_id"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="text"
+              placeholder="film_director"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="text"
+              placeholder="film_name"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="number"
+              placeholder="film_target_amount"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={180}
+            />
+            <Input
+              type="text"
+              placeholder="fund_maker_id"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="text"
+              placeholder="imgUrl"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="text"
+              placeholder="isFunding"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+            <Input
+              type="number"
+              placeholder="max_amount"
+              value=""
+              required
+              autoFocus
+              // onChange=""
+              w={150}
+            />
+            <Input
+              type="number"
+              placeholder="min_amount"
+              value=""
+              required
+              autoFocus
+              onChange=""
+              w={150}
+            />
+
+            <Input
+              w={300}
+              type="submit"
+              value="크라우드 펀딩 영화 추가하기"
+              className="formBtn"
+            />
+          </form>
+        </Box>
       </Box>
     </>
   );
