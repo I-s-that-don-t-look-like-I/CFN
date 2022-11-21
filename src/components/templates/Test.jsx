@@ -1,12 +1,9 @@
-import { Box, Button, FormControl, Input } from '@chakra-ui/react';
-import { async } from '@firebase/util';
-import { onAuthStateChanged } from 'firebase/auth';
+import { Box, Button } from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { authService } from 'src/fbase';
-import { useGoogleAuth } from 'src/hooks/useGoogleAuth';
 import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
 import { SocialLogin } from '../organisms/SocialLogin';

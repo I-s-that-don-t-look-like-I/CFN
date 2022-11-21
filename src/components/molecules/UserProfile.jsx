@@ -8,7 +8,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Text,
 } from '@chakra-ui/react';
 import React from 'react';
 import { authService } from 'src/fbase';

@@ -5,6 +5,8 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 import KaikasAuthPorvider from './components/molecules/KaikasAuthProviedr';
 import { BrowserRouter } from 'react-router-dom';
+import theme from 'src/styles/theme';
+import Fonts from './styles/Fonts';
 
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./mock/browser');
@@ -16,14 +18,15 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <ColorModeScript />
-    <KaikasAuthPorvider>
-      <ChakraProvider>
+    <ChakraProvider theme={theme}>
+      <Fonts />
+      <ColorModeScript />
+      <KaikasAuthPorvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ChakraProvider>
-    </KaikasAuthPorvider>
-    <ToastContainer theme="colored" />
+      </KaikasAuthPorvider>
+      <ToastContainer theme="colored" />
+    </ChakraProvider>
   </StrictMode>
 );

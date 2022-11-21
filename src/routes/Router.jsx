@@ -7,6 +7,7 @@ import Test from 'src/components/templates/Test';
 
 import Layout from './Layout';
 import MyProfile from './MyProfile';
+import ProfileList from 'src/components/molecules/ProfileList';
 
 function AppRouter() {
   return (
@@ -15,6 +16,7 @@ function AppRouter() {
         <Route index element={<Home />} />
         <Route path="/crowdfunding" element={<Test />} />
         <Route path="/freeboard" element={<Freeboard />} />
+        <Route path="/profile" element={<ProfileList />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/test" element={<Test />} />
         <Route path="/landing" element={<Landing />} />

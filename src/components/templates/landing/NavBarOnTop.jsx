@@ -56,8 +56,9 @@ export default function NavBarOnTop({ googleUser }) {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Image boxSize={'32px'} src={CFNLogo} href="/" />
-
+          <Link href="/">
+            <Image boxSize={'32px'} src={CFNLogo} href="/" />
+          </Link>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
           </Flex>
@@ -252,7 +253,7 @@ const NAV_ITEMS = [
   },
   {
     label: 'Profiles',
-    href: '/myprofile',
+    href: '/profile',
   },
   {
     label: 'Recruits',

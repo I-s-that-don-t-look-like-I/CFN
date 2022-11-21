@@ -10,7 +10,7 @@ const Fonts = () => (
         font-style: normal;
     }
 `}
-  ></Global>
+  />
 );
 
 export default Fonts;

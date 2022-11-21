@@ -150,7 +150,6 @@ function Home() {
       >
         TEST BTN(ReadByObj)
       </Button>
-      <Footer />
     </>
   );
 }

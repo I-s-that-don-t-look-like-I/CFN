@@ -1,17 +1,20 @@
 import styled from 'styled-components';
 import * as colors from 'src/styles/colors.js';
-import modernLionImage from 'src/assets/img/CFN.png';
+import cfnImage from 'src/assets/img/CFN.png';
 import Divider from 'src/components/atoms/Divider.jsx';
+import { Box, Spacer } from '@chakra-ui/react';
 
 const Container = styled.div`
   margin-top: 100px;
   background-color: ${colors.bgBlack};
   padding: 16px;
+  width: 100%;
 `;
 
-const ModernLionLogoImage = styled.img`
-  height: 14px;
-  margin-bottom: 14px;
+const LogoImage = styled.img`
+  height: 30px;
+  margin-bottom: 30px;
+  margin-right: 20px;
 `;
 
 const FooterTextWrapper = styled.div`
@@ -37,34 +40,45 @@ const FooterLinks = styled.div`
 export default function Footer() {
   return (
     <Container>
-      <ModernLionLogoImage src={modernLionImage} />
-      <FooterTextWrapper>
-        <FooterText>대표이사</FooterText>
-        <FooterText>ㅁㅁㅁ</FooterText>
-      </FooterTextWrapper>
-      <FooterTextWrapper>
-        <FooterText>사업자 등록번호</FooterText>
-        <FooterText>ㅁㅁㅁ-ㅁㅁ-ㅁㅁㅁㅁㅁ</FooterText>
-      </FooterTextWrapper>
-      <FooterTextWrapper>
-        <FooterText>주소</FooterText>
-        <FooterText>서울 종로구 </FooterText>
-      </FooterTextWrapper>
-      <FooterTextWrapper>
-        <FooterText>이메일</FooterText>
-        <FooterText>ㅁㅁㅁㅁㅁㅁㅁ@ㅁㅁㅁㅁㅁㅁㅁ.io</FooterText>
-      </FooterTextWrapper>
-      <FooterTextWrapper>
-        <FooterText>전화번호</FooterText>
-        <FooterText>02-0000-0000</FooterText>
-      </FooterTextWrapper>
-      <FooterLinks>
-        <FooterText>이용약관</FooterText>
-        <Divider />
-        <FooterText>개인정보처리방침</FooterText>
-        <Divider />
-        <FooterText>자주묻는질문</FooterText>
-      </FooterLinks>
+      <Box display={'flex'}>
+        <Box>
+          <Box display={'flex'}>
+            <LogoImage src={cfnImage} />
+            <FooterTextWrapper>
+              <FooterText>대표</FooterText>
+              <FooterText>Team Loud-Idle</FooterText>
+            </FooterTextWrapper>
+          </Box>
+          <Box>
+            <FooterTextWrapper>
+              <FooterText>사업자 등록번호</FooterText>
+              <FooterText>123-45-67890</FooterText>
+            </FooterTextWrapper>
+            <FooterTextWrapper>
+              <FooterText>주소</FooterText>
+              <FooterText>서울 종로구 </FooterText>
+            </FooterTextWrapper>
+            <FooterTextWrapper>
+              <FooterText>이메일</FooterText>
+              <FooterText>supporter@cfn.org</FooterText>
+            </FooterTextWrapper>
+            <FooterTextWrapper>
+              <FooterText>연락처</FooterText>
+              <FooterText>02-1234-5678</FooterText>
+            </FooterTextWrapper>
+          </Box>
+        </Box>
+        <Spacer />
+        <Box>
+          <FooterLinks>
+            <FooterText>이용약관</FooterText>
+            <Divider />
+            <FooterText>개인정보처리방침</FooterText>
+            <Divider />
+            <FooterText>자주묻는질문</FooterText>
+          </FooterLinks>
+        </Box>
+      </Box>
     </Container>
   );
 }
