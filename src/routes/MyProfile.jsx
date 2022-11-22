@@ -1,19 +1,15 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import React from 'react';
-import Header from 'src/components/templates/Header';
 
 export default function MyProfile() {
   return (
-    <Box h={'100vh'}>
-      <Box pt={'72px'} h={'full'}>
-        <Box h={'full'}>
-          <Flex h={'full'}>
-            {/* <Box w={'250px'} h={'full'} bgColor={'#FBAB3B'}>
-              SIDE AREA
-            </Box> */}
+    <Box>
+      <Box>
+        <Box>
+          <Flex>
             <Box flexGrow={1} bgColor={'blue.300'}>
-              <Flex h={'full'}>
-                <Box bgColor={'#664F4F'} h={'full'} w={'380px'}>
+              <Flex>
+                <Box bgColor={'#664F4F'} w={'380px'}>
                   <Box
                     display="flex"
                     w={'380px'}
@@ -41,11 +37,11 @@ export default function MyProfile() {
                     ></Image>
                   </Box>
                 </Box>
-                <Box bgColor={'pink.400'} h={'100vh'} flexGrow={1}>
+                <Box bgColor={'pink.400'} flexGrow={1}>
                   <Box h={'140px'} bgColor={'teal.400'}>
                     김태리 일이삼사
                   </Box>
-                  <Flex h={'full'} bgColor={'red.300'}>
+                  <Flex h={'900px'} bgColor={'red.300'}>
                     <Box w={'360px'} bgColor={'orange.300'}>
                       필모그래피
                     </Box>

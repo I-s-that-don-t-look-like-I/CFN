@@ -6,14 +6,14 @@ import UserProfile from '../molecules/UserProfile';
 import KaikasLogin from '../molecules/KaikasLogin';
 
 export const SocialLogin = ({ googleUser }) => {
-  const { user, signInAccount, signOutAccount } = useGoogleAuth();
+  const { signInAccount } = useGoogleAuth();
 
   return (
     <>
       {googleUser ? (
         <>
           <UserProfile googleUser={googleUser} />
-          <KaikasLogin />
+          <KaikasLogin googleUser={googleUser} />
 
           <Button
             display={{ base: 'none', md: 'inline-flex' }}

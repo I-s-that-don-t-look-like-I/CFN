@@ -13,6 +13,7 @@ import {
 import { Card, CardBody, CardFooter } from '@chakra-ui/card';
 import React from 'react';
 import profile_example from 'src/assets/img/profile_example.png';
+import { Link } from 'react-router-dom';
 // import { GrAddCircle } from 'react-icons/gr';
 
 export default function ProfileList() {
@@ -104,7 +105,7 @@ export default function ProfileList() {
                   justifyContent={'center'}
                 >
                   <Button variant="solid" colorScheme="orange">
-                    새로운 프로필 작성하기
+                    <Link to={'/profile/create'}>새로운 프로필 작성하기</Link>
                   </Button>
                 </ButtonGroup>
               </CardFooter>

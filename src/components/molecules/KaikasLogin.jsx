@@ -5,9 +5,12 @@ import kaikasImageUrl from 'src/assets/img/kaikas.png';
 import Wallet from 'src/components/atoms/Wallet.jsx';
 import { toast } from 'react-toastify';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
+import { FirebaseRead, FirebaseWrite } from './FirebaseDbManager';
+import { useEffect } from 'react';
 
-export default function KaikasLogin() {
+export default function KaikasLogin({ googleUser }) {
   const { user, setUser } = useKaikasAuth();
+  // const [googleUser, setGoogleUser] = useOutletContext();
 
   const KaikasImage = styled.img`
     width: 20px;
@@ -55,9 +58,38 @@ export default function KaikasLogin() {
     }
   }
 
+  async function asyncGoogleAccount() {
+    try {
+      const response = await FirebaseRead({
+        _collection: 'users',
+        _column: 'google_id',
+        _value: googleUser.email,
+        _compOpt: '==',
+      });
+      let gUser;
+      response.forEach(doc => (gUser = doc.data()));
+      const dataObj = {
+        ...gUser,
+        kaikasAddress: user,
+      };
+      const res = await FirebaseWrite({
+        _collection: 'users',
+        _dataObj: dataObj,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function handleLogin() {
     logInWithKaikas();
   }
+
+  useEffect(() => {
+    if (user && googleUser) {
+      asyncGoogleAccount();
+    }
+  }, [user]);
 
   async function handleDone() {
     const isAvailable = await isKaikasAvailable();

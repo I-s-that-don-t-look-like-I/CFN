@@ -8,10 +8,8 @@ import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
 import { SocialLogin } from '../organisms/SocialLogin';
 
-export default function Test() {
-  // const [userObj, setUserObj] = useState();
+export default function CrowdTest() {
   const [userObj, setUserObj] = useOutletContext();
-  // const { user, getAccount } = useGoogleAuth();
   const [film, setFilm] = useState();
   const [isFunding, setIsFunding] = useState(false);
 
