@@ -15,18 +15,18 @@ const rolling = keyframes`
       margin-left: 200px;
     }
     20% {
-      transform: rotate(-270deg);
+      transform: rotate(-260deg);
     }
     40% {
-      transform: rotate(-540deg);
+      transform: rotate(-530deg);
       margin-left: 0;
     }
     60% {
-      transform: rotate(-660deg);
+      transform: rotate(-645deg);
       margin-left: -40px;
     }
     80%{
-      transform: rotate(-645deg);
+      transform: rotate(-635deg);
       margin-left: -40px;
       color: black;
     }

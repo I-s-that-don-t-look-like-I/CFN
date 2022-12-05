@@ -57,9 +57,9 @@ export default function ProfileMaker() {
       <Box>
         <Box>
           <Flex>
-            <Box flexGrow={1} bgColor={'blue.300'}>
+            <Box flexGrow={1}>
               <Flex>
-                <Box bgColor={'#664F4F'} w={'260px'}>
+                <Box w={'260px'}>
                   <Box
                     display="flex"
                     w={'260px'}
@@ -70,7 +70,14 @@ export default function ProfileMaker() {
                     <Text zIndex={999} position={'absolute'}>
                       프로필 사진을 등록 해주세요
                     </Text>
-                    <Skeleton w={'240px'} h={'320px'}></Skeleton>
+                    <Skeleton
+                      w={'240px'}
+                      h={'320px'}
+                      borderRadius={10}
+                      startColor="orange.400"
+                      endColor="pink.500"
+                      speed={1.2}
+                    ></Skeleton>
                   </Box>
                   <Box
                     w={'260px'}
@@ -82,15 +89,28 @@ export default function ProfileMaker() {
                     <Text zIndex={999} position={'absolute'}>
                       일상 사진을 등록 해주세요
                     </Text>
-                    <Skeleton w={'240px'} h={'320px'} mb={'10px'} />
+                    <Skeleton
+                      w={'240px'}
+                      h={'320px'}
+                      mb={'10px'}
+                      borderRadius={10}
+                      startColor="orange.400"
+                      endColor="pink.500"
+                      speed={1.2}
+                    />
                   </Box>
                 </Box>
-                <Box bgColor={'pink.400'} flexGrow={1}>
+                <Box
+                  flexGrow={1}
+                  borderLeft={'5px dotted'}
+                  borderColor={'orange.400'}
+                >
                   <Box
                     display={'flex'}
                     h={'50px'}
-                    bgColor={'teal.400'}
                     justifyContent={'space-between'}
+                    borderBottom={'5px dotted'}
+                    borderColor={'orange.400'}
                   >
                     <Box display={'flex'}>
                       <Text
@@ -103,11 +123,13 @@ export default function ProfileMaker() {
                       </Text>
                       <Input
                         fontSize={'md'}
-                        bottom={'5px'}
+                        bottom={'2px'}
                         ml={'10px'}
                         alignSelf={'flex-end'}
                         w={'300px'}
                         placeholder={'영어 이름을 입력해주세요'}
+                        border={'2px'}
+                        borderColor={'orange.400'}
                       ></Input>
                     </Box>
                     <Box
@@ -122,8 +144,8 @@ export default function ProfileMaker() {
                       </Flex>
                     </Box>
                   </Box>
-                  <Flex h={'708px'} bgColor={'red.300'}>
-                    <Box w={'360px'} bgColor={'orange.300'}>
+                  <Flex h={'708px'}>
+                    <Box w={'360px'}>
                       <Flex direction={'column'}>
                         <Box>
                           <Text m={'10px'} fontSize={'xl'}>
@@ -136,9 +158,11 @@ export default function ProfileMaker() {
                             <Text>성별 : </Text>
                             <Select
                               fontSize={'sm'}
-                              w={'75px'}
+                              w={'77px'}
                               placeholder="성별"
                               isRequired
+                              border={'2px'}
+                              borderColor={'orange.400'}
                             >
                               <option value="남자">남자</option>
                               <option value="여자">여자</option>
@@ -161,6 +185,8 @@ export default function ProfileMaker() {
                                 w={'70px'}
                                 placeholder={'키'}
                                 maxLength={3}
+                                border={'2px'}
+                                borderColor={'orange.400'}
                               />
                               <Text>cm</Text>
                             </Flex>
@@ -171,22 +197,30 @@ export default function ProfileMaker() {
                                 bottom={'5px'}
                                 ml={'10px'}
                                 alignSelf={'flex-end'}
-                                w={'70px'}
+                                w={'73px'}
                                 placeholder={'몸무게'}
                                 maxLength={3}
+                                border={'2px'}
+                                borderColor={'orange.400'}
                               />
                               <Text>kg</Text>
                             </Flex>
                           </Flex>
                         </Box>
                         <Spacer />
-                        <Flex direction={'row'}>
+                        <Flex
+                          direction={'row'}
+                          alignContent={'center'}
+                          justifyContent={'center'}
+                        >
                           <Box>
                             <Select
                               fontSize={'xl'}
                               w={'200px'}
                               placeholder="카테고리"
                               isRequired
+                              border={'2px'}
+                              borderColor={'orange.400'}
                             >
                               <option value="필모그래피">필모그래피</option>
                               <option value="드라마">드라마</option>
@@ -250,10 +284,16 @@ export default function ProfileMaker() {
                         </Flex>
                       </Flex>
                     </Box>
-                    <Box bgColor={'blue.600'} flexGrow={1}>
-                      <Text m={'10px'}>그래프랑 NFT</Text>
-                      <Text>
-                        {googleUser ? googleUser.kaikasAddress : 'test'}
+                    <Box
+                      borderLeft={'5px dotted'}
+                      borderColor={'orange.400'}
+                      flexGrow={1}
+                    >
+                      <Text m={'10px'}>활동 그래프 / 내 NFT</Text>
+                      <Text ml={10}>
+                        {googleUser
+                          ? googleUser.kaikasAddress
+                          : '지갑주소 연동이 필요합니다.'}
                       </Text>
                     </Box>
                   </Flex>
