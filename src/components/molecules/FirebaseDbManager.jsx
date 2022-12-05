@@ -22,6 +22,30 @@ export async function FirebaseRead({ _collection, _column, _value, _compOpt }) {
   }
 }
 
+export async function FirebaseReadMultiWhere({
+  _collection,
+  _column1,
+  _value1,
+  _compOpt1,
+  _column2,
+  _value2,
+  _compOtp2,
+}) {
+  const q = query(
+    collection(dbService, _collection),
+    where(_column1, _compOpt1, _value1),
+    where(_column2, _compOtp2, _value2)
+  );
+
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.docChanges().length >= 1) {
+    return querySnapshot;
+  } else {
+    console.error('No Data Exist');
+    console.error(querySnapshot);
+  }
+}
+
 export async function FirebaseReadAll(_collection) {
   const q = query(collection(dbService, _collection));
 
