@@ -56,15 +56,15 @@ const ActorBirth = styled.div`
   display: flex;
 `;
 
-export default function Actor({ name, birthYear, imgUrl } = {}) {
+export default function Actor({ actor_name, birth, imgUrl } = {}) {
   return (
     <div>
       <ActorsWrapper>
         <ActorWrapper>
           <ActorImage imgUrl={imgUrl} />
           <InfoBox>
-            <ActorName>{name}</ActorName>
-            <ActorBirth>{birthYear}</ActorBirth>
+            <ActorName>{actor_name}</ActorName>
+            <ActorBirth>{birth}</ActorBirth>
           </InfoBox>
         </ActorWrapper>
       </ActorsWrapper>

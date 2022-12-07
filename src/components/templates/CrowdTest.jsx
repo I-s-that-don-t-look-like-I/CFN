@@ -166,14 +166,14 @@ export default function CrowdTest() {
   async function where1test() {
     try {
       const response = await FirebaseRead({
-        _collection: 'crowdfunding.funding',
-        _column: 'supporter_id',
+        _collection: 'crowdfunding.film',
+        _column: 'isFunding',
         _compOpt: '==',
-        _value: '2EWgMyNpYudMPw77kNy0WjnlIia2',
+        _value: true,
       });
       console.log('================');
       response.forEach(data => {
-        console.log(data.data().support_amount);
+        console.log(data.data().imgUrl);
       });
     } catch (error) {
       console.error(error);
