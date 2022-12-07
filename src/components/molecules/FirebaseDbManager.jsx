@@ -14,7 +14,7 @@ export async function FirebaseRead({ _collection, _column, _value, _compOpt }) {
   );
 
   const querySnapshot = await getDocs(q);
-  if (querySnapshot.docChanges().length >= 1) {
+  if (querySnapshot.docs.length >= 1) {
     return querySnapshot;
   } else {
     console.error('No Data Exist');
