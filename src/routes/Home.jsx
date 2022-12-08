@@ -109,7 +109,7 @@ function Home() {
       <Events />
       <Profiles />
       <ItemsOnsale />
-      <Button
+      {/* <Button
         onClick={() => {
           FirebaseWrite({
             _collection: 'user',
@@ -149,7 +149,7 @@ function Home() {
         }}
       >
         TEST BTN(ReadByObj)
-      </Button>
+      </Button> */}
     </>
   );
 }

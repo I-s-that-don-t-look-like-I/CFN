@@ -269,12 +269,8 @@ const NAV_ITEMS = [
     children: [
       {
         label: '게시판',
-        subLabel: '자유게시판, 로케이션 등',
-        href: '#',
-      },
-      {
-        label: '참여극장',
-        href: '#',
+        subLabel: '자유게시판',
+        href: '/freeboard',
       },
     ],
   },

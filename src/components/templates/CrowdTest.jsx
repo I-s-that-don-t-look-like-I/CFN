@@ -1,38 +1,68 @@
-import { Box, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Input,
+  Select,
+  SelectField,
+  Text,
+} from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { authService } from 'src/fbase';
-import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
+import {
+  FirebaseRead,
+  FirebaseWrite,
+  FirebaseReadMultiWhere,
+} from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
-import { SocialLogin } from '../organisms/SocialLogin';
 
 export default function CrowdTest() {
   const [userObj, setUserObj] = useOutletContext();
   const [film, setFilm] = useState();
   const [isFunding, setIsFunding] = useState(false);
+  const [fundAmt, setFundAmt] = useState(0);
 
-  async function fundingBtnClick() {
-    setIsFunding(true);
-    // getAccount();
-    if (userObj) {
+  async function fundingBtnClick(_amt) {
+    _amt = parseInt(_amt);
+    console.log(film.max_amount);
+    // console.log(_amt, film.data.max_amount);
+    if (!film) {
+      toast.error('영화 데이터를 조회해주세요!');
+    } else if (!userObj) {
+      toast.error('로그인을 해주세요!');
+    } else if (_amt > film.max_amount) {
+      toast.error(
+        `해당 펀드는 최대 ${film.max_amount}원 까지만 펀딩 가능합니다.`
+      );
+    } else if (_amt < film.min_amount) {
+      toast.error(
+        `해당 펀드는 최소 ${film.min_amount}원 이상 펀딩 가능합니다.`
+      );
+    } else {
+      setIsFunding(true);
       // console.log(userObj.uid);
       const fundingData = {
         film_id: film.film_id,
         funding_status: 'PENDING',
         payment_time: '',
-        support_amount: 50000,
+        support_amount: _amt,
         support_time: Date.now(),
         supporter_id: userObj.uid,
       };
-      await FirebaseWrite({
+      const response = await FirebaseWrite({
         _collection: 'crowdfunding.funding',
         _dataObj: fundingData,
       });
-      setIsFunding(false);
-    } else {
-      alert('로그인을 먼저 해주세요!');
+      if (response) {
+        setIsFunding(false);
+        toast.success('펀딩이 완료되었습니다.');
+      }
     }
   }
 
@@ -55,7 +85,6 @@ export default function CrowdTest() {
         // console.log(test);
         setFilm(film);
       });
-      // console.log(film);
     } catch (error) {
       console.error(error);
     }
@@ -134,122 +163,189 @@ export default function CrowdTest() {
     addCrowdfundingFilm();
   };
 
-  return (
-    <>
-      <Box w={'100vw'} mt={'72px'} />
-      <Box display={'flex'} flexDirection={'row'}>
-        <Box
-          w={300}
-          h={500}
-          bgColor="orange.300"
-          alignItems={'center'}
-          flexWrap={'wrap'}
-          justifyContent={'center'}
-        >
-          <Box m={2} w={'280px'} h={'300px'} bgColor="pink.500">
-            {film ? <FundCard {...film} /> : <FundCard />}
-          </Box>
-          <Box>
-            <Button onClick={fundingBtnClick}>Funding</Button>
-          </Box>
-        </Box>
-        {userObj ? `${userObj.displayName}님 안녕하세요` : <SocialLogin />}
-        <Button onClick={() => getFundingData('IDLE_STORY')}>
-          IDLE_STORY 펀딩 데이터 가져오기
-        </Button>
-        <Box position={'absolute'} left={300} top={300}>
-          <form onSubmit={onSubmit} className="container articleEdit">
-            {/* <Input
-              type="text"
-              placeholder="film_id"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="text"
-              placeholder="film_director"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="text"
-              placeholder="film_name"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="number"
-              placeholder="film_target_amount"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={180}
-            />
-            <Input
-              type="text"
-              placeholder="fund_maker_id"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="text"
-              placeholder="imgUrl"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="text"
-              placeholder="isFunding"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
-            <Input
-              type="number"
-              placeholder="max_amount"
-              value=""
-              required
-              autoFocus
-              // onChange=""
-              w={150}
-            />
-            <Input
-              type="number"
-              placeholder="min_amount"
-              value=""
-              required
-              autoFocus
-              onChange=""
-              w={150}
-            />
+  async function where1test() {
+    try {
+      const response = await FirebaseRead({
+        _collection: 'crowdfunding.funding',
+        _column: 'supporter_id',
+        _compOpt: '==',
+        _value: '2EWgMyNpYudMPw77kNy0WjnlIia2',
+      });
+      console.log('================');
+      response.forEach(data => {
+        console.log(data.data().support_amount);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function where2test() {
+    try {
+      const response = await FirebaseReadMultiWhere({
+        _collection: 'crowdfunding.funding',
+        _column1: 'supporter_id',
+        _compOpt1: '==',
+        _value1: '2EWgMyNpYudMPw77kNy0WjnlIia2',
+        _column2: 'support_amount',
+        _compOtp2: '==',
+        _value2: 50000,
+      });
+      console.log('================');
+      response.forEach(dt => {
+        console.log(dt.data().support_amount);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-            <Input
-              w={300}
-              type="submit"
-              value="크라우드 펀딩 영화 추가하기"
-              className="formBtn"
-            /> */}
-          </form>
+  return (
+    <Box h={'100vh'}>
+      <Button onClick={where1test}>WHERE TEST1</Button>
+      <Button onClick={where2test}>WHERE TEST2</Button>
+      <Flex flexDirection={'row'} m={3} gap={3}>
+        <Box>
+          <Button w={'300px'} onClick={() => getFundingData('IDLE_STORY')}>
+            IDLE_STORY 펀딩 데이터 가져오기
+          </Button>
+          <Flex
+            w={'300px'}
+            h={'fill'}
+            bgColor="orange.300"
+            alignItems={'center'}
+            direction={'column'}
+            p={'10px'}
+          >
+            <Box w={'280px'} h={'fill'} bgColor="pink.300">
+              {film ? <FundCard {...film} /> : <FundCard />}
+            </Box>
+            <Flex mt={'10px'} flexDirection={'row'} gap={'15px'}>
+              <Input
+                w={'130px'}
+                type={'number'}
+                onChange={event => {
+                  setFundAmt(event.target.value);
+                  console.log(fundAmt);
+                }}
+              />
+              <Button
+                onClick={() => {
+                  fundingBtnClick(fundAmt);
+                }}
+              >
+                펀딩하기
+              </Button>
+            </Flex>
+          </Flex>
         </Box>
-      </Box>
-    </>
+        <Flex direction={'column'} gap={3}>
+          <Box bgColor="orange.400" p={4}>
+            <form onSubmit={onSubmit} className="container articleEdit">
+              <Grid
+                templateRows={'repeat(6,1fr)'}
+                templateColumns={'repeat(4,1fr)'}
+                gap={6}
+              >
+                {/* <Input type="text" placeholder="film_id" required w={150} /> */}
+                <Input type="text" placeholder="감독명" required w={150} />
+                <Input type="text" placeholder="영화 제목" required w={150} />
+                <Input type="number" placeholder="목표 금액" required w={150} />
+                <Input
+                  type="text"
+                  placeholder="펀드 신청자 명"
+                  required
+                  w={150}
+                />
+                <Input type="text" placeholder="희망 시작일" required w={150} />
+                <Input type="text" placeholder="희망 종료일" required w={150} />
+                <Input
+                  type="number"
+                  placeholder="최대 펀딩 금액"
+                  required
+                  w={150}
+                />
+                <Input
+                  type="number"
+                  placeholder="최소 펀딩 금액"
+                  required
+                  w={150}
+                />
+                <GridItem rowSpan={3} colSpan={4}>
+                  <Input
+                    h={'100%'}
+                    type="text"
+                    placeholder="시놉시스"
+                    required
+                  />
+                </GridItem>
+                <Button type="submit" className="formBtn">
+                  이미지 첨부
+                </Button>
+                <Button type="submit" className="formBtn">
+                  영상 첨부
+                </Button>
+                <Button type="submit" className="formBtn">
+                  크라우드 펀딩 신청
+                </Button>
+              </Grid>
+            </form>
+          </Box>
+          <Text>2차</Text>
+          <Box bgColor="orange.400" p={4}>
+            <form onSubmit={onSubmit} className="container articleEdit">
+              <Grid
+                templateRows={'repeat(6,1fr)'}
+                templateColumns={'repeat(4,1fr)'}
+                gap={6}
+              >
+                <Select>
+                  <option>IDLE_STORY (1차)</option>
+                </Select>
+                <Input type="number" placeholder="목표 금액" required w={150} />
+                <Input type="text" placeholder="희망 시작일" required w={150} />
+                <Input type="text" placeholder="희망 종료일" required w={150} />
+                <Input
+                  type="number"
+                  placeholder="최대 펀딩 금액"
+                  required
+                  w={150}
+                />
+                <Input
+                  type="number"
+                  placeholder="최소 펀딩 금액"
+                  required
+                  w={150}
+                />
+                <GridItem rowSpan={2} colSpan={4}>
+                  <Input
+                    h={'100%'}
+                    type="text"
+                    placeholder="촬영 진척도 및 변경 사항"
+                    required
+                  />
+                </GridItem>
+                <GridItem rowSpan={2} colSpan={4}>
+                  <Input
+                    h={'100%'}
+                    type="text"
+                    placeholder="계약 내용 및 수익 배분"
+                    required
+                  />
+                </GridItem>
+                <Button type="submit" className="formBtn">
+                  이미지 첨부
+                </Button>
+                <Button type="submit" className="formBtn">
+                  영상 첨부
+                </Button>
+                <Button type="submit" className="formBtn">
+                  크라우드 펀딩 신청
+                </Button>
+              </Grid>
+            </form>
+          </Box>
+        </Flex>
+      </Flex>
+    </Box>
   );
 }

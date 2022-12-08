@@ -4,13 +4,6 @@ import cfnImage from 'src/assets/img/CFN.png';
 import Divider from 'src/components/atoms/Divider.jsx';
 import { Box, Spacer } from '@chakra-ui/react';
 
-const Container = styled.div`
-  margin-top: 100px;
-  background-color: ${colors.bgBlack};
-  padding: 16px;
-  width: 100%;
-`;
-
 const LogoImage = styled.img`
   height: 30px;
   margin-bottom: 30px;
@@ -39,7 +32,7 @@ const FooterLinks = styled.div`
 
 export default function Footer() {
   return (
-    <Container>
+    <Box mt={10} bgColor="black" p={'16px'} w={'100%'}>
       <Box display={'flex'}>
         <Box>
           <Box display={'flex'}>
@@ -79,6 +72,6 @@ export default function Footer() {
           </FooterLinks>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }
