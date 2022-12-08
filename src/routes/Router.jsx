@@ -9,6 +9,7 @@ import Layout from './Layout';
 import MyProfile from './MyProfile';
 import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
+import SimpleSlider from 'src/components/SimpleSlider';
 
 function AppRouter() {
   return (
@@ -22,6 +23,7 @@ function AppRouter() {
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/test" element={<CrowdTest />} />
         <Route path="/landing" element={<Landing />} />
+        <Route path="/slider" element={<SimpleSlider />} />
       </Route>
     </Routes>
   );

@@ -21,6 +21,7 @@ import {
   FirebaseReadMultiWhere,
 } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
+import SimpleSlider from '../SimpleSlider';
 
 export default function CrowdTest() {
   const [userObj, setUserObj] = useOutletContext();
@@ -199,6 +200,14 @@ export default function CrowdTest() {
     }
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <Box h={'100vh'}>
       <Button onClick={where1test}>WHERE TEST1</Button>
@@ -346,6 +355,7 @@ export default function CrowdTest() {
           </Box>
         </Flex>
       </Flex>
+      <SimpleSlider />
     </Box>
   );
 }
