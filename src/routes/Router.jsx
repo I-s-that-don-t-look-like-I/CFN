@@ -22,6 +22,7 @@ function AppRouter() {
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/test" element={<CrowdTest />} />
         <Route path="/landing" element={<Landing />} />
+        {/* <Route path="/detail" element={<DETAIL />} /> */}
       </Route>
     </Routes>
   );

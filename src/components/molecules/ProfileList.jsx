@@ -62,8 +62,11 @@ export default function ProfileList() {
                   <Button variant="solid" colorScheme="orange">
                     대표 프로필 설정
                   </Button>
+                  <Button variant="solid" colorScheme="orange">
+                    프로필 수정
+                  </Button>
                   <Button variant="ghost" colorScheme="pink">
-                    프로필 삭제하기
+                    프로필 삭제
                   </Button>
                 </ButtonGroup>
               </CardFooter>

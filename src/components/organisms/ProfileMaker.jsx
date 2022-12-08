@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Input,
   Select,
@@ -20,6 +21,7 @@ import {
 import TableComp from '../atoms/TableComp';
 import { FirebaseRead } from '../molecules/FirebaseDbManager';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export default function ProfileMaker() {
   const [userObj, setUserObj] = useOutletContext();
@@ -52,9 +54,37 @@ export default function ProfileMaker() {
     // );
   }
 
+  async function onClickSaveBtn() {
+    try {
+      toast.success('저장되었습니다', {
+        position: 'top-right',
+        autoClose: '1000',
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function onClickClearBtn() {
+    toast.warning('작성 내용을 초기화합니다.');
+  }
+
   return (
-    <Box>
-      <Box>
+    <Box display={'flex'} flexDirection={'column'}>
+      <Box
+        justifyContent={'flex-end'}
+        alignContent={'center'}
+        display={'flex'}
+        flexDirection={'row'}
+      >
+        <Button onClick={onClickClearBtn} m={'10px'}>
+          초기화
+        </Button>
+        <Button onClick={onClickSaveBtn} m={'10px'}>
+          저장
+        </Button>
+      </Box>
+      <Box border={'5px solid orange'} borderRadius={'10px'} shadow={'2xl'}>
         <Box>
           <Flex>
             <Box flexGrow={1} bgColor={'blue.300'}>
