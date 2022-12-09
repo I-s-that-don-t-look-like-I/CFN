@@ -13,6 +13,7 @@ import React from 'react';
 import { authService } from 'src/fbase';
 
 export default function UserProfile({ googleUser }) {
+  console.log(googleUser);
   async function signOut() {
     await authService.signOut();
   }
