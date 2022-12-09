@@ -54,5 +54,7 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
 }
 
 contract Film is Ownable{
-
+    constructor(){
+        
+    }
 }
