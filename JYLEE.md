@@ -14,10 +14,10 @@ npm install -g firebase-tools
 
 ```javascript
 //fbase.js
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,18 +34,13 @@ const app = initializeApp(firebaseConfig);
 export const authService = getAuth(app);
 export const dbService = getFirestore(app);
 export const storageService = getStorage(app);
-
 ```
-
-
 
 ## react-router-dom
 
 ```javascript
 npm i react-router-dom
 ```
-
-
 
 ## file path
 
@@ -60,8 +55,6 @@ npm i react-router-dom
 
 ```
 
-
-
 ## font-awesome
 
 ```javascript
@@ -71,15 +64,11 @@ npm i @fortawesome/fontawesome-free
 npm install --save @fortawesome/fontawesome-free
 ```
 
-
-
 ## Metamask
 
 ```javascript
 npm i @metamask/detect-provider
 ```
-
-
 
 ## ether
 
@@ -87,13 +76,9 @@ npm i @metamask/detect-provider
 npm install ethers
 ```
 
-
-
 ## chakra ui card
 
 ```
 npm i @chakra-ui/card
+npm install react-date-picker
 ```
-
-
-

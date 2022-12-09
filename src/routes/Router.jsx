@@ -24,6 +24,7 @@ function AppRouter() {
         <Route path="/test" element={<CrowdTest />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/slider" element={<SimpleSlider />} />
+        {/* <Route path="/detail" element={<DETAIL />} /> */}
       </Route>
     </Routes>
   );

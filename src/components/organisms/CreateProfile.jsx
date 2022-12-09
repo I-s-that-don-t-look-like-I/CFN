@@ -5,17 +5,10 @@ import ProfileMaker from './ProfileMaker';
 export default function CreateProfile() {
   return (
     <>
-      <Text m={'20px'} fontSize={'xl'}>
+      <Text mt={'20px'} mx={'20px'} fontSize={'xl'}>
         프로필 제작
       </Text>
-      <Box
-        m={'10px'}
-        w={'95vw'}
-        h={'768px'}
-        border={'5px solid orange'}
-        borderRadius={'10px'}
-        shadow={'2xl'}
-      >
+      <Box mx={'10px'} w={'95vw'} h={'768px'}>
         <ProfileMaker />
       </Box>
       {/* <Box m={'20px'}>
