@@ -238,6 +238,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "helloWorld",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -777,11 +790,11 @@
 			]
 		},
 		"contracts/crowdfund.sol": {
-			"keccak256": "0xceb6d10414171dbb9484c0db0a7b5efb2eaf49494611aad9f9ff65f44d6e7cc8",
+			"keccak256": "0x91ae6979a5c05399b931fe8d5e34194d2fce1d959f57cf29b48d3f050cb14fd6",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://3542f6097244beb0edefa749ea5ad4e7c7a85226eff2934d8b75827c771e8956",
-				"dweb:/ipfs/QmcdRARLgvpXE3Q9kiiDD8pzrdc9KKdvSoaM1sNNdM2Jtd"
+				"bzz-raw://b2cd0d0fe374c974847c8bfe70ca20489cb698106621f6c6a6de5c41d5ff6beb",
+				"dweb:/ipfs/QmSMk1Gvd9zjwpRRVbBXpfc4bGzw5drxjLhqD7MNFGZCGU"
 			]
 		}
 	},

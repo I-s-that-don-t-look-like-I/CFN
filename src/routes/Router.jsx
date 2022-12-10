@@ -10,6 +10,7 @@ import MyProfile from './MyProfile';
 import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
 import SimpleSlider from 'src/components/SimpleSlider';
+import Solidity from './Solidity';
 
 function AppRouter() {
   return (
@@ -24,6 +25,8 @@ function AppRouter() {
         <Route path="/test" element={<CrowdTest />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/slider" element={<SimpleSlider />} />
+      <Route path="/solidity" element={<Solidity />} />
+
         {/* <Route path="/detail" element={<DETAIL />} /> */}
       </Route>
     </Routes>

@@ -23,10 +23,10 @@ export default function Layout() {
     onAuthStateChange();
   }, [googleUser]);
   return (
-    <Flex minH={'100vh'} direction={'column'} wrap={'nowrap'}>
+    <Flex direction={'column'} wrap={'nowrap'}>
       <NavBar googleUser={googleUser} />
       <Box w={'100wh'} mt={'73px'} />
-      <Outlet context={[googleUser, setGoogleUser]} />
+      <Outlet minH={'100vh'} context={[googleUser, setGoogleUser]} />
       <Footer />
     </Flex>
   );

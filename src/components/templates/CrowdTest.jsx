@@ -31,7 +31,7 @@ export default function CrowdTest() {
 
   async function fundingBtnClick(_amt) {
     _amt = parseInt(_amt);
-    console.log(film.max_amount);
+    // console.log(film.max_amount);
     // console.log(_amt, film.data.max_amount);
     if (!film) {
       toast.error('영화 데이터를 조회해주세요!');

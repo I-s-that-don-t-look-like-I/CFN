@@ -38,7 +38,7 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
     function setCrowdfund(string memory _filmName, uint _tgAmt, 
      uint _mxAmt, uint _mnAmt, string memory _imgUrl, uint _startTime, uint _endTime)
      public payable{
-        require(msg.value >= 10**14,"YOU MUST PAY 0.0001 ETHER TO MAKE CROWDFUND");
+        require(msg.value >= (1*10**18) / (10**5),"YOU MUST PAY 0.00001 ETHER TO MAKE CROWDFUND");
         crowdfundIdxMapping[_filmName] = crowdfundsArr.length;
         crowdfundsArr.push(Crowdfund(_filmName, msg.sender, _tgAmt, _mxAmt, _mnAmt, _imgUrl, _startTime, _endTime, Status.DIP));
     }
@@ -51,10 +51,8 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
         crowdfundsArr[crowdfundIdxMapping[_filmName]].status = _status;
     }
 
-}
-
-contract Film is Ownable{
-    constructor(){
-        
+    function helloWorld() public pure returns(string memory){
+        return "Hello, World!";
     }
+
 }

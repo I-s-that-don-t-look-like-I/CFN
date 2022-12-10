@@ -282,8 +282,8 @@ const NAV_ITEMS = [
         href: '/test',
       },
       {
-        label: 'NFTs',
-        href: '#',
+        label: 'Solidity',
+        href: '/solidity',
       },
     ],
   },
