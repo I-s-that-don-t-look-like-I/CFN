@@ -20,9 +20,9 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
         uint endTime;
         Status status;
     }
-    enum Status {DIP, NOTOPEN, FUNDING, PENDING, SUCCESS, FAIL}
+    enum Status {DIP, WAITING, FUNDING, PENDING, SUCCESS, FAIL}
     // DIP Decision in process
-    // NOTOPEN -> before startTime
+    // WAITING -> before startTime
     // FUNDING -> funding on going
     // PENDING -> after endTime or Pausing
     // SUCCESS -> after endTime && reach targetAmount
@@ -33,12 +33,12 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
     //crowdfundsArr[crowdfundIdxMapping[_filmName]]
     mapping(string => uint) crowdfundIdxMapping;
 
-    // pay for make crowdfund and payback after fund endTime
-    // 0.0001 ether
+    // pay to set crowdfund for avoiding bots 
+    // 0.00001 ether
     function setCrowdfund(string memory _filmName, uint _tgAmt, 
      uint _mxAmt, uint _mnAmt, string memory _imgUrl, uint _startTime, uint _endTime)
      public payable{
-        require(msg.value >= (1*10**18) / (10**5),"YOU MUST PAY 0.00001 ETHER TO MAKE CROWDFUND");
+        require(msg.value >= (1*10**18) / (10**5),"YOU MUST PAY 0.00001 ETHER TO SET CROWDFUND DIP");
         crowdfundIdxMapping[_filmName] = crowdfundsArr.length;
         crowdfundsArr.push(Crowdfund(_filmName, msg.sender, _tgAmt, _mxAmt, _mnAmt, _imgUrl, _startTime, _endTime, Status.DIP));
     }
@@ -51,8 +51,12 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
         crowdfundsArr[crowdfundIdxMapping[_filmName]].status = _status;
     }
 
+    // When Fund DIP is end. Change Status to WAITING until startTime.
+    function setFundStatusToWaiting(string memory _filmName) public onlyOwner {
+        setFundStatus(_filmName, Status.WAITING);
+    }
+
     function helloWorld() public pure returns(string memory){
         return "Hello, World!";
     }
-
 }
