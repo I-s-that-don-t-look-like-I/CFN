@@ -16,6 +16,11 @@
 						"internalType": "string",
 						"name": "_symbol",
 						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_idleContract",
+						"type": "address"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -650,11 +655,11 @@
 			]
 		},
 		"contracts/crowdfund.sol": {
-			"keccak256": "0x805595f3b1f346820f044f974c3fad0989ba32efb189aae55d7c451b202cde0d",
+			"keccak256": "0x0b01f4736ed63aad0ec65405fc72141b740f0ae1be77d36c026bf3e196eb1692",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0c329f8730f0963fd7078db0ad09f5747edd8691a1e6ad8c134057fea4d6325c",
-				"dweb:/ipfs/QmPedWnPK7vDTLKWqd2g82nfQoK5v9QhFc5MhGjgLRFnBD"
+				"bzz-raw://7d1ac6ecb738371891fb67dac2cc928b615545c4f5d1ea52f98eccc87cd4795c",
+				"dweb:/ipfs/QmbH5bS8W6hNR3xWmSFQe2M1Kr6nn7GXSJ8B8JjwRbJus1"
 			]
 		}
 	},
