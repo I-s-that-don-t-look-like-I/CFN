@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { crowdfundABI } from '../hooks/contractABI.js';
+import { crowdfundABI, userABI, fundABI } from '../hooks/contractABI.js';
 
 export const useWallet = () => {
   const [account, setAccount] = useState('');
@@ -29,6 +29,8 @@ export const useWallet = () => {
 export const useWeb3 = () => {
   const [web3, setWeb3] = useState();
   const [crowdfundContract, setCrowdfundContract] = useState();
+  const [userContract, setUserContract] = useState();
+  const [fundContract, setFundContract] = useState();
 
   useEffect(() => {
     if (!window.ethereum) return;
@@ -43,6 +45,18 @@ export const useWeb3 = () => {
         process.env.REACT_APP_CONTRACT_CROWDFUND_ADDRESS
       )
     );
+    setUserContract(
+      new web3.eth.Contract(
+        userABI,
+        process.env.REACT_APP_CONTRACT_USER_ADDRESS
+      )
+    );
+    setFundContract(
+      new web3.eth.Contract(
+        fundABI,
+        process.env.REACT_APP_CONTRACT_FUND_ADDRESS
+      )
+    );
   }, [web3]);
-  return { web3, crowdfundContract };
+  return { web3, crowdfundContract, userContract, fundContract };
 };
