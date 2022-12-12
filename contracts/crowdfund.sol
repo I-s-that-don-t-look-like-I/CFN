@@ -27,7 +27,7 @@ contract CrowdfundContract is ERC721Enumerable, Ownable {
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
     
     struct sCrowdfund {
-        string filmName; // title + "#" + directorName + "#"
+        string filmName; // title + "#" + directorName
         address director;
         uint targetAmount;
         uint maxAmount;
@@ -163,4 +163,5 @@ contract Funding is Ownable {
         uContract.pushFundedArr(msg.sender, idx);
     }
 
+    // function getFund(string memory _filmName)
 }
