@@ -6,7 +6,6 @@ import {
   GridItem,
   Input,
   Select,
-  SelectField,
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -15,13 +14,8 @@ import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { authService } from 'src/fbase';
-import {
-  FirebaseRead,
-  FirebaseWrite,
-  FirebaseReadMultiWhere,
-} from '../molecules/FirebaseDbManager';
+import { FirebaseRead, FirebaseWrite } from '../molecules/FirebaseDbManager';
 import FundCard from '../molecules/FundCard';
-import SimpleSlider from '../SimpleSlider';
 
 export default function CrowdTest() {
   const [userObj, setUserObj] = useOutletContext();
@@ -139,7 +133,7 @@ export default function CrowdTest() {
       status: _status,
     };
     try {
-      const response = await FirebaseWrite({
+      await FirebaseWrite({
         _collection: 'crowdfunding.film',
         _dataObj: dataObj,
       });
@@ -164,54 +158,45 @@ export default function CrowdTest() {
     addCrowdfundingFilm();
   };
 
-  async function where1test() {
-    try {
-      const response = await FirebaseRead({
-        _collection: 'crowdfunding.film',
-        _column: 'isFunding',
-        _compOpt: '==',
-        _value: true,
-      });
-      console.log('================');
-      response.forEach(data => {
-        console.log(data.data().imgUrl);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  async function where2test() {
-    try {
-      const response = await FirebaseReadMultiWhere({
-        _collection: 'crowdfunding.funding',
-        _column1: 'supporter_id',
-        _compOpt1: '==',
-        _value1: '2EWgMyNpYudMPw77kNy0WjnlIia2',
-        _column2: 'support_amount',
-        _compOtp2: '==',
-        _value2: 50000,
-      });
-      console.log('================');
-      response.forEach(dt => {
-        console.log(dt.data().support_amount);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  // async function where1test() {
+  //   try {
+  //     const response = await FirebaseRead({
+  //       _collection: 'crowdfunding.film',
+  //       _column: 'isFunding',
+  //       _compOpt: '==',
+  //       _value: true,
+  //     });
+  //     console.log('================');
+  //     response.forEach(data => {
+  //       console.log(data.data().imgUrl);
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+  // async function where2test() {
+  //   try {
+  //     const response = await FirebaseReadMultiWhere({
+  //       _collection: 'crowdfunding.funding',
+  //       _column1: 'supporter_id',
+  //       _compOpt1: '==',
+  //       _value1: '2EWgMyNpYudMPw77kNy0WjnlIia2',
+  //       _column2: 'support_amount',
+  //       _compOtp2: '==',
+  //       _value2: 50000,
+  //     });
+  //     response.forEach(dt => {
+  //       console.log(dt.data().support_amount);
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <Box h={'100vh'}>
-      <Button onClick={where1test}>WHERE TEST1</Button>
-      <Button onClick={where2test}>WHERE TEST2</Button>
+      {/* <Button onClick={where1test}>WHERE TEST1</Button>
+      <Button onClick={where2test}>WHERE TEST2</Button> */}
       <Flex flexDirection={'row'} m={3} gap={3}>
         <Box>
           <Button w={'300px'} onClick={() => getFundingData('IDLE_STORY')}>
@@ -355,7 +340,6 @@ export default function CrowdTest() {
           </Box>
         </Flex>
       </Flex>
-      <SimpleSlider />
     </Box>
   );
 }

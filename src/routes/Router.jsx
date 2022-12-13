@@ -9,7 +9,7 @@ import Layout from './Layout';
 import MyProfile from './MyProfile';
 import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
-import SimpleSlider from 'src/components/SimpleSlider';
+import SimpleSlider from 'src/components/templates/SimpleSlider';
 import Solidity from './Solidity';
 
 function AppRouter() {
