@@ -1,29 +1,15 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Input,
-  Select,
-  SelectField,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, Input } from '@chakra-ui/react';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { authService } from 'src/fbase';
-import {
-  FirebaseRead,
-  FirebaseWrite,
-  FirebaseReadMultiWhere,
-} from '../molecules/FirebaseDbManager';
 import DatePicker from 'react-date-picker';
 import styled from 'styled-components';
 import { dbService, storageService } from 'src/fbase';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 } from 'uuid';
+import { ref, uploadString, getDownloadURL } from '@firebase/storage';
+import { addDoc, collection } from 'firebase/firestore';
 
 const SDatePicker = styled(DatePicker)`
   margin-top: 1.5rem;
@@ -36,19 +22,27 @@ const SDatePicker = styled(DatePicker)`
   font-size: 12px;
 `;
 
-export default function CrowdTest({ userObj }) {
+export default function CrowdTest() {
+  const [userObj, setUserObj] = useOutletContext();
   const [film_director, setfilm_director] = useState('');
   const [film_name, setfilm_name] = useState('');
   const [film_target_amount, setfilm_target_amount] = useState();
   const [min_amount, setmin_amount] = useState(300);
-  const [status, setstatus] = useState('');
+  // const [status, setstatus] = useState('');
   const [contents, setcontents] = useState('');
   const [attachment, setAttachment] = useState('');
-  const [film, setFilm] = useState();
-  const [isFunding, setIsFunding] = useState(false);
-  const [fundAmt, setFundAmt] = useState(0);
+  // const [film, setFilm] = useState();
+  // const [isFunding, setIsFunding] = useState(false);
+  // const [fundAmt, setFundAmt] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+
+  useEffect(() => {
+    async function getUserObj() {
+      await setUserObj(authService.currentUser);
+    }
+    getUserObj();
+  }, [userObj]);
 
   const onSubmit = async event => {
     event.preventDefault();
@@ -64,11 +58,14 @@ export default function CrowdTest({ userObj }) {
     }
     let attachmentUrl = '';
     if (attachment !== '') {
-      const attachmentRef = storageService
-        .ref()
-        .child(`${userObj.uid}/${uuidv4()}`);
-      const response = await attachmentRef.putString(attachment, 'data_url');
-      attachmentUrl = await response.ref.getDownloadURL();
+      const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
+      const response = await uploadString(
+        attachmentRef,
+        attachment,
+        'data_url'
+      );
+      console.log(response);
+      attachmentUrl = await getDownloadURL(response.ref);
     }
     const requestFundingObj = {
       film_director: film_director,
@@ -81,7 +78,8 @@ export default function CrowdTest({ userObj }) {
       start_date: startDate,
       end_date: endDate,
     };
-    await dbService.collection('crowdfunding.funding').add(requestFundingObj);
+    // await dbService.collection('crowdfunding.funding').add(requestFundingObj);
+    await addDoc(collection(dbService, 'crowdfunding.film'), requestFundingObj);
     setfilm_director('');
     setAttachment('');
   };

@@ -9,13 +9,14 @@ import Layout from './Layout';
 import MyProfile from './MyProfile';
 import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
+import CrowdFunding from './CrowdFunding';
 
 function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/crowdfunding" element={<CrowdTest />} />
+        <Route path="/crowdfunding" element={<CrowdFunding />} />
         <Route path="/freeboard" element={<Freeboard />} />
         <Route path="/profile" element={<ProfileList />} />
         <Route path="/profile/create" element={<CreateProfile />} />
