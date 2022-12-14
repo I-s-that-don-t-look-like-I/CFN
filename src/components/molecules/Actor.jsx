@@ -56,18 +56,21 @@ const ActorBirth = styled.div`
   display: flex;
 `;
 
-export default function Actor({ actor_name, birth, imgUrl } = {}) {
+export default function Actor({ props }) {
+  const birth = new Date(props.birth.seconds * 1000)
+    .toISOString()
+    .split('T')[0];
   return (
-    <div>
+    <>
       <ActorsWrapper>
         <ActorWrapper>
-          <ActorImage imgUrl={imgUrl} />
+          <ActorImage imgUrl={props.imgUrl} />
           <InfoBox>
-            <ActorName>{actor_name}</ActorName>
+            <ActorName>{props.actor_name}</ActorName>
             <ActorBirth>{birth}</ActorBirth>
           </InfoBox>
         </ActorWrapper>
       </ActorsWrapper>
-    </div>
+    </>
   );
 }
