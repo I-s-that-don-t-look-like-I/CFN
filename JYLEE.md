@@ -85,6 +85,15 @@ npm install react-date-picker
 
 
 
+## react-slick
+
+```
+npm install react-slick --save
+npm install slick-carousel --save
+```
+
+
+
 ## SMART CONTRACT
 
 1. 필요 기능 정의
