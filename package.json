@@ -26,12 +26,12 @@
     "toast": "^0.5.4",
     "web3": "^1.8.1"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+"scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test", 
+    "eject": "react-scripts eject"  
+},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -51,10 +51,19 @@
     ]
   },
   "devDependencies": {
+    "assert": "^2.0.0",
     "babel-plugin-styled-components": "^2.0.7",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
     "customize-cra": "^1.0.0",
+    "https-browserify": "^1.0.0",
     "msw": "^0.47.4",
-    "react-app-rewired": "^2.2.1"
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0"
   },
   "msw": {
     "workerDirectory": "public"
