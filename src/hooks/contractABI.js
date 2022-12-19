@@ -3,67 +3,19 @@ export const crowdfundABI = [
     inputs: [
       {
         internalType: 'string',
-        name: '_name',
+        name: '_filmName',
         type: 'string',
       },
       {
-        internalType: 'string',
-        name: '_symbol',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'approved',
-        type: 'address',
-      },
-      {
-        indexed: true,
         internalType: 'uint256',
-        name: 'tokenId',
+        name: '_idx',
         type: 'uint256',
       },
     ],
-    name: 'Approval',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'bool',
-        name: 'approved',
-        type: 'bool',
-      },
-    ],
-    name: 'ApprovalForAll',
-    type: 'event',
+    name: 'delFundingItems',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     anonymous: false,
@@ -85,44 +37,146 @@ export const crowdfundABI = [
     type: 'event',
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
         internalType: 'address',
-        name: 'from',
+        name: '_userAddr',
         type: 'address',
       },
       {
-        indexed: true,
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
       },
       {
-        indexed: true,
         internalType: 'uint256',
-        name: 'tokenId',
+        name: '_amount',
         type: 'uint256',
       },
     ],
-    name: 'Transfer',
-    type: 'event',
+    name: 'pushFundInfoToUser',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
       },
       {
         internalType: 'uint256',
-        name: 'tokenId',
+        name: '_tgAmt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_mxAmt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_mnAmt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: '_imgUrl',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: '_startTime',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_endTime',
         type: 'uint256',
       },
     ],
-    name: 'approve',
+    name: 'setCrowdfund',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+    ],
+    name: 'setCrowdfundStatusByTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+    ],
+    name: 'setFund',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
+        internalType: 'string[]',
+        name: '_content',
+        type: 'string[]',
+      },
+      {
+        internalType: 'uint256',
+        name: '_price',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum CrowdfundContract.eOptions[]',
+        name: '_options',
+        type: 'uint8[]',
+      },
+    ],
+    name: 'setFundingItems',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+    ],
+    name: 'setFundStatusToWaiting',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -131,35 +185,212 @@ export const crowdfundABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'owner',
+        name: '_userAddr',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_points',
+        type: 'uint256',
+      },
+    ],
+    name: 'setPointAdd',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_userAddr',
+        type: 'address',
+      },
+      {
+        internalType: 'int256',
+        name: '_points',
+        type: 'int256',
+      },
+    ],
+    name: 'setPointSub',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_nickName',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_email',
+        type: 'string',
+      },
+    ],
+    name: 'setUser',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_userAddr',
+        type: 'address',
+      },
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
+        internalType: 'bool',
+        name: '_side',
+        type: 'bool',
+      },
+      {
+        internalType: 'uint256',
+        name: '_count',
+        type: 'uint256',
+      },
+    ],
+    name: 'setVotingInfo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
         type: 'address',
       },
     ],
-    name: 'balanceOf',
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
+        internalType: 'bool',
+        name: '_vote',
+        type: 'bool',
+      },
+      {
+        internalType: 'uint256',
+        name: '_count',
+        type: 'uint256',
+      },
+    ],
+    name: 'voteCrowdfund',
     outputs: [
       {
         internalType: 'uint256',
         name: '',
         type: 'uint256',
       },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
     ],
-    stateMutability: 'view',
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'uint256',
-        name: 'tokenId',
+        name: '_index',
         type: 'uint256',
       },
     ],
-    name: 'getApproved',
+    name: 'getCrowdfundByIdx',
     outputs: [
       {
-        internalType: 'address',
+        components: [
+          {
+            internalType: 'string',
+            name: 'filmName',
+            type: 'string',
+          },
+          {
+            internalType: 'address',
+            name: 'director',
+            type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'targetAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'maxAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'minAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'string',
+            name: 'imgUrl',
+            type: 'string',
+          },
+          {
+            internalType: 'uint256',
+            name: 'startTime',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'endTime',
+            type: 'uint256',
+          },
+          {
+            internalType: 'enum CrowdfundContract.eStatus',
+            name: 'status',
+            type: 'uint8',
+          },
+          {
+            internalType: 'address[]',
+            name: 'aPros',
+            type: 'address[]',
+          },
+          {
+            internalType: 'uint256',
+            name: 'pros',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address[]',
+            name: 'aCons',
+            type: 'address[]',
+          },
+          {
+            internalType: 'uint256',
+            name: 'cons',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct CrowdfundContract.sCrowdfund',
         name: '',
-        type: 'address',
+        type: 'tuple',
       },
     ],
     stateMutability: 'view',
@@ -179,6 +410,66 @@ export const crowdfundABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+    ],
+    name: 'getEndTime',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+    ],
+    name: 'getFundingItems',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'string[]',
+            name: 'content',
+            type: 'string[]',
+          },
+          {
+            internalType: 'uint256',
+            name: 'price',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'amount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'enum CrowdfundContract.eOptions[]',
+            name: 'rewards',
+            type: 'uint8[]',
+          },
+        ],
+        internalType: 'struct CrowdfundContract.sFundingItem[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',
@@ -242,9 +533,24 @@ export const crowdfundABI = [
             type: 'uint8',
           },
           {
-            internalType: 'string[]',
-            name: 'stringData',
-            type: 'string[]',
+            internalType: 'address[]',
+            name: 'aPros',
+            type: 'address[]',
+          },
+          {
+            internalType: 'uint256',
+            name: 'pros',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address[]',
+            name: 'aCons',
+            type: 'address[]',
+          },
+          {
+            internalType: 'uint256',
+            name: 'cons',
+            type: 'uint256',
           },
         ],
         internalType: 'struct CrowdfundContract.sCrowdfund',
@@ -256,235 +562,22 @@ export const crowdfundABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'helloWorld',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-    ],
-    name: 'isApprovedForAll',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'name',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'ownerOf',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'from',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'from',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-      {
-        internalType: 'bytes',
-        name: 'data',
-        type: 'bytes',
-      },
-    ],
-    name: 'safeTransferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'operator',
-        type: 'address',
-      },
-      {
-        internalType: 'bool',
-        name: 'approved',
-        type: 'bool',
-      },
-    ],
-    name: 'setApprovalForAll',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [
       {
         internalType: 'string',
         name: '_filmName',
         type: 'string',
       },
+    ],
+    name: 'getStartTime',
+    outputs: [
       {
         internalType: 'uint256',
-        name: '_tgAmt',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: '_mxAmt',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: '_mnAmt',
-        type: 'uint256',
-      },
-      {
-        internalType: 'string',
-        name: '_imgUrl',
-        type: 'string',
-      },
-      {
-        internalType: 'uint256',
-        name: '_startTime',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: '_endTime',
+        name: '',
         type: 'uint256',
       },
     ],
-    name: 'setCrowdfund',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_fContAddr',
-        type: 'address',
-      },
-    ],
-    name: 'setFundContractAddr',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_filmName',
-        type: 'string',
-      },
-      {
-        internalType: 'enum CrowdfundContract.eStatus',
-        name: '_status',
-        type: 'uint8',
-      },
-    ],
-    name: 'setFundStatus',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -495,65 +588,26 @@ export const crowdfundABI = [
         type: 'string',
       },
     ],
-    name: 'setFundStatusToWaiting',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_uContAddr',
-        type: 'address',
-      },
-    ],
-    name: 'setUContractAddr',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes4',
-        name: 'interfaceId',
-        type: 'bytes4',
-      },
-    ],
-    name: 'supportsInterface',
+    name: 'getTargetAmount',
     outputs: [
       {
-        internalType: 'bool',
+        internalType: 'uint256',
         name: '',
-        type: 'bool',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'symbol',
-    outputs: [
+    inputs: [
       {
         internalType: 'string',
-        name: '',
+        name: '_filmName',
         type: 'string',
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenByIndex',
+    name: 'getTotalAmountByFilmName',
     outputs: [
       {
         internalType: 'uint256',
@@ -563,120 +617,6 @@ export const crowdfundABI = [
     ],
     stateMutability: 'view',
     type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenOfOwnerByIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenURI',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'from',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'transferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-];
-
-export const userABI = [
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'OwnershipTransferred',
-    type: 'event',
   },
   {
     inputs: [
@@ -701,17 +641,22 @@ export const userABI = [
             type: 'string',
           },
           {
-            internalType: 'uint256[]',
-            name: 'fundedArr',
-            type: 'uint256[]',
+            internalType: 'uint256',
+            name: 'points',
+            type: 'uint256',
           },
           {
             internalType: 'string[]',
-            name: 'stringData',
+            name: 'aFundedList',
+            type: 'string[]',
+          },
+          {
+            internalType: 'string[]',
+            name: 'aCrowdfundVoteList',
             type: 'string[]',
           },
         ],
-        internalType: 'struct UserContract.sUser',
+        internalType: 'struct CrowdfundContract.sUser',
         name: '',
         type: 'tuple',
       },
@@ -730,159 +675,6 @@ export const userABI = [
       },
     ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_userAddr',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_fundIdx',
-        type: 'uint256',
-      },
-    ],
-    name: 'pushFundedArr',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_fundContractAddr',
-        type: 'address',
-      },
-    ],
-    name: 'setFContractAddr',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_nickName',
-        type: 'string',
-      },
-      {
-        internalType: 'string',
-        name: '_email',
-        type: 'string',
-      },
-    ],
-    name: 'setUser',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-];
-
-export const fundABI = [
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_crowdContractAddr',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_userContractAddr',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'OwnershipTransferred',
-    type: 'event',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_filmName',
-        type: 'string',
-      },
-    ],
-    name: 'setFund',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
 ];

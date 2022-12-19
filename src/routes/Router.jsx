@@ -11,13 +11,14 @@ import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
 import SimpleSlider from 'src/components/templates/SimpleSlider';
 import Solidity from './Solidity';
+import CrowdFunding from './CrowdFunding';
 
 function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/crowdfunding" element={<CrowdTest />} />
+        <Route path="/crowdfunding" element={<CrowdFunding />} />
         <Route path="/freeboard" element={<Freeboard />} />
         <Route path="/profile" element={<ProfileList />} />
         <Route path="/profile/create" element={<CreateProfile />} />
@@ -25,7 +26,7 @@ function AppRouter() {
         <Route path="/test" element={<CrowdTest />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/slider" element={<SimpleSlider />} />
-      <Route path="/solidity" element={<Solidity />} />
+        <Route path="/solidity" element={<Solidity />} />
 
         {/* <Route path="/detail" element={<DETAIL />} /> */}
       </Route>

@@ -47,13 +47,20 @@ export async function FirebaseReadMultiWhere({
 }
 
 export async function FirebaseReadAll(_collection) {
-  const q = query(collection(dbService, _collection));
-
-  const querySnapshot = await getDocs(q);
-  // console.log(querySnapshot.docChanges().length);
-  querySnapshot.forEach(doc => {
-    console.log(doc.id, ' => ', doc.data());
+  const ref = dbService.collection(_collection);
+  const response = await ref.get();
+  response.forEach(doc => {
+    console.log(doc.data());
   });
+  // const q = query(collection(dbService, _collection));
+
+  // const querySnapshot = await getDocs(q);
+  // if (querySnapshot.docs.length >= 1) {
+  //   return querySnapshot;
+  // } else {
+  //   console.error('No Data Exist');
+  //   console.error(querySnapshot);
+  // }
 }
 
 export async function FirebaseGoogleLogin({

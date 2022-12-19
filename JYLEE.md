@@ -110,3 +110,84 @@ npm install slick-carousel --save
      - 내가 투자한 리스트 조회
      - 내가 보유한 NFT 조회
 
+
+
+## Test Data
+
+"Mafia__JY LEE"
+
+"https://gateway.pinata.cloud/ipfs/QmRa4x66YvGzyrVRo7sLKQo4LqArbAZBAiZBCKmoPFRRsT/SuitMan.png"
+
+"눈물과 감동의 마피아 스토리!!! 이정윤 감독의 첫 작품!!! 꿀잼 보장!!"
+
+10000000000000000000
+
+1671447600
+
+1671469200
+
+
+
+["기부 상품입니다.","앤딩 크레딧 이름 표시","영화 포스터 NFT 지급"]
+
+1000000000000000
+
+999
+
+[1,2]
+
+
+
+["앤딩 크레딧 이름 표시","영화 포스터 NFT 지급","영상 NFT 10초 분량 x 3"]
+
+10000000000000000
+
+55
+
+[1,2,3,3,3]
+
+---
+
+"Coffee Cafe__Lionel Messi"
+
+"https://gateway.pinata.cloud/ipfs/QmRa4x66YvGzyrVRo7sLKQo4LqArbAZBAiZBCKmoPFRRsT/CoffeCafe.png"
+
+1000000000000000000
+
+1671494400
+
+1672498799
+
+
+
+## 테스트 시나리오
+
+1. Deploy Contract
+2. setCrowdFund  Value = 0.0001 Ether
+3. setCrowdFundItems
+4. setUser
+5. setPointAdd
+6. getUser
+7. getCrowdfundByKeyValue
+8. setCrowdfundStatus
+9. voteCrowdfund
+10. getUser
+11. getUserVoteProConCount
+12. setCrowdfundStatus
+13. setCrowdfundStatus
+14. recordFunding
+15. getUser
+16. getUserFundList
+
+
+
+## 질문 사항
+
+### 프론트
+
+
+
+### 솔리디티
+
+1. fund status 변수 없애는게 나을까요
+   1. 상태 값으로 관리하려니 변경해주는 함수를 누군가 매번 실행해야함
