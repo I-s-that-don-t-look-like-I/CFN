@@ -8,12 +8,24 @@ pragma solidity 0.8.17;
 // ex) struct sUser{}
 // ex) mapping(string=>User) mUserList
 // ex) User[] aUserList
-
-// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+
+import "./user.sol";
+import "./reward.sol";
 
 contract CrowdfundContract is Ownable {
+    UserContract uContract;
+    RewardContract rContract;
+    address uContractAddr;
+    address rContractAddr;
+
+    function setContracts(address _userContract, address _rewardContract) public onlyOwner {
+        uContract = UserContract(_userContract);
+        rContract = RewardContract(_rewardContract);
+        uContractAddr = _userContract;
+        rContractAddr = _rewardContract;
+    }
+
     struct sCrowdfund {
         string filmName; // title + "__" + directorName // ex) "Avatar 2__James Cameron"
         address director;
@@ -131,7 +143,7 @@ contract CrowdfundContract is Ownable {
     }
 
     function voteCrowdfund(string memory _filmName, bool _vote, uint _count) public returns(uint, uint){
-        require(getUser(msg.sender).points >= _count,"NOT ENOUGH POINTS");
+        require(uContract.getUser(msg.sender).points >= _count,"NOT ENOUGH POINTS");
         require(_count > 0, "INVALID COUNT");
         require(aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.DIP,"STATUS ERROR");
         if(_vote){
@@ -142,7 +154,7 @@ contract CrowdfundContract is Ownable {
             aCrowdfundList[mCrowdfundIdxList[_filmName]].aCons.push(msg.sender);
             aCrowdfundList[mCrowdfundIdxList[_filmName]].cons += _count;
         }
-        setVotingInfo(msg.sender, _filmName, _vote, _count);
+        uContract.setVotingInfo(msg.sender, _filmName, _vote, _count);
         return (aCrowdfundList[mCrowdfundIdxList[_filmName]].aPros.length, aCrowdfundList[mCrowdfundIdxList[_filmName]].aCons.length);
     }
     
@@ -159,10 +171,15 @@ contract CrowdfundContract is Ownable {
     enum eOptions {NO_REWARDS, ENDING_CREDIT, IMG_NFT, VIDEO_NFT_10, VIDEO_NFT_20, VIDEO_NFT_30, INVITATION, MY_PROPS}
 
     mapping(string => sFundingItem[]) mFundingItemList;
+    mapping(string => mapping(eOptions => uint)) mOptionAmountList;
 
     function setFundingItems(string memory _filmName, string[] memory _content, uint _price, uint _amount ,eOptions[] memory _options) public {
+        require(mCrowdfundIdxList[_filmName] != 0, "CROWDFUND IS NOT EXIST");
         require(msg.sender == getsCrowdfundByKeyValue(_filmName).director,"DIRECTOR ONLY");
         mFundingItemList[_filmName].push(sFundingItem(_content, _options, _price, _amount, _amount));
+        for(uint i=0; i<_options.length; i++){
+            mOptionAmountList[_filmName][_options[i]] += _amount;
+        }
     }
 
     function delFundingItems(string memory _filmName, uint _idx) public {
@@ -176,6 +193,10 @@ contract CrowdfundContract is Ownable {
 
     function getFundingItems(string memory _filmName) public view returns(sFundingItem[] memory) {
         return mFundingItemList[_filmName];
+    }
+
+    function getRewardItemAmount(string memory _filmName, eOptions _opt) public view returns(uint) {
+        return mOptionAmountList[_filmName][_opt];
     }
 
 // =====================
@@ -206,7 +227,7 @@ contract CrowdfundContract is Ownable {
         require(block.timestamp >= getStartTime(_filmName) && aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.FUNDING,"ERROR : CROWDFUND IS NOT OPENED YET");
         require(msg.value == mFundingItemList[_filmName][_itemIndex].price * _amount, "PAY EXACT PRICE");
         mFundList[_filmName].push(sFund(msg.sender, _itemIndex, _amount, _amount * msg.value, block.timestamp, eFundStatus.PENDING));
-        pushFundInfoToUser(_filmName, msg.sender, _itemIndex, _amount, msg.value);
+        uContract.pushFundInfoToUser(_filmName, msg.sender, _itemIndex, _amount, msg.value);
         mFundingItemList[_filmName][_itemIndex].remainAmount -= _amount;
     }
 
@@ -220,68 +241,5 @@ contract CrowdfundContract is Ownable {
 
     function getFundList(string memory _filmName) public view returns(sFund[] memory) {
         return mFundList[_filmName];
-    }
-
-// =====================
-// user
-// =====================
-    struct sUser {
-        string nickName;
-        uint points;
-        uint timestamp;
-        string[] aFundedList;
-        string[] aCrowdfundVoteList;
-    }
-
-    mapping(address => sUser) mUserList;
-    mapping(address => sFund[]) mUserToFundList;
-    
-    // User => filmName => pro/con => count
-    mapping(address => mapping(string => mapping(bool => uint))) mUserVoteList;
-
-    modifier checkUserExist(address _userAddr) {
-        require(mUserList[_userAddr].timestamp != 0, "USER NOT EXIST!!");
-        _;
-    }
-
-    function setUser(string memory _nickName) public {
-        require(mUserList[msg.sender].timestamp == 0, "USER ALREADY EXIST");
-        mUserList[msg.sender] = sUser(_nickName, 0, block.timestamp, new string[](0), new string[](0));
-    }
-
-    function getUser(address _userAddr) public view checkUserExist(_userAddr) returns(sUser memory) {
-        return mUserList[_userAddr];
-    }
-
-    function pushFundInfoToUser(string memory _filmName, address _userAddr, uint _itemIndex, uint _amount, uint _value)
-     public onlyOwner checkUserExist(_userAddr) {
-        mUserList[_userAddr].aFundedList.push(_filmName);
-        mUserToFundList[_userAddr].push(sFund(_userAddr, _itemIndex, _amount, _amount * _value, block.timestamp, eFundStatus.PENDING));
-    }
-
-    function setVotingInfo(address _userAddr, string memory _filmName, bool _side, uint _count)
-     public checkUserExist(_userAddr) {
-        mUserList[_userAddr].aCrowdfundVoteList.push(_filmName);
-        mUserVoteList[_userAddr][_filmName][_side] += _count;
-        setPointSub(_userAddr, _count);
-    }
-
-    function setPointAdd(address _userAddr, uint _points) public onlyOwner checkUserExist(_userAddr) {
-        require(_points != 0, "INPUT 0 ERROR");
-        mUserList[_userAddr].points += _points;
-    }
-
-    function setPointSub(address _userAddr, uint _points) public onlyOwner checkUserExist(_userAddr) {
-        require(_points != 0, "INPUT 0 ERROR");
-        require(mUserList[_userAddr].points >= _points,"NOT ENOUGH POINT");
-        mUserList[_userAddr].points -= _points;
-    }
-
-    function getUserFundList(address _userAddr) public view checkUserExist(_userAddr) returns(sFund[] memory) {
-        return mUserToFundList[_userAddr];
-    }
-
-    function getUserVoteProConCount(address _userAddr, string memory _filmName) public view checkUserExist(_userAddr) returns(uint, uint) {
-        return (mUserVoteList[_userAddr][_filmName][true], mUserVoteList[_userAddr][_filmName][false]);
     }
 }
