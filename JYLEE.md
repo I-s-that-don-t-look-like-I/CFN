@@ -168,16 +168,36 @@ npm install slick-carousel --save
 4. setUser
 5. setPointAdd
 6. getUser
+   1. 포인트 변화 확인
 7. getCrowdfundByKeyValue
+   1. 펀드 현재 상태 및 투표 상태 확인
 8. setCrowdfundStatus
+   1. 투표 시작 시간 이후 펀드 상태 변경
 9. voteCrowdfund
 10. getUser
+    1. 유저 투표 배열 확인
 11. getUserVoteProConCount
+    1. 유저 투표 내용 확인
 12. setCrowdfundStatus
+    1. 투표시간 종료 후 펀드 상태 변경
 13. setCrowdfundStatus
+    1. 펀딩 시작 시간 이후 펀드 상태 변경
 14. recordFunding
+    1. 펀드 상태에 따라 펀드 가능 여부 확인
+    2. 펀드 상품 구매 정상 여부 확인
 15. getUser
+    1. 투자 펀드 목록 확인
 16. getUserFundList
+    1. 유저별 펀드별 투자 목록 확인
+17. setCrowdfundStatus
+    1. 투자 총합 금액에 따라 펀드 성공 실패 상태 변경 확인
+18. 펀드 성공 시 감독 지갑으로 해당 금액 전송 확인
+19. 투자자들 펀드 내역 "Paid"로 변경 확인
+20. 리워드 지급 약속에 따라 민팅
+21. 투자자들 지갑으로 전송
+22. 보유 NFT 확인
+23. NFT 맞교환 기능
+24. 보유 NFT 자랑글 작성
 
 
 
