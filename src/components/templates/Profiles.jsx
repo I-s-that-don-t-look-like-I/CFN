@@ -25,6 +25,7 @@ export default function Profiles() {
         response.docs.map(doc => {
           actors.push(doc.data());
         });
+        actors.sort((a, b) => (a.upload_time < b.upload_time ? 1 : -1));
         console.log(actors);
         setActorData(actors);
       } catch (error) {
@@ -37,13 +38,11 @@ export default function Profiles() {
     <SectionLayout>
       <SectionTop title="Actors / Models" showAll="All of Acotors & Models" />
       <HideScrollX>
-        <Box>
-          {actorData
-            ? actorData.map(actor => (
-                <Actor key={actor.upload_time} props={actor} />
-              ))
-            : ''}
-        </Box>
+        {actorData
+          ? actorData.map(actor => (
+              <Actor key={actor.upload_time} props={actor} />
+            ))
+          : ''}
       </HideScrollX>
     </SectionLayout>
   );

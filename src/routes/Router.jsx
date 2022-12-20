@@ -4,14 +4,13 @@ import Home from 'src/routes/Home';
 import Freeboard from 'src/routes/FreeBoard';
 import Landing from './Landing';
 import CrowdTest from 'src/components/templates/CrowdTest';
-
 import Layout from './Layout';
 import MyProfile from './MyProfile';
 import ProfileList from 'src/components/molecules/ProfileList';
 import CreateProfile from 'src/components/organisms/CreateProfile';
-import SimpleSlider from 'src/components/templates/SimpleSlider';
-import Solidity from './Solidity';
 import CrowdFunding from './CrowdFunding';
+import Solidity from './Solidity';
+import SimpleSlider from 'src/components/templates/SimpleSlider';
 
 function AppRouter() {
   return (
