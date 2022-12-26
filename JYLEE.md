@@ -120,17 +120,21 @@ npm install slick-carousel --save
 
 "눈물과 감동의 마피아 스토리!!! 이정윤 감독의 첫 작품!!! 꿀잼 보장!!"
 
-10000000000000000000
+10000000000000000000 (10 ether)
 
-1671447600
+1675052200
 
-1671469200
+1676052200
+
+1672053000
+
+1674052200
 
 
 
 ["기부 상품입니다.","앤딩 크레딧 이름 표시","영화 포스터 NFT 지급"]
 
-1000000000000000
+1000000000000000 (0.001 ether)
 
 999
 
@@ -140,7 +144,7 @@ npm install slick-carousel --save
 
 ["앤딩 크레딧 이름 표시","영화 포스터 NFT 지급","영상 NFT 10초 분량 x 3"]
 
-10000000000000000
+10000000000000000 (0.01ether)
 
 55
 
@@ -152,52 +156,105 @@ npm install slick-carousel --save
 
 "https://gateway.pinata.cloud/ipfs/QmRa4x66YvGzyrVRo7sLKQo4LqArbAZBAiZBCKmoPFRRsT/CoffeCafe.png"
 
-1000000000000000000
+10000000000000000000 (10 ether)
 
-1671494400
+최정상에 오르기 위한 바리스타의 눈물 나는 노력!!! 리오넬 메시가 간다!! 감독의 첫 작품!!! 꿀잼 보장!! 본 데이터는 1월 18일까지 크라우드 펀딩 중 입니다.
 
-1672498799
+1672054200
+
+1674052200
+
+1672053000
+
+1672053600
+
+
+
+"Dancing__Ronaldinho"
+
+"https://gateway.pinata.cloud/ipfs/QmRa4x66YvGzyrVRo7sLKQo4LqArbAZBAiZBCKmoPFRRsT/Dancing.png"
+
+"필드 위의 댄서!! 호나우지뉴의 귀환!!! 2022 최고의 코믹 댄싱 영화!! 리오넬 메시가 간다!! 감독의 첫 작품!!! 꿀잼 보장!! 본 데이터는 12월 27일까지 크라우드 펀딩을 진행하고. 목표금액 달성 할 예정 입니다."
+
+10000000000000000 (0.01ether)
+
+1672054200
+
+1674052200
+
+1672053000
+
+1672053600
+
+
 
 
 
 ## 테스트 시나리오
 
-1. Deploy Contract
-2. setCrowdFund  Value = 0.0001 Ether
-3. setCrowdFundItems
-4. setUser
-5. setPointAdd
-6. getUser
-   1. 포인트 변화 확인
-7. getCrowdfundByKeyValue
-   1. 펀드 현재 상태 및 투표 상태 확인
-8. setCrowdfundStatus
-   1. 투표 시작 시간 이후 펀드 상태 변경
-9. voteCrowdfund
-10. getUser
-    1. 유저 투표 배열 확인
-11. getUserVoteProConCount
-    1. 유저 투표 내용 확인
-12. setCrowdfundStatus
-    1. 투표시간 종료 후 펀드 상태 변경
-13. setCrowdfundStatus
-    1. 펀딩 시작 시간 이후 펀드 상태 변경
-14. recordFunding
-    1. 펀드 상태에 따라 펀드 가능 여부 확인
-    2. 펀드 상품 구매 정상 여부 확인
-15. getUser
-    1. 투자 펀드 목록 확인
-16. getUserFundList
-    1. 유저별 펀드별 투자 목록 확인
-17. setCrowdfundStatus
-    1. 투자 총합 금액에 따라 펀드 성공 실패 상태 변경 확인
-18. 펀드 성공 시 감독 지갑으로 해당 금액 전송 확인
-19. 투자자들 펀드 내역 "Paid"로 변경 확인
-20. 리워드 지급 약속에 따라 민팅
-21. 투자자들 지갑으로 전송
-22. 보유 NFT 확인
-23. NFT 맞교환 기능
-24. 보유 NFT 자랑글 작성
+====== 컨트랙트 배포 순서 및 세팅 방법 ======
+
+crowdfund.sol
+
+1.  CrowdfundContract 배포
+2. user.sol UserContract 배포 (1번에서 배포한 컨트랙트 주소 넣고 배포)
+3. reward.sol RewardContract 배포 (1,2 컨트랙트 주소 넣고 배포)
+4. CrowdfundContract에서 2,3 컨트랙트 주소 설정
+   1. setContracts(유저 컨트랙트 주소, 리워드 컨트랙트 주소)
+5. UserContract 에서 리워드 컨트랙트 주소 설정
+   1. setRewardContract(리워드 컨트랙트 주소)
+
+====== 현재 테스트 가능한 작업들과 방법 및 순서 ======
+
+filmName은 "Title__감독이름" 형태로!!
+
+​      ex) Avatar 2__James Cameron
+
+test data는 JYLEE.md 파일 참고
+
+
+
+ (  crowdfund.sol  )
+
+1. 크라우드 펀드 생성 setCrowdfund()
+2. 크라우드 펀드 아이템 생성 setFundingItems()
+
+
+
+ ( user.sol )
+
+3. 유저 생성 (닉네임 중복 가능) setUser("닉네임")
+4. 유저 행사 가능한 표 수(포인트) 부여 setPointAdd(지갑주소, 지급할 포인트)
+
+
+
+ (  crowdfund.sol  ) 
+
+5. 크라우드 펀드 상태 변경 ( 초기값 BD -> 투표시작 시간 이후 DIP)
+   1.  setCrowdfundStatus(filmName)
+6. 크라우드 펀드 진행 찬반 투표(찬성 true 반대 false)
+   1.  voteCrowdfund(filmName, true/false , 행사 표 수) 
+7. 크라우드 펀드 상태 변경 (투표종료시간 이후 실행)
+   1. 찬성 ( DIP -> WAITING) 반대 (DIP -> PENDING)
+   2. setCrowdfundStatus(filmName)
+8. 크라우드 펀드 상태 변경 (펀딩 시작시간 이후 실행)
+   1. WAITING -> FUNDING
+   2. setCrowdfundStatus(filmName)
+9. 펀드 아이템 구매 recordFunding(filmName, 상품인덱스, 구매 수량) 
+10. 크라우드 펀드 상태 변경 (펀딩 종료시간 이후 실행)
+    1. FUNDING ->  PENDING
+    2. setCrowdfundStatus(filmName) 
+11. 크라우드 펀드 상태 변경 + 3일 후
+    1. 목표금액 도달 PENDING -> SUCCESS
+    2. 감독에게 펀딩액 전송 도달 실패 시 PENDING -> FAIL
+    3. setCrowdfundStatus(filmName)
+12. 약속된 리워드 지급 - 이미지 NFT 민팅 후 전송 - 영상 NFT 민팅 후 전송
+
+13. 보유 NFT 확인
+
+14. NFT 맞교환 기능
+
+15. 보유 NFT 자랑글 작성
 
 
 
@@ -211,3 +268,5 @@ npm install slick-carousel --save
 
 1. fund status 변수 없애는게 나을까요
    1. 상태 값으로 관리하려니 변경해주는 함수를 누군가 매번 실행해야함
+2. 영상 NFT 제작 및 지급 시 랜덤성 부여를 위해 keccak256을 쓰고 정렬하면 될까요
+3. 영화 포스터 와 같은 이미지 NFT는 1155로 발행하고, 영상은 721로 하려고 합니다. 이렇게 하면 될까요

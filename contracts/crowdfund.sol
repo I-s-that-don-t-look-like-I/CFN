@@ -126,8 +126,8 @@ contract CrowdfundContract is Ownable {
     }
 
     // When Fund DIP is end. Change Status to WAITING until startTime.
-    function setFundStatusToWaiting(string memory _filmName) public onlyOwner {
-        aCrowdfundList[mCrowdfundIdxList[_filmName]].status = eStatus.WAITING;
+    function setFundStatusForced(string memory _filmName, eStatus _status) public onlyOwner {
+        aCrowdfundList[mCrowdfundIdxList[_filmName]].status = _status;
     }
 
     function getStartTime(string memory _filmName) public view returns(uint) {
@@ -221,12 +221,12 @@ contract CrowdfundContract is Ownable {
 
     function recordFunding(string memory _filmName, uint _itemIndex, uint _amount) public payable{
         require(mCrowdfundIdxList[_filmName] != 0, "ERROR : CROWDFUNDING DOES NOT EXIST");
-        require(mFundingItemList[_filmName].length-1 > _itemIndex, "ERROR : ITEM DOES NOT EXIST");
+        require(mFundingItemList[_filmName][_itemIndex].totalAmount > 0, "ERROR : ITEM DOES NOT EXIST");
         require(mFundingItemList[_filmName][_itemIndex].remainAmount > _amount, "CHECK AVAILABLE STOCK");
         require(block.timestamp <= getEndTime(_filmName),"ERROR : CROWDFUND IS CLOSED");
         require(block.timestamp >= getStartTime(_filmName) && aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.FUNDING,"ERROR : CROWDFUND IS NOT OPENED YET");
         require(msg.value == mFundingItemList[_filmName][_itemIndex].price * _amount, "PAY EXACT PRICE");
-        mFundList[_filmName].push(sFund(msg.sender, _itemIndex, _amount, _amount * msg.value, block.timestamp, eFundStatus.PENDING));
+        mFundList[_filmName].push(sFund(msg.sender, _itemIndex, _amount, msg.value, block.timestamp, eFundStatus.PENDING));
         uContract.pushFundInfoToUser(_filmName, msg.sender, _itemIndex, _amount, msg.value);
         mFundingItemList[_filmName][_itemIndex].remainAmount -= _amount;
     }

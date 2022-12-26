@@ -7,7 +7,6 @@ import {
   Progress,
   Text,
 } from '@chakra-ui/react';
-import { async } from '@firebase/util';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { eStatus } from 'src/components/atoms/EnumArray';

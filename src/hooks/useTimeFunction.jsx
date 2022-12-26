@@ -1,19 +1,20 @@
 export const linuxTimeToDayTime = _linuxTime => {
   _linuxTime = new Date(_linuxTime * 1000);
   const monthArr = [
-    '1월',
-    '2월',
-    '3월',
-    '4월',
-    '5월',
-    '6월',
-    '7월',
-    '8월',
-    '9월',
+    '01월',
+    '02월',
+    '03월',
+    '04월',
+    '05월',
+    '06월',
+    '07월',
+    '08월',
+    '09월',
     '10월',
     '11월',
     '12월',
   ];
+
   function pad(number, length) {
     var str = '' + number;
     while (str.length < length) {
@@ -33,9 +34,10 @@ export const linuxTimeToDayTime = _linuxTime => {
   const minutes = _linuxTime.getMinutes();
   const pMinutes = pad(_linuxTime.getMinutes(), 2);
   const seconds = _linuxTime.getSeconds();
+  const pSeconds = pad(_linuxTime.getSeconds(), 2);
   const YYYYMMDD = year + pMonth + pDate;
-  const YYYY_MM_DD = year + '년 ' + monthArr[pMonth] + ' ' + pDate + '일';
-
+  const YYYY_MM_DD = year + '년 ' + monthArr[month] + ' ' + pDate + '일';
+  const HMS = pHours + '시' + pMinutes + '분' + pSeconds + '초';
   return {
     year,
     month,
@@ -50,5 +52,6 @@ export const linuxTimeToDayTime = _linuxTime => {
     seconds,
     YYYYMMDD,
     YYYY_MM_DD,
+    HMS,
   };
 };

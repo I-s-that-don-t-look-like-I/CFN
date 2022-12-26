@@ -7,13 +7,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./crowdfund.sol";
 import "./reward.sol";
 
-contract UserContract is Ownable {
+contract UserContract { 
     CrowdfundContract cContract;
     RewardContract rContract;
     address cContractAddr;
     address rContractAddr;
 
-    function setRewardContract(address _rewardContract) public onlyOwner {
+    function setRewardContract(address _rewardContract) public {
         rContract = RewardContract(_rewardContract);
         rContractAddr = _rewardContract;
     }
@@ -34,7 +34,7 @@ contract UserContract is Ownable {
     mapping(address => sUser) mUserList;
     mapping(address => CrowdfundContract.sFund[]) mUserToFundList;
     
-    // User => filmName => pro/con => count
+    // U ser => filmName => pro/con => count
     mapping(address => mapping(string => mapping(bool => uint))) mUserVoteList;
 
     modifier checkUserExist(address _userAddr) {
@@ -70,12 +70,12 @@ contract UserContract is Ownable {
         setPointSub(_userAddr, _count);
     }
 
-    function setPointAdd(address _userAddr, uint _points) public onlyOwner checkUserExist(_userAddr) {
+    function setPointAdd(address _userAddr, uint _points) public checkUserExist(_userAddr) {
         require(_points != 0, "INPUT 0 ERROR");
         mUserList[_userAddr].points += _points;
     }
 
-    function setPointSub(address _userAddr, uint _points) public onlyOwner checkUserExist(_userAddr) {
+    function setPointSub(address _userAddr, uint _points) public checkUserExist(_userAddr) {
         require(_points != 0, "INPUT 0 ERROR");
         require(mUserList[_userAddr].points >= _points,"NOT ENOUGH POINT");
         mUserList[_userAddr].points -= _points;
