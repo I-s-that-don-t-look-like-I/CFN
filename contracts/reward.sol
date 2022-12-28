@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./crowdfund.sol";
 import "./user.sol";
+import "./fundItems.sol";
 
 // =====================
 // reward
@@ -12,14 +13,18 @@ import "./user.sol";
 
 contract RewardContract is ERC721Enumerable, Ownable {
     CrowdfundContract cContract;
+    FundItemsContract fContract;
     UserContract uContract;
     address cContractAddr;
+    address fContractAddr;
     address uContractAddr;
 
-    constructor(string memory _name, string memory _symbol, address _crowdfundAddr, address _userAddr) ERC721(_name, _symbol) {
+    constructor(string memory _name, string memory _symbol, address _crowdfundAddr, address _userAddr, address _fundContractAddr) ERC721(_name, _symbol) {
         cContract = CrowdfundContract(_crowdfundAddr);
+        fContract = FundItemsContract(_fundContractAddr);
         uContract = UserContract(_userAddr);
         cContractAddr = _crowdfundAddr;
+        fContractAddr = _fundContractAddr;
         uContractAddr = _userAddr;
     }
 
@@ -29,7 +34,7 @@ contract RewardContract is ERC721Enumerable, Ownable {
     }
 
 // filmName => Reward Option => tokenId
-    mapping(string => mapping(CrowdfundContract.eOptions => uint[])) mtokenIdList;
+    mapping(string => mapping(FundItemsContract.eOptions => uint[])) mtokenIdList;
 // filmName => MetadataURI
     mapping(string => string) mFilmNameToMetadataURI;
     mapping(uint => string) tokenIdToFilmName;
@@ -43,9 +48,9 @@ contract RewardContract is ERC721Enumerable, Ownable {
         return string.concat(metaURI,"/",Strings.toString(_tokenId),".json");
     }
 
-    function mintReward(string memory _filmName, CrowdfundContract.eOptions _opt) public onlyOwner {
-        require(cContract.getRewardItemAmount(_filmName, _opt) > 0,"ITEM DOES NOT EXIST");
-        require(cContract.getRewardItemAmount(_filmName, _opt) >= mtokenIdList[_filmName][_opt].length,
+    function mintReward(string memory _filmName, FundItemsContract.eOptions _opt) public onlyOwner {
+        require(fContract.getRewardItemAmount(_filmName, _opt) > 0,"ITEM DOES NOT EXIST");
+        require(fContract.getRewardItemAmount(_filmName, _opt) >= mtokenIdList[_filmName][_opt].length,
          "CANNOT MINT MORE");
         uint tokenId = totalSupply() + 1;
         tokenIdToFilmName[tokenId] = _filmName;

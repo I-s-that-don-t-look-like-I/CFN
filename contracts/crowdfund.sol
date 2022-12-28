@@ -12,18 +12,23 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "./user.sol";
 import "./reward.sol";
+import "./fundItems.sol";
 
 contract CrowdfundContract is Ownable {
     UserContract uContract;
     RewardContract rContract;
+    FundItemsContract fContract;
     address uContractAddr;
     address rContractAddr;
+    address fContractAddr;
 
-    function setContracts(address _userContract, address _rewardContract) public onlyOwner {
+    function setContracts(address _userContract, address _rewardContract, address _fundContract) public onlyOwner {
         uContract = UserContract(_userContract);
         rContract = RewardContract(_rewardContract);
+        fContract = FundItemsContract(_fundContract);
         uContractAddr = _userContract;
         rContractAddr = _rewardContract;
+        fContractAddr = _fundContract;
     }
 
     struct sCrowdfund {
@@ -55,6 +60,7 @@ contract CrowdfundContract is Ownable {
     //crowdfundsArr[crowdfundIdxMapping[_filmName]]
     sCrowdfund[] aCrowdfundList;
     // Use getCrowdfundByFilmName() to get Crowdfund by filmName
+    mapping(eStatus => sCrowdfund[]) mStatusCrowdfundList;
 
     constructor() {
         aCrowdfundList.push(
@@ -63,16 +69,43 @@ contract CrowdfundContract is Ownable {
             eStatus.SUCCESS,99,1, new address[](0), new address[](0)));
     }
 
-    // pay to set crowdfund for avoiding bots 
+    modifier isCrowdfundExist(string memory _filmName) {
+        require(getCrowdfundIdxByFilmName(_filmName) != 0, "ERROR : CROWDFUNDING DOES NOT EXIST");
+        _;
+    }
+
+    // pay to set crowdfund for avoiding bots
     // 0.0001 ether // 100,000 Gwei
     function setCrowdfund(string memory _filmName, string memory _imgUrl, string memory _synopsis, 
      uint _tgAmt,  uint _startTime, uint _endTime, uint _voteStartTime, uint _voteEndTime)
      public payable{
-        require(msg.value == (1*10**18) / (10**4),"YOU MUST PAY 0.0001 ETHER TO CREATE CROWDFUND");
-        require(_startTime < _endTime, "CHECK YOUR START & END TIME");
-        require(mCrowdfundIdxList[_filmName] == 0,"SAME FILMNAME EXIST");
+        require(msg.value == (1*10**18) / (10**4),"ERROR : YOU MUST PAY 0.0001 ETHER TO CREATE CROWDFUND");
+        require(_startTime < _endTime, "ERROR : CHECK YOUR START & END TIME");
+        require(mCrowdfundIdxList[_filmName] == 0,"ERROR : SAME FILMNAME ALREADY EXIST");
         mCrowdfundIdxList[_filmName] = aCrowdfundList.length;
         aCrowdfundList.push(sCrowdfund(_filmName, msg.sender,_imgUrl, _synopsis, _tgAmt, _startTime, _endTime, _voteStartTime, _voteEndTime, eStatus.BD, 0, 0, new address[](0), new address[](0)));
+        mStatusCrowdfundList[eStatus.BD].push(sCrowdfund(_filmName, msg.sender,_imgUrl, _synopsis, _tgAmt, _startTime, _endTime, _voteStartTime, _voteEndTime, eStatus.BD, 0, 0, new address[](0), new address[](0)));
+    }
+
+    function removeStatusCrowdfund(eStatus _status, uint _idx) private onlyOwner{
+        uint len = mStatusCrowdfundList[_status].length;
+        mStatusCrowdfundList[_status][_idx] = mStatusCrowdfundList[_status][len-1];
+        mStatusCrowdfundList[_status].pop();
+    }
+
+    function changeStatusCrowdfund(eStatus _BeforeStatus, uint _BeforeIdx, eStatus _AfterStatus) private onlyOwner {
+        mStatusCrowdfundList[_AfterStatus].push(mStatusCrowdfundList[_BeforeStatus][_BeforeIdx]);
+        removeStatusCrowdfund(_BeforeStatus, _BeforeIdx);
+    }
+
+    function findIdxStatusCrowdfund(eStatus _status, string memory _filmName) public view returns(bool, uint) {
+        for(uint i=0; i < mStatusCrowdfundList[_status].length; i++){
+            if(stringCompare(mStatusCrowdfundList[_status][i].filmName, _filmName)){
+                return (true, i);
+            }
+        }
+        require(false,"ERROR : CANNOT FIND CROWDFUND");
+        return(false,0);
     }
 
     function getsCrowdfundByKeyValue(string memory _filmName) public view returns(sCrowdfund memory) {
@@ -112,7 +145,7 @@ contract CrowdfundContract is Ownable {
         } else if(timeNow >= crowdFund.endTime && timeNow < crowdFund.endTime + 3 days){
             statusNext = eStatus.PENDING;
         } else if(timeNow >= crowdFund.endTime + 3 days) {
-            uint totalAmount = getTotalPriceByFilmName(_filmName);
+            uint totalAmount = fContract.getTotalPriceByFilmName(_filmName);
             if(totalAmount >= getTargetAmount(_filmName)){
                 statusNext = eStatus.SUCCESS;
                 payable(crowdFund.director).transfer(totalAmount);
@@ -121,11 +154,13 @@ contract CrowdfundContract is Ownable {
                 statusNext = eStatus.FAIL;
             }
         }
-        require(statusPrev!=statusNext,"STATUS NOT CHANGED");
+        require(statusPrev!=statusNext,"ERROR : STATUS NOT CHANGED");
+        (bool tmp, uint idx) = findIdxStatusCrowdfund(statusPrev, _filmName);
+        require(tmp, "ERROR : CANNOT FIND CROWDFUND");
+        changeStatusCrowdfund(statusPrev, idx, statusNext);
         aCrowdfundList[mCrowdfundIdxList[_filmName]].status = statusNext;
     }
 
-    // When Fund DIP is end. Change Status to WAITING until startTime.
     function setFundStatusForced(string memory _filmName, eStatus _status) public onlyOwner {
         aCrowdfundList[mCrowdfundIdxList[_filmName]].status = _status;
     }
@@ -143,9 +178,9 @@ contract CrowdfundContract is Ownable {
     }
 
     function voteCrowdfund(string memory _filmName, bool _vote, uint _count) public returns(uint, uint){
-        require(uContract.getUser(msg.sender).points >= _count,"NOT ENOUGH POINTS");
-        require(_count > 0, "INVALID COUNT");
-        require(aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.DIP,"STATUS ERROR");
+        require(uContract.getUser(msg.sender).points >= _count,"ERROR : NOT ENOUGH POINTS");
+        require(_count > 0, "ERROR : INVALID COUNT");
+        require(aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.DIP,"ERROR : STATUS ERROR");
         if(_vote){
             aCrowdfundList[mCrowdfundIdxList[_filmName]].aPros.push(msg.sender);
             aCrowdfundList[mCrowdfundIdxList[_filmName]].pros += _count;
@@ -157,89 +192,16 @@ contract CrowdfundContract is Ownable {
         uContract.setVotingInfo(msg.sender, _filmName, _vote, _count);
         return (aCrowdfundList[mCrowdfundIdxList[_filmName]].aPros.length, aCrowdfundList[mCrowdfundIdxList[_filmName]].aCons.length);
     }
-    
-// =====================
-// fund items
-// =====================
-    struct sFundingItem {
-        string[] content;
-        eOptions[] rewards;
-        uint price;
-        uint totalAmount;
-        uint remainAmount;
+
+    function getStatusCrowdfundList(eStatus _status) public view returns(sCrowdfund[] memory) {
+        return mStatusCrowdfundList[_status];
     }
-    enum eOptions {NO_REWARDS, ENDING_CREDIT, IMG_NFT, VIDEO_NFT_10, VIDEO_NFT_20, VIDEO_NFT_30, INVITATION, MY_PROPS}
 
-    mapping(string => sFundingItem[]) mFundingItemList;
-    mapping(string => mapping(eOptions => uint)) mOptionAmountList;
-
-    function setFundingItems(string memory _filmName, string[] memory _content, uint _price, uint _amount ,eOptions[] memory _options) public {
-        require(mCrowdfundIdxList[_filmName] != 0, "CROWDFUND IS NOT EXIST");
-        require(msg.sender == getsCrowdfundByKeyValue(_filmName).director,"DIRECTOR ONLY");
-        mFundingItemList[_filmName].push(sFundingItem(_content, _options, _price, _amount, _amount));
-        for(uint i=0; i<_options.length; i++){
-            mOptionAmountList[_filmName][_options[i]] += _amount;
+    function stringCompare(string memory _str1, string memory _str2) public pure returns(bool) {
+        if(keccak256(abi.encodePacked(_str1)) == keccak256(abi.encodePacked(_str2))){
+            return true;
+        } else{
+            return false;
         }
-    }
-
-    function delFundingItems(string memory _filmName, uint _idx) public {
-        require(msg.sender == getsCrowdfundByKeyValue(_filmName).director,"DIRECTOR ONLY");
-        require(_idx >= 0 && _idx < mFundingItemList[_filmName].length, "INVALID IDX VALUE");
-        for(uint i=_idx; i< mFundingItemList[_filmName].length-1; i++){
-            mFundingItemList[_filmName][i] = mFundingItemList[_filmName][i+1];
-        }
-        mFundingItemList[_filmName].pop();
-    }
-
-    function getFundingItems(string memory _filmName) public view returns(sFundingItem[] memory) {
-        return mFundingItemList[_filmName];
-    }
-
-    function getRewardItemAmount(string memory _filmName, eOptions _opt) public view returns(uint) {
-        return mOptionAmountList[_filmName][_opt];
-    }
-
-// =====================
-// funding record
-// =====================
-    struct sFund {
-      address user;
-      uint itemIndex;
-      uint amount;
-      uint totalPrice;
-      uint timestamp;
-      eFundStatus status;
-    }
-
-    enum eFundStatus {PENDING, PAIED, REJECTED}
-    // PENDING : Wait for Start(?)
-    // PAIED : Already Paid
-    // REJECTED : Didn't paid by any reason
-
-    // CrowdfundContract.crowdfundsArr INDEX => sFundList
-    mapping(string => sFund[]) mFundList;
-
-    function recordFunding(string memory _filmName, uint _itemIndex, uint _amount) public payable{
-        require(mCrowdfundIdxList[_filmName] != 0, "ERROR : CROWDFUNDING DOES NOT EXIST");
-        require(mFundingItemList[_filmName][_itemIndex].totalAmount > 0, "ERROR : ITEM DOES NOT EXIST");
-        require(mFundingItemList[_filmName][_itemIndex].remainAmount > _amount, "CHECK AVAILABLE STOCK");
-        require(block.timestamp <= getEndTime(_filmName),"ERROR : CROWDFUND IS CLOSED");
-        require(block.timestamp >= getStartTime(_filmName) && aCrowdfundList[mCrowdfundIdxList[_filmName]].status == eStatus.FUNDING,"ERROR : CROWDFUND IS NOT OPENED YET");
-        require(msg.value == mFundingItemList[_filmName][_itemIndex].price * _amount, "PAY EXACT PRICE");
-        mFundList[_filmName].push(sFund(msg.sender, _itemIndex, _amount, msg.value, block.timestamp, eFundStatus.PENDING));
-        uContract.pushFundInfoToUser(_filmName, msg.sender, _itemIndex, _amount, msg.value);
-        mFundingItemList[_filmName][_itemIndex].remainAmount -= _amount;
-    }
-
-    function getTotalPriceByFilmName(string memory _filmName) public view returns(uint) {
-        uint totalAmt;
-        for(uint i=0; i<mFundList[_filmName].length; i++){
-            totalAmt += mFundList[_filmName][i].totalPrice;
-        }
-        return totalAmt;
-    }
-
-    function getFundList(string memory _filmName) public view returns(sFund[] memory) {
-        return mFundList[_filmName];
     }
 }

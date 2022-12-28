@@ -1,16 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
-// =====================
-// user
-// =====================
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./crowdfund.sol";
 import "./reward.sol";
+import "./fundItems.sol";
+
+// =====================
+// user
+// =====================
 
 contract UserContract { 
     CrowdfundContract cContract;
+    FundItemsContract fContract;
     RewardContract rContract;
     address cContractAddr;
+    address fContractAddr;
     address rContractAddr;
 
     function setRewardContract(address _rewardContract) public {
@@ -18,9 +22,11 @@ contract UserContract {
         rContractAddr = _rewardContract;
     }
 
-    constructor(address _crowdfundAddr) {
+    constructor(address _crowdfundAddr, address _fundContractAddr) {
         cContract = CrowdfundContract(_crowdfundAddr);
+        fContract = FundItemsContract(_fundContractAddr);
         cContractAddr = _crowdfundAddr;
+        fContractAddr = _fundContractAddr;
     }
 
     struct sUser {
@@ -32,9 +38,9 @@ contract UserContract {
     }
 
     mapping(address => sUser) mUserList;
-    mapping(address => CrowdfundContract.sFund[]) mUserToFundList;
+    mapping(address => FundItemsContract.sFund[]) mUserToFundList;
     
-    // U ser => filmName => pro/con => count
+    // User => filmName => pro/con => count
     mapping(address => mapping(string => mapping(bool => uint))) mUserVoteList;
 
     modifier checkUserExist(address _userAddr) {
@@ -60,7 +66,7 @@ contract UserContract {
      public isCrowdfundContract(msg.sender) checkUserExist(_userAddr) {
         mUserList[_userAddr].aFundedList.push(_filmName);
         mUserToFundList[_userAddr].push(
-            CrowdfundContract.sFund(_userAddr, _itemIndex, _amount, _amount * _value, block.timestamp, CrowdfundContract.eFundStatus.PENDING));
+            FundItemsContract.sFund(_userAddr, _itemIndex, _amount, _amount * _value, block.timestamp, FundItemsContract.eFundStatus.PENDING));
     }
 
     function setVotingInfo(address _userAddr, string memory _filmName, bool _side, uint _count)
@@ -82,7 +88,7 @@ contract UserContract {
     }
 
     function getUserFundList(address _userAddr) public view checkUserExist(_userAddr)
-     returns(CrowdfundContract.sFund[] memory) {
+     returns(FundItemsContract.sFund[] memory) {
         return mUserToFundList[_userAddr];
     }
 

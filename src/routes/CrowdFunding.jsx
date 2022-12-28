@@ -83,35 +83,35 @@ export default function CrowdFunding() {
           </Box>
         </Flex>
         <Box display={'flex'} justifyContent={'center'} alignContent="center">
-          <Box m={'50px'} w={'850px'} h={'500px'}>
+          <Box m={'50px'} w={'800px'} h={'400px'}>
             <Slider {...settings}>
               {crowdfund.map(item => (
                 <Box key={item.imgUrl}>
-                  <Image w={'400px'} h={'600px'} mx="10px" src={item.imgUrl} />
+                  <Image w={'350px'} h={'400px'} mx="10px" src={item.imgUrl} />
                 </Box>
               ))}
             </Slider>
           </Box>
         </Box>
-        <Box mt={'100px'} h={'full'}>
+        <Box mt={'50px'} h={'full'}>
           <Box h={'full'}>
             <Flex direction={'column'} w={'full'}>
               <Flex my={'30px'} h={'45px'} w={'full'}>
                 <Box>
                   <Text ml={15} fontSize={'3xl'} alignSelf={'center'}>
-                    투표 중인 크라우드 펀딩
+                    심사 중인 크라우드 펀딩
                   </Text>
                 </Box>
               </Flex>
               <Grid
-                h="200px"
+                h="100px"
                 templateRows="repeat(2, 1fr)"
                 templateColumns="repeat(3, 1fr)"
                 p={6}
                 gap={5}
               >
                 {votingCrowdfund.map(item => (
-                  <GridItem h="60" w={'100%'}>
+                  <GridItem h="50" w={'100%'}>
                     <VotingFundCard key={item.filmName} {...item} />
                   </GridItem>
                 ))}
