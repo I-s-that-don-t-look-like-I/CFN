@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { Grid, GridItem } from '@chakra-ui/react';
-import FundCard from 'src/components/molecules/FundCard.jsx';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -26,8 +25,8 @@ function SampleNextArrow(props) {
 }
 
 export default function CrowdFunding() {
-  const { crowdfundContract, getContracts } = useWeb3();
-  const [crowdfund, setCrowdfund] = useState([]);
+  const { DBContract, crowdfundContract, getContracts } = useWeb3();
+  const [fundingCrowdfund, setFundingCrowdfund] = useState([]);
   const [votingCrowdfund, setVotingCrowdfund] = useState([]);
 
   useEffect(() => {
@@ -35,29 +34,25 @@ export default function CrowdFunding() {
   }, []);
 
   useEffect(() => {
-    async function getCrowdfund(_filmName) {
-      const response = await crowdfundContract.methods
-        .getsCrowdfundByKeyValue(_filmName)
-        .call();
-      setCrowdfund(crowdfund => [...crowdfund, response]);
+    async function getFundingCrowdfund() {
+      DBContract.methods
+        .getCrowdfundListByStatus(3)
+        .call()
+        .then(res => {
+          setFundingCrowdfund(res);
+        });
     }
-    getCrowdfund('Mafia__JY LEE');
-    getCrowdfund('Coffee Cafe__Lionel Messi');
-    getCrowdfund('Dancing__Ronaldinho');
-  }, [crowdfundContract]);
-
-  useEffect(() => {
-    async function getVotingCrowdfund(_filmName) {
-      const response = await crowdfundContract.methods
-        .getsCrowdfundByKeyValue(_filmName)
-        .call();
-      setVotingCrowdfund(votingCrowdfund => [...votingCrowdfund, response]);
+    getFundingCrowdfund();
+    async function getVotingCrowdfund() {
+      DBContract.methods
+        .getCrowdfundListByStatus(1)
+        .call()
+        .then(res => {
+          setVotingCrowdfund(res);
+        });
     }
-    getVotingCrowdfund('Mafia__JY LEE');
-    getVotingCrowdfund('Coffee Cafe__Lionel Messi');
-    getVotingCrowdfund('Dancing__Ronaldinho');
-    console.log(votingCrowdfund);
-  }, [crowdfundContract]);
+    getVotingCrowdfund();
+  }, [DBContract]);
 
   const settings = {
     className: 'center',
@@ -85,7 +80,7 @@ export default function CrowdFunding() {
         <Box display={'flex'} justifyContent={'center'} alignContent="center">
           <Box m={'50px'} w={'800px'} h={'400px'}>
             <Slider {...settings}>
-              {crowdfund.map(item => (
+              {fundingCrowdfund.map(item => (
                 <Box key={item.imgUrl}>
                   <Image w={'350px'} h={'400px'} mx="10px" src={item.imgUrl} />
                 </Box>
@@ -104,15 +99,15 @@ export default function CrowdFunding() {
                 </Box>
               </Flex>
               <Grid
-                h="100px"
+                h="500px"
                 templateRows="repeat(2, 1fr)"
                 templateColumns="repeat(3, 1fr)"
                 p={6}
                 gap={5}
               >
                 {votingCrowdfund.map(item => (
-                  <GridItem h="50" w={'100%'}>
-                    <VotingFundCard key={item.filmName} {...item} />
+                  <GridItem h="450px" w={'300px'} key={item.filmName}>
+                    <VotingFundCard {...item} />
                   </GridItem>
                 ))}
               </Grid>

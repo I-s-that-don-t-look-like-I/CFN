@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { crowdfundABI, userABI, rewardABI } from '../hooks/contractABI.js';
+import {
+  DataABI,
+  DataUserABI,
+  crowdfundABI,
+  rewardABI,
+} from '../hooks/contractABI.js';
 
 export const useWallet = () => {
   const [account, setAccount] = useState('');
@@ -28,8 +33,9 @@ export const useWallet = () => {
 
 export const useWeb3 = () => {
   const [web3, setWeb3] = useState();
+  const [DBContract, setDBContract] = useState();
+  const [DBUserContract, setDBUserContract] = useState();
   const [crowdfundContract, setCrowdfundContract] = useState();
-  const [userContract, setUserContract] = useState();
   const [rewardContract, setRewardContract] = useState();
 
   useEffect(() => {
@@ -40,16 +46,22 @@ export const useWeb3 = () => {
   const getContracts = async () => {
     try {
       if (!web3) return;
+      await setDBContract(
+        new web3.eth.Contract(
+          DataABI,
+          process.env.REACT_APP_CONTRACT_DATA_ADDRESS
+        )
+      );
+      await setDBUserContract(
+        new web3.eth.Contract(
+          DataUserABI,
+          process.env.REACT_APP_CONTRACT_DATAUSER_ADDRESS
+        )
+      );
       await setCrowdfundContract(
         new web3.eth.Contract(
           crowdfundABI,
           process.env.REACT_APP_CONTRACT_CROWDFUND_ADDRESS
-        )
-      );
-      await setUserContract(
-        new web3.eth.Contract(
-          userABI,
-          process.env.REACT_APP_CONTRACT_USER_ADDRESS
         )
       );
       await setRewardContract(
@@ -60,8 +72,9 @@ export const useWeb3 = () => {
       );
       return {
         web3,
+        DBContract,
+        DBUserContract,
         crowdfundContract,
-        userContract,
         rewardContract,
         getContracts,
       };
@@ -75,8 +88,9 @@ export const useWeb3 = () => {
   }, [web3]);
   return {
     web3,
+    DBContract,
+    DBUserContract,
     crowdfundContract,
-    userContract,
     rewardContract,
     getContracts,
   };

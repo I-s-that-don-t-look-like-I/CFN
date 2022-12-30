@@ -52,13 +52,13 @@ export default function VotingFundCard({
     <>
       {filmName ? (
         <Box>
-          <Box maxHeight={'500px'}>
+          <Box maxHeight={'400px'}>
             <Link href="/realfund">
-              <Image maxWidth={'400px'} src={imgUrl} />
+              <Image maxWidth={'300px'} src={imgUrl} />
             </Link>
           </Box>
           <Box mx={3} lineHeight={8}>
-            <Flex justifyContent={'space-between'}>
+            <Flex direction={'column'} justifyContent={'space-between'}>
               <Text>{`제목 : ${filmName.split('__')[0]}`}</Text>
               <Text>{`감독 : ${filmName.split('__')[1]}`}</Text>
             </Flex>

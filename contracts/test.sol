@@ -2,6 +2,8 @@
 pragma solidity 0.8.17;
 
 contract A {
+    uint[] valueA;
+
     function pubFunction() public pure returns(string memory) {
         return "public function";
     }
@@ -13,6 +15,9 @@ contract A {
     }
     function exterFunction() external pure returns(string memory) {
         return "external function";
+    }
+    function getValueA() public view returns(uint[] memory) {
+        return valueA;
     }
 }
 
@@ -35,6 +40,10 @@ contract B {
     // }
     function exter() public view {
         contA.exterFunction();
+    }
+    function changeA(uint _value) public returns(uint[] memory) {
+        contA.getValueA().push(_value);
+        return 
     }
 }
 
