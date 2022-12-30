@@ -7,16 +7,6 @@ import "./util.sol";
 /////////////////// USER ////////////////////
 /////////////////////////////////////////////
 contract DBUserContract {
-    // UtilContract utilContract;
-    // DBContract DBCont;
-    // address utilContractAddr;
-    // address DBContractAddr;
-
-    // constructor(address _utilContract, address _dbc) {
-    //     utilContract = UtilContract(_utilContract);
-    //     utilContractAddr = _utilContract;
-    //     DBContractAddr = _dbc;
-    // }
 
     struct sUser {
         string nickName;
@@ -36,7 +26,7 @@ contract DBUserContract {
     }
 
     function getUserVoteList(address _userAddr, string memory _filmName)
-     public view returns(uint, uint) {
+     external view returns(uint, uint) {
         return (mUserVoteList[_userAddr][_filmName][true], mUserVoteList[_userAddr][_filmName][false]);
     }
 
