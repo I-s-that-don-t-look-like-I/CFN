@@ -39,6 +39,59 @@ export const DataABI = [
   {
     inputs: [
       {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_imgUrl',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_synopsis',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: '_tgAmt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_voteStartTime',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_voteEndTime',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_startTime',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_endTime',
+        type: 'uint256',
+      },
+    ],
+    name: 'changeCrowdfundData',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
         internalType: 'enum DBContract.eStatus',
         name: '_BeforeStatus',
         type: 'uint8',
@@ -564,44 +617,6 @@ export const DataABI = [
         type: 'string',
       },
     ],
-    name: 'getStatus',
-    outputs: [
-      {
-        internalType: 'enum DBContract.eStatus',
-        name: '',
-        type: 'uint8',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_filmName',
-        type: 'string',
-      },
-    ],
-    name: 'getTargetAmount',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_filmName',
-        type: 'string',
-      },
-    ],
     name: 'getTimes',
     outputs: [
       {
@@ -693,6 +708,87 @@ export const DataABI = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_filmName',
+        type: 'string',
+      },
+      {
+        internalType: 'address',
+        name: '_userAddr',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_itemIndex',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_totalPrice',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_timestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum DBContract.eReceiptStatus',
+        name: '_status',
+        type: 'uint8',
+      },
+    ],
+    name: 'pushFundReceiptList',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_userAddr',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_itemIndex',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_totalPrice',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_timestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'enum DBContract.eReceiptStatus',
+        name: '_status',
+        type: 'uint8',
+      },
+    ],
+    name: 'pushUserToFundReceiptList',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'rContract',
     outputs: [
@@ -751,17 +847,105 @@ export const DataABI = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: '_price',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string[]',
+        name: '_content',
+        type: 'string[]',
+      },
+      {
+        internalType: 'enum DBContract.eOptions[]',
+        name: '_options',
+        type: 'uint8[]',
+      },
+    ],
+    name: 'setFundingItem',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'price',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'remainAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'string[]',
+            name: 'content',
+            type: 'string[]',
+          },
+          {
+            internalType: 'enum DBContract.eOptions[]',
+            name: 'rewards',
+            type: 'uint8[]',
+          },
+        ],
+        internalType: 'struct DBContract.sFundingItem',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'string',
         name: '_filmName',
         type: 'string',
       },
       {
-        internalType: 'enum DBContract.eStatus',
-        name: '_status',
-        type: 'uint8',
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'price',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'remainAmount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'string[]',
+            name: 'content',
+            type: 'string[]',
+          },
+          {
+            internalType: 'enum DBContract.eOptions[]',
+            name: 'rewards',
+            type: 'uint8[]',
+          },
+        ],
+        internalType: 'struct DBContract.sFundingItem',
+        name: '_fundingItem',
+        type: 'tuple',
       },
     ],
-    name: 'setFundStatusForced',
+    name: 'setFundingItemList',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -827,70 +1011,17 @@ export const DataABI = [
         type: 'string',
       },
       {
-        internalType: 'uint256',
-        name: '_price',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: '_amount',
-        type: 'uint256',
-      },
-      {
-        internalType: 'string[]',
-        name: '_content',
-        type: 'string[]',
-      },
-      {
         internalType: 'enum DBContract.eOptions[]',
         name: '_options',
         type: 'uint8[]',
       },
-    ],
-    name: 'setNewFundingItem',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_filmName',
-        type: 'string',
-      },
-      {
-        internalType: 'address',
-        name: '_userAddr',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_itemIndex',
-        type: 'uint256',
-      },
       {
         internalType: 'uint256',
         name: '_amount',
         type: 'uint256',
       },
-      {
-        internalType: 'uint256',
-        name: '_totalPrice',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: '_timestamp',
-        type: 'uint256',
-      },
-      {
-        internalType: 'enum DBContract.eReceiptStatus',
-        name: '_status',
-        type: 'uint8',
-      },
     ],
-    name: 'setNewFundingReceipt',
+    name: 'setOptionAmountList',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

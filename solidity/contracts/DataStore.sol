@@ -6,9 +6,7 @@ import "./DataStoreUser.sol";
 contract DBContract is UtilContract {
     constructor() {
         aCrowdfundList.push(
-            sCrowdfund("title__directorName",0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,"ImgUrl","Synopsis",
-            1*10**18,eStatus.SUCCESS,652287600,block.timestamp,block.timestamp, block.timestamp + 7 days,
-            99,1, new address[](0), new address[](0)));
+            sCrowdfund("",address(this),"","",1,eStatus.SUCCESS,0,0,0,0,1,1, new address[](0), new address[](0)));
     }
 
 /////////////////////////////////////////////
@@ -70,14 +68,6 @@ contract DBContract is UtilContract {
         );
     }
     
-    function getTargetAmount(string memory _filmName) public view returns(uint) {
-        return aCrowdfundList[mCrowdfundIdxList[_filmName]].targetAmount;
-    }
-
-    function getStatus(string memory _filmName) public view returns(eStatus) {
-        return getCrowdfundByFilmName(_filmName).status;
-    }
-
     function findIdxStatusCrowdfund(eStatus _status, string memory _filmName) public view returns(bool, uint) {
         for(uint i=0; i < mStatusCrowdfundList[_status].length; i++){
             if(stringCompare(mStatusCrowdfundList[_status][i].filmName, _filmName)){
@@ -85,11 +75,6 @@ contract DBContract is UtilContract {
             }
         }
         return(false,0);
-    }
-
-    function setFundStatusForced(string memory _filmName, eStatus _status)
-     public onlyCContract {
-        aCrowdfundList[mCrowdfundIdxList[_filmName]].status = _status;
     }
 
     function setCrowdfund(string memory _filmName, address _director, string memory _imgUrl, string memory _synopsis, 
@@ -134,12 +119,13 @@ contract DBContract is UtilContract {
         mStatusCrowdfundList[_status].pop();
     }
 
-    function changeStatusCrowdfund(eStatus _BeforeStatus, uint _BeforeIdx, eStatus _AfterStatus)
+    function changeStatusCrowdfund(string memory _filmName, eStatus _BeforeStatus, uint _BeforeIdx, eStatus _AfterStatus)
      external onlyCContract {
         mStatusCrowdfundList[_AfterStatus].push(mStatusCrowdfundList[_BeforeStatus][_BeforeIdx]);
         removeStatusCrowdfund(_BeforeStatus, _BeforeIdx);
+        aCrowdfundList[mCrowdfundIdxList[_filmName]].status = _AfterStatus;
     }
-
+    
     function setProsCons(address _sender, string memory _filmName, bool _side, uint _count) external returns(uint,uint) {
         if(_side) {
             aCrowdfundList[mCrowdfundIdxList[_filmName]].aPros.push(_sender);
@@ -150,6 +136,12 @@ contract DBContract is UtilContract {
             aCrowdfundList[mCrowdfundIdxList[_filmName]].cons += _count;
         }
         return (getCrowdfundByFilmName(_filmName).pros, getCrowdfundByFilmName(_filmName).cons);
+    }
+
+    function changeCrowdfundData(string memory _filmName, string memory _imgUrl, string memory _synopsis, 
+     uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime) public onlyOwner {
+        aCrowdfundList[mCrowdfundIdxList[_filmName]] = setCrowdfund(_filmName, msg.sender, _imgUrl, _synopsis, 
+        _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
     }
 
 /////////////////////////////////////////////
@@ -175,24 +167,18 @@ contract DBContract is UtilContract {
         return mOptionAmountList[_filmName][_opt];
     }
 
-    function setFundingItem(uint _price, uint _amount, string[] memory _content, eOptions[] memory _options) internal pure returns(sFundingItem memory) {
+    function setFundingItem(uint _price, uint _amount, string[] memory _content, eOptions[] memory _options) public pure returns(sFundingItem memory) {
         return sFundingItem(_price, _amount, _amount, _content, _options);
     }
 
-    function setFundingItemList(string memory _filmName, sFundingItem memory _fundingItem) internal {
+    function setFundingItemList(string memory _filmName, sFundingItem memory _fundingItem) external {
         mFundingItemList[_filmName].push(_fundingItem);
     }
 
-    function setOptionAmountList(string memory _filmName, eOptions[] memory _options, uint _amount) internal {
+    function setOptionAmountList(string memory _filmName, eOptions[] memory _options, uint _amount) external {
         for(uint i=0; i<_options.length; i++){
             mOptionAmountList[_filmName][_options[i]] += _amount;
         }
-    }
-
-    function setNewFundingItem(string memory _filmName, uint _price, uint _amount, string[] memory _content, eOptions[] memory _options) 
-     external onlyCContract {
-        setFundingItemList(_filmName, setFundingItem(_price, _amount, _content, _options));
-        setOptionAmountList(_filmName, _options, _amount);
     }
 
     function removeFundingItem(string memory _filmName, uint _idx)
@@ -203,7 +189,7 @@ contract DBContract is UtilContract {
         mFundingItemList[_filmName].pop();
     }
 
-    function subRemainItemAmount(string memory _filmName, uint _idx, uint _amount) public {
+    function subRemainItemAmount(string memory _filmName, uint _idx, uint _amount) external {
         mFundingItemList[_filmName][_idx].remainAmount -= _amount;
     }
 
@@ -245,19 +231,12 @@ contract DBContract is UtilContract {
     }
 
     function pushFundReceiptList(string memory _filmName, address _userAddr, uint _itemIndex, uint _amount, uint _totalPrice, uint _timestamp, eReceiptStatus _status)
-     private {
+     external {
         mFundReceiptList[_filmName].push(setFundReceipt(_userAddr, _itemIndex, _amount, _totalPrice, _timestamp, _status));
     }
 
     function pushUserToFundReceiptList(address _userAddr, uint _itemIndex, uint _amount, uint _totalPrice, uint _timestamp, eReceiptStatus _status)
-     private {
+     external {
         mUserToFundReceiptList[_userAddr].push(setFundReceipt(_userAddr, _itemIndex, _amount, _totalPrice, _timestamp, _status));
     }
-
-    function setNewFundingReceipt(string memory _filmName, address _userAddr, uint _itemIndex, uint _amount, uint _totalPrice, uint _timestamp, eReceiptStatus _status)
-     external {
-        pushFundReceiptList(_filmName, _userAddr, _itemIndex, _amount, _totalPrice, _timestamp, _status);
-        pushUserToFundReceiptList(_userAddr, _itemIndex, _amount, _totalPrice, _timestamp, _status);
-    }
-
 }
