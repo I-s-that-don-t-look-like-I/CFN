@@ -48,10 +48,7 @@ contract UtilContract is Ownable {
     //     require(cContract.getCrowdfundIdxByFilmName(_filmName) > 0, "CROWDFUND NOT EXIST");
     //     _;
     // }
-    // modifier isUserExist(address _userAddr) {
-    //     require(uContract.getUser(_userAddr).timestamp != 0, "USER NOT EXIST");
-    //     _;
-    // }
+
 
 /////////////////////////////////////////////
 ///////////////// UTIL FUNC /////////////////

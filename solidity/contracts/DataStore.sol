@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
 import "./util.sol";
-import "./DataStoreUser.sol";
 
 contract DBContract is UtilContract {
     constructor() {
@@ -44,14 +43,18 @@ contract DBContract is UtilContract {
     mapping(eStatus => sCrowdfund[]) mStatusCrowdfundList;
 
     function getCrowdfundByFilmName(string memory _filmName) public view returns(sCrowdfund memory) {
+        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
         return aCrowdfundList[mCrowdfundIdxList[_filmName]];
     }
 
     function getCrowdfundIdxByFilmName(string memory _filmName) public view returns(uint) {
+        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
         return mCrowdfundIdxList[_filmName];
     }
 
     function getCrowdfundByIdx(uint _index) public view returns(sCrowdfund memory) {
+        require(_index < aCrowdfundList.length,"INPUT VALUE EXCEEDS THE ARRAY LENGTH");
+        require(_index > 0,"INPUT VALUE MUST BE GREATER THAN 0");
         return aCrowdfundList[_index];
     }
 
@@ -60,6 +63,7 @@ contract DBContract is UtilContract {
     }
 
     function getTimes(string memory _filmName) public view returns(uint, uint, uint, uint) {
+        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
         return (
             aCrowdfundList[mCrowdfundIdxList[_filmName]].voteStartTime,
             aCrowdfundList[mCrowdfundIdxList[_filmName]].voteEndTime,
@@ -139,7 +143,8 @@ contract DBContract is UtilContract {
     }
 
     function changeCrowdfundData(string memory _filmName, string memory _imgUrl, string memory _synopsis, 
-     uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime) public onlyOwner {
+     uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime)
+      public onlyOwner {
         aCrowdfundList[mCrowdfundIdxList[_filmName]] = setCrowdfund(_filmName, msg.sender, _imgUrl, _synopsis, 
         _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
     }
