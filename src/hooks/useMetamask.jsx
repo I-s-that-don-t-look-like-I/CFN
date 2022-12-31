@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import {
   DataABI,
   DataUserABI,
-  crowdfundABI,
+  CFABI,
   rewardABI,
 } from '../hooks/contractABI.js';
 
@@ -60,7 +60,7 @@ export const useWeb3 = () => {
       );
       await setCrowdfundContract(
         new web3.eth.Contract(
-          crowdfundABI,
+          CFABI,
           process.env.REACT_APP_CONTRACT_CROWDFUND_ADDRESS
         )
       );

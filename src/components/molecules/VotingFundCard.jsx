@@ -54,7 +54,7 @@ export default function VotingFundCard({
         <Box>
           <Box maxHeight={'400px'}>
             <Link href="/realfund">
-              <Image maxWidth={'300px'} src={imgUrl} />
+              <Image borderRadius={'10px'} maxWidth={'300px'} src={imgUrl} />
             </Link>
           </Box>
           <Box mx={3} lineHeight={8}>

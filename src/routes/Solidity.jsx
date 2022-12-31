@@ -15,7 +15,7 @@ import { useWallet, useWeb3 } from 'src/hooks/useMetamask.jsx';
 import { linuxTimeToDayTime } from 'src/hooks/useTimeFunction';
 
 export default function Solidity() {
-  const { crowdfundContract } = useWeb3();
+  const { DBContract, crowdfundContract } = useWeb3();
   const { account, getAccount } = useWallet();
   const [filmImg, setFilmImg] = useState();
   const [response, setResponse] = useState();
@@ -23,16 +23,14 @@ export default function Solidity() {
   const [totalAmt, setTotalAmt] = useState(-1);
 
   async function getCrowdfundInfo(_filmName) {
-    const res = await crowdfundContract.methods
-      .getsCrowdfundByKeyValue(_filmName)
+    const res = await DBContract.methods
+      .getCrowdfundByFilmName(_filmName)
       .call();
     setResponse(res);
   }
 
   async function getFundingItems(_filmName) {
-    const res = await crowdfundContract.methods
-      .getFundingItems(_filmName)
-      .call();
+    const res = await DBContract.methods.getFundingItemList(_filmName).call();
     setFundItems(res);
   }
 
@@ -73,7 +71,7 @@ export default function Solidity() {
         <Button
           onClick={() => {
             // getCrowdfundInfo('Avatar 3__James Cameron');
-            getCrowdfundInfo('Suit Man__JY LEE');
+            getCrowdfundInfo('Mafia__JY LEE');
           }}
         >
           펀드 조회하기

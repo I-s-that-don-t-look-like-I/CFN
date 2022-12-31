@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useWeb3 } from 'src/hooks/useMetamask.jsx';
 import { useEffect } from 'react';
 import VotingFundCard from 'src/components/molecules/VotingFundCard';
+import { ShiningCard } from 'src/components/atoms/ShiningBorder';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -58,11 +59,12 @@ export default function CrowdFunding() {
     className: 'center',
     centerMode: true,
     infinite: true,
-    centerPadding: '200px',
+    centerPadding: '10px',
     slidesToShow: 1,
     speed: 500,
     autoplay: true,
-    autoplaySpeed: 2000,
+    fade: true,
+    autoplaySpeed: 5000,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SampleNextArrow />,
   };
@@ -78,11 +80,32 @@ export default function CrowdFunding() {
           </Box>
         </Flex>
         <Box display={'flex'} justifyContent={'center'} alignContent="center">
-          <Box m={'50px'} w={'800px'} h={'400px'}>
+          <Box m={'50px'} w={'1200px'} h={'400px'}>
             <Slider {...settings}>
               {fundingCrowdfund.map(item => (
-                <Box key={item.imgUrl}>
-                  <Image w={'350px'} h={'400px'} mx="10px" src={item.imgUrl} />
+                <Box>
+                  <Flex flexDirection={'row'} key={item.imgUrl}>
+                    <Image
+                      w={'350px'}
+                      h={'400px'}
+                      mx="10px"
+                      src={item.imgUrl}
+                    />
+                    <Flex direction={'column'}>
+                      <Text maxW={'450px'} fontSize="3xl" m={'5px'}>
+                        {`< ${item.filmName.split('__')[0]} >`}
+                      </Text>
+                      <Text maxW={'800px'} m="5px" wordBreak={'keep-all'}>
+                        {item.synopsis.split('.').map(item => (
+                          <Text
+                            key={item}
+                            mb={'15px'}
+                            fontSize="2xl"
+                          >{`${item}.`}</Text>
+                        ))}
+                      </Text>
+                    </Flex>
+                  </Flex>
                 </Box>
               ))}
             </Slider>
@@ -91,7 +114,7 @@ export default function CrowdFunding() {
         <Box mt={'50px'} h={'full'}>
           <Box h={'full'}>
             <Flex direction={'column'} w={'full'}>
-              <Flex my={'30px'} h={'45px'} w={'full'}>
+              <Flex my={'5px'} h={'45px'} w={'full'}>
                 <Box>
                   <Text ml={15} fontSize={'3xl'} alignSelf={'center'}>
                     심사 중인 크라우드 펀딩
@@ -101,13 +124,22 @@ export default function CrowdFunding() {
               <Grid
                 h="500px"
                 templateRows="repeat(2, 1fr)"
-                templateColumns="repeat(3, 1fr)"
+                templateColumns="repeat(4, 1fr)"
                 p={6}
-                gap={5}
+                gap={'3px'}
               >
                 {votingCrowdfund.map(item => (
-                  <GridItem h="450px" w={'300px'} key={item.filmName}>
-                    <VotingFundCard {...item} />
+                  <GridItem h="450px" w={'330px'} key={item.filmName} mb="10px">
+                    <ShiningCard>
+                      <Flex
+                        justifyContent={'center'}
+                        bgColor={'orange.400'}
+                        p={'10px'}
+                        borderRadius={'10px'}
+                      >
+                        <VotingFundCard {...item} />
+                      </Flex>
+                    </ShiningCard>
                   </GridItem>
                 ))}
               </Grid>
