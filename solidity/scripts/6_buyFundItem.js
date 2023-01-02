@@ -6,22 +6,17 @@ const provider = new ethers.providers.AlchemyProvider(
   process.env.Alchemy_KEY
 );
 const signer = new ethers.Wallet(process.env.PVK, provider);
-
 let cfABI = process.env.CFABI;
 let cfaddr = process.env.CONTRACT_CROWDFUND_ADDRESS;
 const CFcontract = new ethers.Contract(cfaddr, cfABI, signer);
 
-async function main() {
-  await CFcontract.registUser('TEST USER 1');
-  await CFcontract.addPoints(
-    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
-    '1000'
-  );
-
-  console.log('REGISTER USER & ADD 1000 POINTS COMPLETE');
+async function buy(filmName, index, amount, price) {
+  await CFcontract.buyFundItem(filmName, index, amount, {
+    // value: ethers.utils.parseEther(amount * price) + '',
+    value: '1000000000000000',
+  }).then(console.log);
 }
 
-main().catch(error => {
+buy('야수가 미녀__김지킬', 0, 1, 1000000000000000).catch(error => {
   console.error(error);
-  process.exitCode = 1;
 });

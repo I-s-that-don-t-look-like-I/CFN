@@ -15,8 +15,16 @@ let dbABI = process.env.DataABI;
 let dbaddr = process.env.CONTRACT_DATA_ADDRESS;
 const DBcontract = new ethers.Contract(dbaddr, dbABI, signer);
 
+let dbuABI = process.env.DataUserABI;
+let dbuaddr = process.env.CONTRACT_DATAUSER_ADDRESS;
+const DBUcontract = new ethers.Contract(dbuaddr, dbuABI, signer);
+
 async function readData(_filmName) {
   await DBcontract.getCrowdfundByFilmName(_filmName).then(console.log);
+  // await DBcontract.getFundingItemList(_filmName).then(console.log);
+  // await DBUcontract.getUser('0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0').then(
+  //   console.log
+  // );
 }
 
 // readData('Mafia__JY LEE');

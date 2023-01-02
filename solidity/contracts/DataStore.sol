@@ -164,30 +164,35 @@ contract DBContract is UtilContract {
     mapping(string => sFundingItem[]) mFundingItemList;
     mapping(string => mapping(eOptions => uint)) mOptionAmountList;
 
-    function getFundingItemList(string memory _filmName) public view returns(sFundingItem[] memory) {
+    function getFundingItemList(string memory _filmName)
+     public view returns(sFundingItem[] memory) {
         return mFundingItemList[_filmName];
     }
 
-    function getRewardOptionAmount(string memory _filmName, eOptions _opt) public view returns(uint) {
+    function getRewardOptionAmount(string memory _filmName, eOptions _opt)
+     public view returns(uint) {
         return mOptionAmountList[_filmName][_opt];
     }
 
-    function setFundingItem(uint _price, uint _amount, string[] memory _content, eOptions[] memory _options) public pure returns(sFundingItem memory) {
+    function setFundingItem(uint _price, uint _amount, string[] memory _content, eOptions[] memory _options)
+     public pure returns(sFundingItem memory) {
         return sFundingItem(_price, _amount, _amount, _content, _options);
     }
 
-    function setFundingItemList(string memory _filmName, sFundingItem memory _fundingItem) external {
+    function setFundingItemList(string memory _filmName, sFundingItem memory _fundingItem)
+     external {
         mFundingItemList[_filmName].push(_fundingItem);
     }
 
-    function setOptionAmountList(string memory _filmName, eOptions[] memory _options, uint _amount) external {
+    function setOptionAmountList(string memory _filmName, eOptions[] memory _options, uint _amount)
+     external {
         for(uint i=0; i<_options.length; i++){
             mOptionAmountList[_filmName][_options[i]] += _amount;
         }
     }
 
     function removeFundingItem(string memory _filmName, uint _idx)
-     external onlyCContract {
+     external {
         for(uint i=_idx; i< mFundingItemList[_filmName].length-1; i++) {
             mFundingItemList[_filmName][i] = mFundingItemList[_filmName][i+1];
         }

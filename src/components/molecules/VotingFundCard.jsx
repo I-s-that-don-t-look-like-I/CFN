@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { linuxTimeToDayTime } from 'src/hooks/useTimeFunction';
+import Ether from '../atoms/Ether';
 
 export default function VotingFundCard({
   filmName,
@@ -51,26 +52,32 @@ export default function VotingFundCard({
   return (
     <>
       {filmName ? (
-        <Box>
-          <Box maxHeight={'400px'}>
-            <Link href="/realfund">
-              <Image borderRadius={'10px'} maxWidth={'300px'} src={imgUrl} />
-            </Link>
+        <Box className="card" fontSize={'md'}>
+          <Box maxHeight={'250px'}>
+            <Image borderRadius={'10px'} maxWidth={'240px'} src={imgUrl} />
           </Box>
-          <Box mx={3} lineHeight={8}>
+          <Flex direction={'column'} mx={'3px'} mt={'3px'} lineHeight={8}>
             <Flex direction={'column'} justifyContent={'space-between'}>
               <Text>{`제목 : ${filmName.split('__')[0]}`}</Text>
               <Text>{`감독 : ${filmName.split('__')[1]}`}</Text>
             </Flex>
             <Flex justifyContent={'space-between'}>
+              <Flex
+                direction={'row'}
+                justifyContent="center"
+                alignItems={'center'}
+              >
+                <Text>{`목표 금액 : `}</Text>
+                <Ether />
+                <Text>{`${targetAmount / 1000000000000000000}`}</Text>
+              </Flex>
+              <Text>{`${_endTime}`}</Text>
+            </Flex>
+            <Flex justifyContent={'space-between'}>
               <Text>{`찬성 : ${pros}`}</Text>
               <Text>{`반대 : ${cons}`}</Text>
             </Flex>
-            <Flex justifyContent={'space-between'}>
-              <Text>{`목표 : ${targetAmount / 1000000000000000000} Eth`}</Text>
-              <Text>{`${_endTime}`}</Text>
-            </Flex>
-          </Box>
+          </Flex>
         </Box>
       ) : (
         <Box>펀드 데이터를 조회해주세요</Box>

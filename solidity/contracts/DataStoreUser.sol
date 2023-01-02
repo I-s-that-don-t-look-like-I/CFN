@@ -11,14 +11,16 @@ contract DBUserContract is Ownable{
     address cContractAddr;
     address rContractAddr;
 
-    function setContracts(address _crowdfund, address _reward) public onlyOwner {
+    function setContracts(address _crowdfund, address _reward)
+     public onlyOwner {
         cContract = CrowdfundContract(_crowdfund);
         rContract = RewardContract(_reward);
         cContractAddr = _crowdfund;
         rContractAddr = _reward;
     }
 
-    function getContractsAddrs() public view returns(address, address) {
+    function getContractsAddrs()
+     public view returns(address, address) {
         return (cContractAddr, rContractAddr);
     }
 
@@ -58,34 +60,34 @@ contract DBUserContract is Ownable{
     }
 
     function setUser(address _sender, string memory _nickName)
-     external onlyCFN(msg.sender) {
+     external {
         require(mUserList[_sender].timestamp == 0, "USER ALREADY EXIST");
         mUserList[_sender] = sUser(_nickName, 0, block.timestamp, new string[](0), new string[](0));
     }
 
     function setUserVoteList(address _userAddr, string memory _filmName, bool _side, uint _count)
-     external isUserExist(_userAddr) onlyCFN(msg.sender) {
+     external isUserExist(_userAddr) {
         mUserVoteList[_userAddr][_filmName][_side] += _count;
     }
 
     function pushUserFundedList(address _userAddr, string memory _filmName)
-     external isUserExist(_userAddr) onlyCFN(msg.sender) {
+     external isUserExist(_userAddr) {
         mUserList[_userAddr].aFundedList.push(_filmName);
     }
 
     function pushUserVoteList(address _userAddr, string memory _filmName)
-     external isUserExist(_userAddr) onlyCFN(msg.sender) {
+     external isUserExist(_userAddr) {
         mUserList[_userAddr].aCrowdfundVoteList.push(_filmName);
     }
 
     function setPointAdd(address _userAddr, uint _points)
-     external isUserExist(_userAddr) onlyCFN(msg.sender) {
+     external isUserExist(_userAddr) {
         require(_points > 0, "INPUT 0 ERROR");
         mUserList[_userAddr].points += _points;
     }
 
     function setPointSub(address _userAddr, uint _points)
-     external isUserExist(_userAddr) onlyCFN(msg.sender) {
+     external isUserExist(_userAddr) {
         require(_points > 0, "INPUT 0 ERROR");
         require(getUser(_userAddr).points >= _points,"NOT ENOUGH POINT");
         mUserList[_userAddr].points -= _points;

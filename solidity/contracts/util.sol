@@ -28,12 +28,7 @@ contract UtilContract is Ownable {
 /////////////////////////////////////////////
 ///////////////// MODIFIER //////////////////
 /////////////////////////////////////////////
-    modifier onlyCFNContract(address _sender) {
-        require(_sender == cContractAddr
-            || _sender == rContractAddr
-            , "ONLY CFN CONTRACTS CALL THIS FUNCTION");
-        _;
-    }
+
 
     modifier onlyCContract {
         require(msg.sender == cContractAddr, "ONLY CROWDCONTRACT CALL THIS FUNCTION");

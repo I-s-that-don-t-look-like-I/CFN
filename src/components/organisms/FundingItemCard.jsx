@@ -2,8 +2,10 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import styled from 'styled-components';
 import { FundBtn } from '../atoms/FundingBtn';
-
 import video_example from 'src/assets/img/video_example.jpg';
+import Ether from '../atoms/Ether';
+import { useWallet, useWeb3 } from 'src/hooks/useMetamask';
+import { useEffect } from 'react';
 
 export const FundItemCard = styled.div`
   margin-top: 5px;
@@ -92,26 +94,56 @@ const Angel = styled.div`
   justify-content: space-between;
 `;
 
-export default function FundingItemCard() {
+export default function FundingItemCard({ item, index, filmName }) {
+  const { DBContract, crowdfundContract, getContracts } = useWeb3();
+  const { account, getAccount } = useWallet();
+  useEffect(() => {
+    getAccount();
+    getContracts();
+  }, []);
+
+  async function buyItem(_filmName, _index, _amount) {
+    console.log(_filmName, _index, item.price * _amount);
+    await crowdfundContract.methods
+      .buyFundItem(_filmName, _index, _amount)
+      .send({
+        from: account.toString(),
+        value: (item.price * _amount).toString(),
+      });
+  }
+
   return (
     <FundItemCard>
-      <Box w={300} h={400}>
+      <Box w={'300px'} h={'400px'}>
         <Angel>
           <Box>
             <Image borderRadius={'15px'} src={video_example}></Image>
-            <Box>
-              <Text>기부</Text>
-              <Text>영화포스터 NFT</Text>
-              <Text>엔딩 크래딧 이름 표시</Text>
-            </Box>
+            <Flex color={'gray.800'} mt={'10px'} direction="column" pl={'10px'}>
+              {item ? item.content.map(str => <li key={str}>{str}</li>) : <></>}
+            </Flex>
           </Box>
           <Flex
             direction={'column'}
             alignContent={'center'}
             justifyContent={'center'}
           >
-            <Text>0.001 Ether</Text>
-            <FundBtn>엔젤 펀딩</FundBtn>
+            <FundBtn
+              onClick={() => {
+                buyItem(filmName, index, 1);
+              }}
+            >
+              <Flex justifyContent={'center'} alignItems={'center'}>
+                <Text color={'white'} className="hover-underline-animation">
+                  펀딩 금액 :{' '}
+                </Text>
+                &nbsp;
+                <Box alignSelf={'flex-start'}>
+                  <Ether />
+                </Box>
+                &nbsp;
+                <Text color={'white'}> {item.price / 10 ** 18}</Text>
+              </Flex>
+            </FundBtn>
           </Flex>
         </Angel>
       </Box>

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import useKaikasAuth from 'src/hooks/useKaikasAuth';
 import { useEffect } from 'react';
 import Main from 'src/components/templates/Main.jsx';
+import CrowdFunding from './CrowdFunding';
 
 const klaytn = window.klaytn;
 
@@ -88,8 +89,9 @@ function Home() {
 
   return (
     <>
-      <Main />
-      <Events />
+      {/* <Main /> */}
+      <CrowdFunding />
+      {/* <Events /> */}
       <Profiles />
       <ItemsOnsale />
     </>

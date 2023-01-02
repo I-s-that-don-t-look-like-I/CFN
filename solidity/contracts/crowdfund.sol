@@ -92,11 +92,11 @@ contract CrowdfundContract is Ownable {
      public returns(uint, uint){
         require(DBUserCont.getUser(msg.sender).points >= _count,"ERROR : NOT ENOUGH POINTS");
         require(_count > 0, "ERROR : INVALID COUNT");
-        require(DBCont.getCrowdfundByFilmName(_filmName).status == DBContract.eStatus.DIP,"ERROR : STATUS ERROR");
-        (uint _vst, uint _vet, uint _fst, uint _fet) = DBCont.getTimes(_filmName);
-        require(block.timestamp >= _vst, "NOT OPENED YET");
-        require(block.timestamp < _vet, "ALREADY CLOSED");
-        require(_fst < _fet);
+        require(DBCont.getCrowdfundByFilmName(_filmName).status == DBContract.eStatus.DIP,"ERROR : STATUS IS NOT DIP");
+        // (uint _vst, uint _vet, uint _fst, uint _fet) = DBCont.getTimes(_filmName);
+        // require(block.timestamp >= _vst, "NOT OPENED YET");
+        // require(block.timestamp < _vet, "ALREADY CLOSED");
+        // require(_fst < _fet);
         
         (uint pros, uint cons) = DBCont.setProsCons(msg.sender, _filmName, _side, _count);
         setUserVoteInfo(msg.sender, _filmName, _side, _count);
@@ -109,8 +109,7 @@ contract CrowdfundContract is Ownable {
     function makeFundingItem(string memory _filmName, string[] memory _content, DBContract.eOptions[] memory _options, uint _price, uint _amount)
      public {
         require(msg.sender == DBCont.getCrowdfundByFilmName(_filmName).director,"ERROR : DIRECTOR ONLY");
-        
-        // DBCont.setNewFundingItem(_filmName, _price, _amount, _content, _options);
+ 
         DBCont.setFundingItemList(_filmName, DBCont.setFundingItem(_price, _amount, _content, _options));
         DBCont.setOptionAmountList(_filmName, _options, _amount);
     }
@@ -131,15 +130,15 @@ contract CrowdfundContract is Ownable {
         require(DBCont.getFundingItemList(_filmName)[_itemIndex].totalAmount > 0, "ERROR : ITEM DOES NOT EXIST");
         require(_amount > 0, "ERROR: INPUT AMOUNT MUST BE GT 0");
         require(DBCont.getFundingItemList(_filmName)[_itemIndex].remainAmount >= _amount, "ERROR : CHECK AVAILABLE STOCK");
+        // (uint _vst, uint _vet, uint _startTime, uint _endTime) = DBCont.getTimes(_filmName);
+        // require(block.timestamp >= _vst && block.timestamp >= _vet,"CHECK VST VET TIME");
+        // require(block.timestamp <= _endTime,"ERROR : CROWDFUND IS CLOSED");
+        require(DBCont.getCrowdfundByFilmName(_filmName).status == DBContract.eStatus.FUNDING, "ERROR : CROWDFUND IS NOT OPENED YET");
         require(msg.value == DBCont.getFundingItemList(_filmName)[_itemIndex].price * _amount, "ERROR : PAY EXACT PRICE");
-        (uint _vst, uint _vet, uint _startTime, uint _endTime) = DBCont.getTimes(_filmName);
-        require(block.timestamp >= _vst && block.timestamp >= _vet);
-        require(block.timestamp <= _endTime,"ERROR : CROWDFUND IS CLOSED");
-        require(block.timestamp >= _startTime && DBCont.getCrowdfundByFilmName(_filmName).status == DBContract.eStatus.FUNDING, "ERROR : CROWDFUND IS NOT OPENED YET");
         
-        // DBCont.setNewFundingReceipt(_filmName, msg.sender, _itemIndex, _amount, msg.value, block.timestamp, DBContract.eReceiptStatus.PENDING);
         DBCont.pushFundReceiptList(_filmName, msg.sender, _itemIndex, _amount, msg.value, block.timestamp, DBContract.eReceiptStatus.PENDING);
         DBCont.pushUserToFundReceiptList(msg.sender, _itemIndex, _amount, msg.value, block.timestamp, DBContract.eReceiptStatus.PENDING);
+        DBUserCont.pushUserFundedList(msg.sender, _filmName);
     }
 
     function getTotalPriceByFilmName(string memory _filmName)

@@ -12,29 +12,7 @@ export const FundBtn = styled.button`
   position: relative;
   z-index: 0;
   border-radius: 15px;
-
-  ::after {
-    content: '';
-    z-index: -1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(46, 46, 46);
-    left: 0;
-    top: 0;
-    border-radius: 10px;
-  }
-  /* hover */
-  :hover::before {
-    opacity: 1;
-  }
-
-  :active:after {
-    background: transparent;
-  }
-
-  :active {
-    color: #000;
-    font-weight: bold;
-  }
+  width: 100%;
+  height: 100%;
+  background-color: rgb(46, 46, 46);
 `;

@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
 export const ShiningCard = styled.div`
+  border-radius: 50px;
+  background: #feebc8;
+  box-shadow: 5px 5px 10px #d8c8aa, -5px -5px 10px #ffffe6;
+
   margin-top: 5px;
   padding: 3px 3px;
   border: none;
   outline: none;
-  color: #fff;
+  color: #000;
   font-family: inherit;
   font-weight: 500;
   font-size: 20px;
