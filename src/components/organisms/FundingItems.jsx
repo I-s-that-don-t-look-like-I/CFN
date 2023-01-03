@@ -2,7 +2,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 import FundingItemCard from './FundingItemCard';
 
-export default function FundingItems({ items, filmName }) {
+export default function FundingItems({ items, filmName, status }) {
   return (
     <Box m={'10px'}>
       <Flex gap={'15px'} alignItems={'center'} justifyContent={'center'}>
@@ -11,6 +11,7 @@ export default function FundingItems({ items, filmName }) {
             item={item}
             index={idx}
             filmName={filmName}
+            status={status}
             key={idx}
           />
         ))}

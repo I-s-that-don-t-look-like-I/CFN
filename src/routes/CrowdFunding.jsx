@@ -18,7 +18,7 @@ function SampleNextArrow(props) {
       style={{
         ...style,
         display: 'block',
-        background: 'black',
+        background: 'orange',
         borderRadius: '10px',
       }}
       onClick={onClick}
@@ -60,7 +60,6 @@ export default function CrowdFunding() {
     }
   }, [DBContract]);
 
-  let url;
   const settings = {
     className: 'center',
     centerMode: true,
@@ -75,7 +74,6 @@ export default function CrowdFunding() {
     prevArrow: <SampleNextArrow />,
     afterChange: currentSlide => {
       setFilmName(fundingCrowdfund[currentSlide].filmName);
-      console.log(filmName);
     },
   };
 
@@ -94,7 +92,7 @@ export default function CrowdFunding() {
             <Slider {...settings}>
               {fundingCrowdfund.map(item => (
                 <Box key={item.imgUrl}>
-                  <Link to={`/solidity?filmName=${filmName}`}>
+                  <Link to={`/detail?filmName=${filmName}`}>
                     <Flex flexDirection={'row'}>
                       <Image
                         w={'350px'}
@@ -148,7 +146,7 @@ export default function CrowdFunding() {
                 {votingCrowdfund.map(item => (
                   <GridItem w={'260px'} key={item.filmName} mb="25px">
                     <ShiningCard>
-                      <Link to={`/solidity?filmName=${item.filmName}`}>
+                      <Link to={`/detail?filmName=${item.filmName}`}>
                         <Flex
                           justifyContent={'center'}
                           bgColor={'orange.200'}

@@ -8,7 +8,7 @@ import { Box, Flex, Grid, Image, Progress, Text } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 import Ether from 'src/components/atoms/Ether';
 
-export default function Solidity() {
+export default function CrowdfundDetail() {
   const { DBContract, crowdfundContract, getContracts } = useWeb3();
   const { account, getAccount } = useWallet();
   const [response, setResponse] = useState();
@@ -29,13 +29,6 @@ export default function Solidity() {
     setFundItems(res);
   }
 
-  const sumTotalAmt = async _filmName => {
-    const res = await crowdfundContract.methods
-      .getTotalPriceByFilmName(_filmName)
-      .call();
-    setTotalAmt(res);
-  };
-
   useEffect(() => {
     getAccount();
     getContracts();
@@ -45,7 +38,6 @@ export default function Solidity() {
     async function load() {
       const film = await new URLSearchParams(location.search).get('filmName');
       await setFilmName(film);
-      sumTotalAmt(film);
       if (filmName) {
         getCrowdfundInfo(filmName);
         getFundingItems(filmName);
@@ -53,6 +45,22 @@ export default function Solidity() {
     }
     load();
   }, [DBContract]);
+  useEffect(() => {
+    const sumTotalAmt = async _filmName => {
+      if (crowdfundContract) {
+        await crowdfundContract.methods
+          .getTotalPriceByFilmName(_filmName)
+          .call()
+          .then(res => {
+            setTotalAmt(res);
+          });
+      }
+    };
+
+    const id = setInterval(sumTotalAmt(filmName), 1000);
+    return () => clearInterval(id);
+    // sumTotalAmt(filmName);
+  }, [crowdfundContract.methods, filmName]);
 
   return (
     <>
@@ -171,13 +179,17 @@ export default function Solidity() {
                 </Flex>
               </Box>
             ) : (
-              <Text color={'red.600'} fontSize={'md'}>
-                해당 영화는 현재 크라우드 펀딩 진행 여부를 "심사 중" 입니다.
+              <Text color={'red.600'} fontSize={'lg'}>
+                "심사 중" 단계에서는 상품 구매가 불가합니다.
               </Text>
             )}
           </Box>
           {fundItems ? (
-            <FundingItems items={fundItems} filmName={filmName} />
+            <FundingItems
+              items={fundItems}
+              filmName={filmName}
+              status={response.status}
+            />
           ) : (
             <>펀딩 가능한 아이템이 없습니다.</>
           )}

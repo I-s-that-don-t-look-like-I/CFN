@@ -94,7 +94,7 @@ const Angel = styled.div`
   justify-content: space-between;
 `;
 
-export default function FundingItemCard({ item, index, filmName }) {
+export default function FundingItemCard({ item, index, filmName, status }) {
   const { DBContract, crowdfundContract, getContracts } = useWeb3();
   const { account, getAccount } = useWallet();
   useEffect(() => {
@@ -127,23 +127,44 @@ export default function FundingItemCard({ item, index, filmName }) {
             alignContent={'center'}
             justifyContent={'center'}
           >
-            <FundBtn
-              onClick={() => {
-                buyItem(filmName, index, 1);
-              }}
-            >
-              <Flex justifyContent={'center'} alignItems={'center'}>
-                <Text color={'white'} className="hover-underline-animation">
-                  펀딩 금액 :{' '}
-                </Text>
-                &nbsp;
-                <Box alignSelf={'flex-start'}>
-                  <Ether />
-                </Box>
-                &nbsp;
-                <Text color={'white'}> {item.price / 10 ** 18}</Text>
-              </Flex>
-            </FundBtn>
+            {status > 2 ? (
+              <FundBtn
+                onClick={() => {
+                  buyItem(filmName, index, 1);
+                }}
+              >
+                <Flex justifyContent={'center'} alignItems={'center'}>
+                  <Text color={'white'} className="hover-underline-animation">
+                    펀딩 금액 :{' '}
+                  </Text>
+                  &nbsp;
+                  <Box alignSelf={'flex-start'}>
+                    <Ether />
+                  </Box>
+                  &nbsp;
+                  <Text color={'white'}> {item.price / 10 ** 18}</Text>
+                </Flex>
+              </FundBtn>
+            ) : (
+              <FundBtn
+                onClick={() => {
+                  buyItem(filmName, index, 1);
+                }}
+                disabled={'true'}
+              >
+                <Flex justifyContent={'center'} alignItems={'center'}>
+                  <Text color={'white'} className="hover-underline-animation">
+                    펀딩 금액 :{' '}
+                  </Text>
+                  &nbsp;
+                  <Box alignSelf={'flex-start'}>
+                    <Ether />
+                  </Box>
+                  &nbsp;
+                  <Text color={'white'}> {item.price / 10 ** 18}</Text>
+                </Flex>
+              </FundBtn>
+            )}
           </Flex>
         </Angel>
       </Box>
