@@ -30,4 +30,5 @@ async function readData(_filmName) {
 // readData('Mafia__JY LEE');
 // readData('LA Land__Tae Jin-A');
 // readData('불씨에 사랑착__손현빈');
-readData('야수가 미녀__김지킬');
+// readData('야수가 미녀__김지킬');
+readData('TestData__DirectorName');
