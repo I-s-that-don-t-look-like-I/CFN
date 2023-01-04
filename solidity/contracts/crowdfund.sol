@@ -157,6 +157,10 @@ contract CrowdfundContract is Ownable {
         require(DBUserCont.getUser(_userAddr).timestamp != 0, "USER NOT EXIST");
         _;
     }
+
+    function getUser(address _userAddr) public view returns(DBUserContract.sUser memory) {
+        return DBUserCont.getUser(_userAddr);
+    }
     
     function getUserReceiptList(address _userAddr) public view returns(DBContract.sFundReceipt[] memory) {
         return DBCont.getUserToFundRecordList(_userAddr);
@@ -170,7 +174,8 @@ contract CrowdfundContract is Ownable {
         DBUserCont.setUser(msg.sender, _nickName);
     }
 
-    function setUserVoteInfo(address _userAddr, string memory _filmName, bool _side, uint _count) private {
+    function setUserVoteInfo(address _userAddr, string memory _filmName, bool _side, uint _count) public {
+        DBCont.setProsCons(_userAddr, _filmName, _side, _count);
         DBUserCont.pushUserVoteList(_userAddr, _filmName);
         DBUserCont.setUserVoteList(_userAddr, _filmName, _side, _count);
         DBUserCont.setPointSub(_userAddr, _count);

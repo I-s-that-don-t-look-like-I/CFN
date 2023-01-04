@@ -20,15 +20,15 @@ let dbuaddr = process.env.CONTRACT_DATAUSER_ADDRESS;
 const DBUcontract = new ethers.Contract(dbuaddr, dbuABI, signer);
 
 async function readData(_filmName) {
-  await DBcontract.getCrowdfundByFilmName(_filmName).then(console.log);
+  // await DBcontract.getCrowdfundByFilmName(_filmName).then(console.log);
   // await DBcontract.getFundingItemList(_filmName).then(console.log);
-  // await DBUcontract.getUser('0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0').then(
-  //   console.log
-  // );
+  await DBUcontract.getUser('0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0').then(
+    console.log
+  );
 }
 
-// readData('Mafia__JY LEE');
+readData('Mafia__JY LEE');
 // readData('LA Land__Tae Jin-A');
 // readData('불씨에 사랑착__손현빈');
 // readData('야수가 미녀__김지킬');
-readData('TestData__DirectorName');
+// readData('TestData__DirectorName');
