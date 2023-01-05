@@ -18,7 +18,8 @@ async function main() {
     '1000'
   );
 
-  console.log('REGISTER USER & ADD 1000 POINTS COMPLETE');
+  console.log('REGISTER USER & ADD DEFAULT 100 POINTS COMPLETE');
+  console.log('ADD 1000 POINTS COMPLETE');
 }
 
 main().catch(error => {

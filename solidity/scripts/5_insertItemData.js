@@ -14,14 +14,14 @@ async function makeFundingItem(_filmName) {
   // await CFcontract.makeFundingItem();
   await CFcontract.makeFundingItem(
     _filmName,
-    ['기부 상품입니다.', '앤딩 크레딧 이름 표시', '영화 포스터 NFT 지급'],
+    ['기부 상품입니다.', '엔딩 크레딧 이름 표시', '영화 포스터 NFT 지급'],
     [1, 2],
     ethers.utils.parseEther('0.001'),
     '1000'
   );
   await CFcontract.makeFundingItem(
     _filmName,
-    ['앤딩 크레딧 이름 표시', '영화 포스터 NFT 지급', '영상 NFT 10초 분량 x 2'],
+    ['엔딩 크레딧 이름 표시', '영화 포스터 NFT 지급', '영상 NFT 10초 분량 x 2'],
     [1, 2, 3, 3, 3],
     ethers.utils.parseEther('0.01'),
     '30'
@@ -29,7 +29,7 @@ async function makeFundingItem(_filmName) {
   await CFcontract.makeFundingItem(
     _filmName,
     [
-      '앤딩 크레딧 이름 표시',
+      '엔딩 크레딧 이름 표시',
       '영화 포스터 NFT 지급',
       '영상 NFT 20초 분량 x 2',
       '시사회 초청(1인)',
@@ -41,7 +41,7 @@ async function makeFundingItem(_filmName) {
   await CFcontract.makeFundingItem(
     _filmName,
     [
-      '앤딩 크레딧 이름 표시',
+      '엔딩 크레딧 이름 표시',
       '영화 포스터 NFT 지급',
       '영상 NFT 30초 분량 x 2',
       '시사회 초청(2인)',

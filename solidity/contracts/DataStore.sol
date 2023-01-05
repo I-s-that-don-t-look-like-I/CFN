@@ -40,45 +40,56 @@ contract DBContract is UtilContract {
     //crowdfundsArr[crowdfundIdxMapping[_filmName]]
     sCrowdfund[] aCrowdfundList;
     // Use getCrowdfundByFilmName() to get Crowdfund by filmName
-    mapping(eStatus => sCrowdfund[]) mStatusCrowdfundList;
+    // mapping(eStatus => sCrowdfund[]) mStatusCrowdfundList;
+    mapping(eStatus => uint[]) mStatusCrowdfundList;
 
-    function getCrowdfundByFilmName(string memory _filmName) public view returns(sCrowdfund memory) {
-        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
+    function getCrowdfundByFilmName(string memory _filmName)
+     public view returns(sCrowdfund memory) {
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
+        require(stringCompare(_filmName, aCrowdfundList[mCrowdfundIdxList[_filmName]].filmName), "ERROR : WRONG DATA READED");
         return aCrowdfundList[mCrowdfundIdxList[_filmName]];
     }
 
-    function getCrowdfundIdxByFilmName(string memory _filmName) public view returns(uint) {
-        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
+    function getCrowdfundIdxByFilmName(string memory _filmName)
+     public view returns(uint) {
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
         return mCrowdfundIdxList[_filmName];
     }
 
-    function getCrowdfundByIdx(uint _index) public view returns(sCrowdfund memory) {
-        require(_index < aCrowdfundList.length,"INPUT VALUE EXCEEDS THE ARRAY LENGTH");
-        require(_index > 0,"INPUT VALUE MUST BE GREATER THAN 0");
+    function getCrowdfundByIdx(uint _index)
+     public view returns(sCrowdfund memory) {
+        require(_index < aCrowdfundList.length,"ERROR : INPUT VALUE EXCEEDS THE ARRAY LENGTH");
+        require(_index > 0,"ERROR : INPUT VALUE MUST BE GREATER THAN 0");
         return aCrowdfundList[_index];
     }
 
-    function getCrowdfundListByStatus(eStatus _status) public view returns(sCrowdfund[] memory) {
+    function getCrowdfundIdxListByStatus(eStatus _status)
+     public view returns(uint[] memory) {
+        require(mStatusCrowdfundList[_status].length > 0, "ERROR : DATA NOT FOUND");
         return mStatusCrowdfundList[_status];
     }
 
-    function getTimes(string memory _filmName) public view returns(uint, uint, uint, uint) {
-        require(mCrowdfundIdxList[_filmName] > 0, "CROWDFUND NOT EXIST");
+    function getCrowdfundListByStatus(eStatus _status)
+     public view returns(sCrowdfund[] memory) {
+        require(mStatusCrowdfundList[_status].length > 0, "ERROR : DATA NOT FOUND");
+        
+        uint len = mStatusCrowdfundList[_status].length;
+        sCrowdfund[] memory resArr = new sCrowdfund[](len);
+        for(uint i=0;i < len; i++){
+            resArr[i] = getCrowdfundByIdx(mStatusCrowdfundList[_status][i]);
+        }
+        return resArr;
+    }
+
+    function getTimes(string memory _filmName)
+     public view returns(uint, uint, uint, uint) {
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
         return (
             aCrowdfundList[mCrowdfundIdxList[_filmName]].voteStartTime,
             aCrowdfundList[mCrowdfundIdxList[_filmName]].voteEndTime,
             aCrowdfundList[mCrowdfundIdxList[_filmName]].startTime,
             aCrowdfundList[mCrowdfundIdxList[_filmName]].endTime
         );
-    }
-    
-    function findIdxStatusCrowdfund(eStatus _status, string memory _filmName) public view returns(bool, uint) {
-        for(uint i=0; i < mStatusCrowdfundList[_status].length; i++){
-            if(stringCompare(mStatusCrowdfundList[_status][i].filmName, _filmName)){
-                return (true, i);
-            }
-        }
-        return(false,0);
     }
 
     function setCrowdfund(string memory _filmName, address _director, string memory _imgUrl, string memory _synopsis, 
@@ -87,50 +98,58 @@ contract DBContract is UtilContract {
          return(sCrowdfund(_filmName, _director,_imgUrl, _synopsis, _tgAmt, eStatus.BD, _voteStartTime, _voteEndTime, _startTime, _endTime, 0, 0, new address[](0), new address[](0)));
      }
 
-    function setCrowdfundIdxList(string memory _filmName, uint _idx) private {
-        require(mCrowdfundIdxList[_filmName] == 0,"(setCrowdfundIdxList) CROWDFUND INDEX ALREADY EXIST");
+    function setCrowdfundIdxList(string memory _filmName, uint _idx)
+     private {
+        require(mCrowdfundIdxList[_filmName] == 0,"ERROR : CROWDFUND INDEX ALREADY EXIST");
         mCrowdfundIdxList[_filmName] = _idx;
     }
 
     function setCrowdfundList(string memory _filmName, address _director, string memory _imgUrl, string memory _synopsis, 
      uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime) private {
-        require(_tgAmt > 0, "(setCrowdfund) SET TARGET AMOUNT");
-        require(_voteStartTime < _voteEndTime, "(setCrowdfund) CHECK YOUR VOTE START & VOTE END TIME");
-        require(_startTime < _endTime, "(setCrowdfund) CHECK YOUR START & END TIME");
+        require(_tgAmt * _voteStartTime * _voteEndTime * _startTime * _endTime > 0, "ERROR : CHECK UINT VALUE");
+        require(_voteStartTime < _voteEndTime, "ERROR : CHECK YOUR VOTE START & VOTE END TIME");
+        require(_startTime < _endTime, "ERROR : CHECK YOUR START & END TIME");
         
         aCrowdfundList.push(setCrowdfund(_filmName, _director,_imgUrl, _synopsis, _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime));
     }
 
-    function setStatusCrowdfundList(string memory _filmName, address _director, string memory _imgUrl, string memory _synopsis, 
-     uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime) private {
-        (bool isExist, uint idx) = findIdxStatusCrowdfund(eStatus.BD, _filmName); 
-        require(!isExist && idx==0, "(setStatusCrowdfundList) ALREADY EXIST");
-
-        mStatusCrowdfundList[eStatus.BD].push(setCrowdfund(_filmName, _director,_imgUrl, _synopsis, _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime)); 
+    function setStatusCrowdfundList(string memory _filmName) private {
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
+        mStatusCrowdfundList[eStatus.BD].push(mCrowdfundIdxList[_filmName]); 
     }
 
     function setNewCrowdfund(address _director, string memory _filmName, string memory _imgUrl, string memory _synopsis, 
      uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime)
      external payable onlyCContract {
         setCrowdfundIdxList(_filmName, aCrowdfundList.length);
+        setStatusCrowdfundList(_filmName);
         setCrowdfundList(_filmName, _director,_imgUrl, _synopsis, _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
-        setStatusCrowdfundList(_filmName, _director,_imgUrl, _synopsis, _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
     }
 
-    function removeStatusCrowdfund(eStatus _status, uint _idx) private {
+    function removeStatusCrowdfund(eStatus _status, string memory _filmName) private {
+        require(mStatusCrowdfundList[_status].length > 0, "ERROR : NO DATA TO REMOVE");
+        bool flag = false;
         uint len = mStatusCrowdfundList[_status].length;
-        mStatusCrowdfundList[_status][_idx] = mStatusCrowdfundList[_status][len-1];
-        mStatusCrowdfundList[_status].pop();
+        for(uint i=0; i < mStatusCrowdfundList[_status].length; i++) {
+            if(mStatusCrowdfundList[_status][i] == mCrowdfundIdxList[_filmName]) {
+                flag = true;
+                mStatusCrowdfundList[_status][i] = mStatusCrowdfundList[_status][len-1];
+                mStatusCrowdfundList[_status].pop();
+                break;
+            }
+        }
+        require(flag, "ERROR : CROWDFUND STATUS NOT FOUND");        
     }
 
-    function changeStatusCrowdfund(string memory _filmName, eStatus _BeforeStatus, uint _BeforeIdx, eStatus _AfterStatus)
+    function changeStatusCrowdfund(string memory _filmName, eStatus _AfterStatus)
      external onlyCContract {
-        mStatusCrowdfundList[_AfterStatus].push(mStatusCrowdfundList[_BeforeStatus][_BeforeIdx]);
-        removeStatusCrowdfund(_BeforeStatus, _BeforeIdx);
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
+        mStatusCrowdfundList[_AfterStatus].push(mCrowdfundIdxList[_filmName]);
+        removeStatusCrowdfund(aCrowdfundList[mCrowdfundIdxList[_filmName]].status, _filmName);
         aCrowdfundList[mCrowdfundIdxList[_filmName]].status = _AfterStatus;
     }
     
-    function setProsCons(address _sender, string memory _filmName, bool _side, uint _count) external returns(uint,uint) {
+    function setProsCons(address _sender, string memory _filmName, bool _side, uint _count) external {
         if(_side) {
             aCrowdfundList[mCrowdfundIdxList[_filmName]].aPros.push(_sender);
             aCrowdfundList[mCrowdfundIdxList[_filmName]].pros += _count;
@@ -139,12 +158,14 @@ contract DBContract is UtilContract {
             aCrowdfundList[mCrowdfundIdxList[_filmName]].aCons.push(_sender);
             aCrowdfundList[mCrowdfundIdxList[_filmName]].cons += _count;
         }
-        return (getCrowdfundByFilmName(_filmName).pros, getCrowdfundByFilmName(_filmName).cons);
     }
 
     function changeCrowdfundData(string memory _filmName, string memory _imgUrl, string memory _synopsis, 
      uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime)
       public onlyOwner {
+        require(mCrowdfundIdxList[_filmName] > 0, "ERROR : CROWDFUND NOT FOUND");
+        mStatusCrowdfundList[eStatus.BD].push(mCrowdfundIdxList[_filmName]);
+        removeStatusCrowdfund(aCrowdfundList[mCrowdfundIdxList[_filmName]].status, _filmName);
         aCrowdfundList[mCrowdfundIdxList[_filmName]] = setCrowdfund(_filmName, msg.sender, _imgUrl, _synopsis, 
         _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
     }

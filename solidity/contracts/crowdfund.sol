@@ -31,12 +31,13 @@ contract CrowdfundContract is Ownable {
     }
 
     // pay to set crowdfund for avoiding bots
-    // 0.0001 ether // 100,000 Gwei
+    // 0.001 ether // 1,000,000 Gwei
     function makeCrowdfund(string memory _filmName, string memory _imgUrl, string memory _synopsis, 
      uint _tgAmt, uint _voteStartTime, uint _voteEndTime, uint _startTime, uint _endTime)
      public payable{
-        require(msg.value == (1*10**18) / (10**4),"ERROR : YOU MUST PAY 0.0001 ETHER TO CREATE CROWDFUND");
+        require(msg.value == 0.001 ether,"ERROR : YOU MUST PAY 0.001 ETHER TO CREATE CROWDFUND");
         DBCont.setNewCrowdfund(msg.sender, _filmName, _imgUrl, _synopsis, _tgAmt, _voteStartTime, _voteEndTime, _startTime, _endTime);
+        DBUserCont.pushCrowdfundMakeList(msg.sender, _filmName);
     }
 
     function setCrowdfundStatus(string memory _filmName)
@@ -75,22 +76,21 @@ contract CrowdfundContract is Ownable {
             }
         }
         require(statusPrev!=statusNext,"ERROR : STATUS NOT CHANGED");
-        (bool tmp, uint idx) = DBCont.findIdxStatusCrowdfund(statusPrev, _filmName);
-        require(tmp, "ERROR : CANNOT FIND CROWDFUND");
-        DBCont.changeStatusCrowdfund(_filmName, statusPrev, idx, statusNext);
+        uint idx = DBCont.getCrowdfundIdxByFilmName(_filmName);
+        require(idx > 0, "ERROR : CANNOT FIND CROWDFUND");
+        DBCont.changeStatusCrowdfund(_filmName, statusNext);
     }
 
     function ForceChangeCrowdfundStatus(string memory _filmName, DBContract.eStatus _status)
      public onlyOwner {
-        DBContract.eStatus currentStatus = DBCont.getCrowdfundByFilmName(_filmName).status;
-        (bool tmp, uint idx) = DBCont.findIdxStatusCrowdfund(currentStatus, _filmName);
-        require(tmp, "ERROR : CANNOT FIND CROWDFUND");
-        DBCont.changeStatusCrowdfund(_filmName, currentStatus, idx, _status);
+        uint idx = DBCont.getCrowdfundIdxByFilmName(_filmName);
+        require(idx > 0, "ERROR : CANNOT FIND CROWDFUND");
+        DBCont.changeStatusCrowdfund(_filmName, _status);
     }
 
-    function voteCrowdfund(string memory _filmName, bool _side, uint _count)
-     public returns(uint, uint){
-        require(DBUserCont.getUser(msg.sender).points >= _count,"ERROR : NOT ENOUGH POINTS");
+    function voteCrowdfund(address _userAddr, string memory _filmName, bool _side, uint _count)
+     public {
+        require(DBUserCont.getUser(_userAddr).points >= _count,"ERROR : NOT ENOUGH POINTS");
         require(_count > 0, "ERROR : INVALID COUNT");
         require(DBCont.getCrowdfundByFilmName(_filmName).status == DBContract.eStatus.DIP,"ERROR : STATUS IS NOT DIP");
         // (uint _vst, uint _vet, uint _fst, uint _fet) = DBCont.getTimes(_filmName);
@@ -98,9 +98,8 @@ contract CrowdfundContract is Ownable {
         // require(block.timestamp < _vet, "ALREADY CLOSED");
         // require(_fst < _fet);
         
-        (uint pros, uint cons) = DBCont.setProsCons(msg.sender, _filmName, _side, _count);
-        setUserVoteInfo(msg.sender, _filmName, _side, _count);
-        return (pros, cons);
+        DBCont.setProsCons(_userAddr, _filmName, _side, _count);
+        setUserVoteInfo(_userAddr, _filmName, _side, _count);
     }
 
 /////////////////////////////////////////////
@@ -126,7 +125,7 @@ contract CrowdfundContract is Ownable {
 /////////////////////////////////////////////
     function buyFundItem(string memory _filmName, uint _itemIndex, uint _amount)
      public payable {
-        require(DBCont.getCrowdfundIdxByFilmName(_filmName) > 0, "CROWDFUND NOT EXIST");
+        require(DBCont.getCrowdfundIdxByFilmName(_filmName) > 0, "ERROR : CROWDFUND NOT EXIST");
         require(DBCont.getFundingItemList(_filmName)[_itemIndex].totalAmount > 0, "ERROR : ITEM DOES NOT EXIST");
         require(_amount > 0, "ERROR: INPUT AMOUNT MUST BE GT 0");
         require(DBCont.getFundingItemList(_filmName)[_itemIndex].remainAmount >= _amount, "ERROR : CHECK AVAILABLE STOCK");
@@ -175,7 +174,6 @@ contract CrowdfundContract is Ownable {
     }
 
     function setUserVoteInfo(address _userAddr, string memory _filmName, bool _side, uint _count) public {
-        DBCont.setProsCons(_userAddr, _filmName, _side, _count);
         DBUserCont.pushUserVoteList(_userAddr, _filmName);
         DBUserCont.setUserVoteList(_userAddr, _filmName, _side, _count);
         DBUserCont.setPointSub(_userAddr, _count);

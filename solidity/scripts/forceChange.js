@@ -10,19 +10,35 @@ let cfABI = process.env.CFABI;
 let cfaddr = process.env.CONTRACT_CROWDFUND_ADDRESS;
 const CFcontract = new ethers.Contract(cfaddr, cfABI, signer);
 
-// let DataABI = process.env.DataABI;
-// let dbaddr = process.env.CONTRACT_DATA_ADDRESS;
-// const DBcontract = new ethers.Contract(dbaddr, DataABI, signer);
+let DataABI = process.env.DataABI;
+let dbaddr = process.env.CONTRACT_DATA_ADDRESS;
+const DBcontract = new ethers.Contract(dbaddr, DataABI, signer);
 
-// function getTimeAfter(_time) {
-//   return (Math.ceil(Date.now() / 1000) + _time).toString();
-// }
+function getTimeAfter(_time) {
+  return (Math.ceil(Date.now() / 1000) + _time).toString();
+}
 
 async function main() {
-  CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '2');
-  CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '2');
-  CFcontract.ForceChangeCrowdfundStatus('보살 미안 랩소리__BJ풀소유', '2');
-  CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '2');
+  // await CFcontract.ForceChangeCrowdfundStatus(
+  //   'Wall Street Art__Worry John Bur-Fit',
+  //   '1'
+  // );
+  await CFcontract.setCrowdfundStatus('Wall Street Art__Worry John Bur-Fit');
+  // await DBcontract.changeCrowdfundData(
+  //   'Wall Street Art__Worry John Bur-Fit',
+  //   'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Wall%20Street%20Art.png',
+  //   '돈 워리 비 해피. 월스트리트의 대부 워리 존버 핏의 예술과도 같은 성공 신화가 영화로 제작됐다. `인생은 버티는거야` 모두가 부자가 되는 그 날까지. 가즈아.',
+  //   ethers.utils.parseEther('0.77777'),
+  //   getTimeAfter(120),
+  //   getTimeAfter(240),
+  //   getTimeAfter(360),
+  //   getTimeAfter(480)
+  // );
+  // await CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '3');
+  // CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '2');
+  // CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '2');
+  // CFcontract.ForceChangeCrowdfundStatus('보살 미안 랩소리__BJ풀소유', '2');
+  // CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '2');
   // await DBcontract.changeCrowdfundData(
   //   'LA Land__Tae Jin-A',
   //   'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/LA Land.png',

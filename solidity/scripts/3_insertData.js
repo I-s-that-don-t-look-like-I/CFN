@@ -24,8 +24,23 @@ async function insertTestData() {
   //   '',
   //   '',
   //   '',
-  //   { value: ethers.utils.parseEther('0.0001') }
+  //   { value: ethers.utils.parseEther('0.001') }
   // );
+
+  // ------------------------------------------------------------
+  // B D --------------------------------------------------------
+  // ------------------------------------------------------------
+  await CFcontract.makeCrowdfund(
+    'Wall Street Art__Worry John Bur-Fit',
+    'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Wall%20Street%20Art.png',
+    '돈 워리 비 해피. 월스트리트의 대부 워리 존버 핏의 예술과도 같은 성공 신화가 영화로 제작됐다. `인생은 버티는거야` 모두가 부자가 되는 그 날까지. 가즈아.',
+    ethers.utils.parseEther('7.77777'),
+    getTimeAfter(120),
+    getTimeAfter(240),
+    getTimeAfter(360),
+    getTimeAfter(480),
+    { value: ethers.utils.parseEther('0.001') }
+  );
 
   // ------------------------------------------------------------
   // D I P ------------------------------------------------------
@@ -40,7 +55,7 @@ async function insertTestData() {
     '1673600400',
     '2100000000',
     '2200000000',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     'Coffee Cafe__Lionel Messi',
@@ -51,7 +66,7 @@ async function insertTestData() {
     '1673710400',
     '2100000000',
     '2200000000',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     'Dancing__Ronaldinho',
@@ -62,7 +77,7 @@ async function insertTestData() {
     '1673850400',
     '2100000000',
     '2200000000',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     'Before Met You__Sun Ri-Se',
@@ -73,7 +88,7 @@ async function insertTestData() {
     '1674000400',
     '2100000000',
     '2200000000',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     'LOVE Spy__Nero Nambul',
@@ -84,7 +99,7 @@ async function insertTestData() {
     '1700600400',
     '2100000000',
     '2200000000',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
 
   // ------------------------------------------------------------
@@ -100,7 +115,7 @@ async function insertTestData() {
     getTimeAfter(30),
     getTimeAfter(120),
     '1673600400',
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     '불씨에 사랑착__손현빈',
@@ -111,7 +126,7 @@ async function insertTestData() {
     getTimeAfter(30),
     getTimeAfter(120),
     getTimeAfter(86400 * 30),
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     '보살 미안 랩소리__BJ풀소유',
@@ -122,7 +137,7 @@ async function insertTestData() {
     getTimeAfter(30),
     getTimeAfter(120),
     getTimeAfter(86400 * 45),
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
   await CFcontract.makeCrowdfund(
     '야수가 미녀__김지킬',
@@ -133,7 +148,7 @@ async function insertTestData() {
     getTimeAfter(30),
     getTimeAfter(120),
     getTimeAfter(86400 * 50),
-    { value: ethers.utils.parseEther('0.0001') }
+    { value: ethers.utils.parseEther('0.001') }
   );
 
   // ------------------------------------------------------------
@@ -148,36 +163,79 @@ async function setFundStatus() {
   // ------------------------------------------------------------
   // D I P ------------------------------------------------------
   // ------------------------------------------------------------
-  await CFcontract.setCrowdfundStatus('Mafia__JY LEE');
-  await CFcontract.setCrowdfundStatus('Coffee Cafe__Lionel Messi');
-  await CFcontract.setCrowdfundStatus('Dancing__Ronaldinho');
-  await CFcontract.setCrowdfundStatus('Before Met You__Sun Ri-Se');
-  await CFcontract.setCrowdfundStatus('LOVE Spy__Nero Nambul');
+  await CFcontract.ForceChangeCrowdfundStatus('Mafia__JY LEE', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('Coffee Cafe__Lionel Messi', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('Dancing__Ronaldinho', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('Before Met You__Sun Ri-Se', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('LOVE Spy__Nero Nambul', '1');
 
   // ------------------------------------------------------------
   // F U N D I N G ----------------------------------------------
   // ------------------------------------------------------------
-  await CFcontract.setCrowdfundStatus('LA Land__Tae Jin-A');
-  await CFcontract.setCrowdfundStatus('불씨에 사랑착__손현빈');
-  await CFcontract.setCrowdfundStatus('보살 미안 랩소리__BJ풀소유');
-  await CFcontract.setCrowdfundStatus('야수가 미녀__김지킬');
-
-  await CFcontract.voteCrowdfund('LA Land__Tae Jin-A', true, '13');
-  await CFcontract.voteCrowdfund('LA Land__Tae Jin-A', false, '3');
-  await CFcontract.voteCrowdfund('불씨에 사랑착__손현빈', true, '25');
-  await CFcontract.voteCrowdfund('불씨에 사랑착__손현빈', false, '9');
-  await CFcontract.voteCrowdfund('보살 미안 랩소리__BJ풀소유', true, '77');
-  await CFcontract.voteCrowdfund('보살 미안 랩소리__BJ풀소유', false, '7');
-  await CFcontract.voteCrowdfund('야수가 미녀__김지킬', true, '79');
-  await CFcontract.voteCrowdfund('야수가 미녀__김지킬', false, '42');
-
-  await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '2');
-  await CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '2');
+  await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '1');
   await CFcontract.ForceChangeCrowdfundStatus(
     '보살 미안 랩소리__BJ풀소유',
-    '2'
+    '1'
   );
-  await CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '2');
+  await CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '1');
+
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    'LA Land__Tae Jin-A',
+    true,
+    '13'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    'LA Land__Tae Jin-A',
+    false,
+    '3'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '불씨에 사랑착__손현빈',
+    true,
+    '25'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '불씨에 사랑착__손현빈',
+    false,
+    '9'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '보살 미안 랩소리__BJ풀소유',
+    true,
+    '77'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '보살 미안 랩소리__BJ풀소유',
+    false,
+    '7'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '야수가 미녀__김지킬',
+    true,
+    '79'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '야수가 미녀__김지킬',
+    false,
+    '42'
+  );
+
+  await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '3');
+  await CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '3');
+  await CFcontract.ForceChangeCrowdfundStatus(
+    '보살 미안 랩소리__BJ풀소유',
+    '3'
+  );
+  await CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '3');
 
   console.log('SET STATUS COMPLETE');
 }

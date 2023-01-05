@@ -35,11 +35,6 @@ async function main() {
   console.log('==================================');
 }
 
-// main().catch(error => {
-//   console.error(error);
-//   process.exitCode = 1;
-// });
-
 async function getContractAddress() {
   const provider = new ethers.providers.AlchemyProvider(
     (network = 'goerli'),
@@ -59,7 +54,12 @@ async function getContractAddress() {
   await DBUcontract.getContractsAddrs().then(console.log);
 }
 
-getContractAddress().catch(error => {
+main().catch(error => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// getContractAddress().catch(error => {
+//   console.error(error);
+//   process.exitCode = 1;
+// });
