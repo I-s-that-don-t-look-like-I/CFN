@@ -49,12 +49,6 @@ export const DataABI = [
       { internalType: 'string', name: '_filmName', type: 'string' },
       {
         internalType: 'enum DBContract.eStatus',
-        name: '_BeforeStatus',
-        type: 'uint8',
-      },
-      { internalType: 'uint256', name: '_BeforeIdx', type: 'uint256' },
-      {
-        internalType: 'enum DBContract.eStatus',
         name: '_AfterStatus',
         type: 'uint8',
       },
@@ -62,23 +56,6 @@ export const DataABI = [
     name: 'changeStatusCrowdfund',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'enum DBContract.eStatus',
-        name: '_status',
-        type: 'uint8',
-      },
-      { internalType: 'string', name: '_filmName', type: 'string' },
-    ],
-    name: 'findIdxStatusCrowdfund',
-    outputs: [
-      { internalType: 'bool', name: '', type: 'bool' },
-      { internalType: 'uint256', name: '', type: 'uint256' },
-    ],
-    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -171,6 +148,19 @@ export const DataABI = [
     inputs: [{ internalType: 'string', name: '_filmName', type: 'string' }],
     name: 'getCrowdfundIdxByFilmName',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'enum DBContract.eStatus',
+        name: '_status',
+        type: 'uint8',
+      },
+    ],
+    name: 'getCrowdfundIdxListByStatus',
+    outputs: [{ internalType: 'uint256[]', name: '', type: 'uint256[]' }],
     stateMutability: 'view',
     type: 'function',
   },
@@ -494,10 +484,7 @@ export const DataABI = [
       { internalType: 'uint256', name: '_count', type: 'uint256' },
     ],
     name: 'setProsCons',
-    outputs: [
-      { internalType: 'uint256', name: '', type: 'uint256' },
-      { internalType: 'uint256', name: '', type: 'uint256' },
-    ],
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
@@ -585,6 +572,11 @@ export const DataUserABI = [
             name: 'aCrowdfundVoteList',
             type: 'string[]',
           },
+          {
+            internalType: 'string[]',
+            name: 'aCrowdfundMakeList',
+            type: 'string[]',
+          },
         ],
         internalType: 'struct DBUserContract.sUser',
         name: '',
@@ -612,6 +604,16 @@ export const DataUserABI = [
     name: 'owner',
     outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_userAddr', type: 'address' },
+      { internalType: 'string', name: '_filmName', type: 'string' },
+    ],
+    name: 'pushCrowdfundMakeList',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -793,6 +795,35 @@ export const CFABI = [
   },
   {
     inputs: [{ internalType: 'address', name: '_userAddr', type: 'address' }],
+    name: 'getUser',
+    outputs: [
+      {
+        components: [
+          { internalType: 'string', name: 'nickName', type: 'string' },
+          { internalType: 'uint256', name: 'points', type: 'uint256' },
+          { internalType: 'uint256', name: 'timestamp', type: 'uint256' },
+          { internalType: 'string[]', name: 'aFundedList', type: 'string[]' },
+          {
+            internalType: 'string[]',
+            name: 'aCrowdfundVoteList',
+            type: 'string[]',
+          },
+          {
+            internalType: 'string[]',
+            name: 'aCrowdfundMakeList',
+            type: 'string[]',
+          },
+        ],
+        internalType: 'struct DBUserContract.sUser',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '_userAddr', type: 'address' }],
     name: 'getUserReceiptList',
     outputs: [
       {
@@ -891,6 +922,18 @@ export const CFABI = [
     type: 'function',
   },
   {
+    inputs: [
+      { internalType: 'address', name: '_userAddr', type: 'address' },
+      { internalType: 'string', name: '_filmName', type: 'string' },
+      { internalType: 'bool', name: '_side', type: 'bool' },
+      { internalType: 'uint256', name: '_count', type: 'uint256' },
+    ],
+    name: 'setUserVoteInfo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
@@ -899,15 +942,13 @@ export const CFABI = [
   },
   {
     inputs: [
+      { internalType: 'address', name: '_userAddr', type: 'address' },
       { internalType: 'string', name: '_filmName', type: 'string' },
       { internalType: 'bool', name: '_side', type: 'bool' },
       { internalType: 'uint256', name: '_count', type: 'uint256' },
     ],
     name: 'voteCrowdfund',
-    outputs: [
-      { internalType: 'uint256', name: '', type: 'uint256' },
-      { internalType: 'uint256', name: '', type: 'uint256' },
-    ],
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },

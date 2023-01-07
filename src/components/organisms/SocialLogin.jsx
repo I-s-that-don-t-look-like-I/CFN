@@ -13,7 +13,7 @@ export const SocialLogin = ({ googleUser }) => {
       {googleUser ? (
         <>
           <UserProfile googleUser={googleUser} />
-          <KaikasLogin googleUser={googleUser} />
+          {/* <KaikasLogin googleUser={googleUser} />
 
           <Button
             display={{ base: 'none', md: 'inline-flex' }}
@@ -28,7 +28,7 @@ export const SocialLogin = ({ googleUser }) => {
             }}
           >
             Kakao
-          </Button>
+          </Button> */}
         </>
       ) : (
         <Button onClick={signInAccount} m={2}>

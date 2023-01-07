@@ -41,10 +41,12 @@ export default function UserProfile({ googleUser }) {
         <br />
         <MenuDivider />
         <MenuItem>
-          <Link href="/myprofile"> My Profile</Link>
+          <Link href="/myprofile">My Profile</Link>
         </MenuItem>
-        <MenuItem>Account Settings</MenuItem>
-        <MenuItem onClick={signOut}>Logout</MenuItem>
+        <MenuItem>
+          <Link href="/account">지갑 연동</Link>
+        </MenuItem>
+        <MenuItem onClick={signOut}>로그 아웃</MenuItem>
       </MenuList>
     </Menu>
   );

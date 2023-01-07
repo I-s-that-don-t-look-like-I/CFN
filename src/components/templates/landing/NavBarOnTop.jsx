@@ -63,7 +63,7 @@ export default function NavBarOnTop({ googleUser }) {
             <DesktopNav />
           </Flex>
         </Flex>
-
+        <Text mr={'5px'}>{googleUser ? googleUser.email : '구글 로그인'}</Text>
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
@@ -73,7 +73,7 @@ export default function NavBarOnTop({ googleUser }) {
         >
           {/* --------------------
           --------- Login---------
-           -----------------------*/}
+          -----------------------*/}
           <SocialLogin googleUser={googleUser} />
         </Stack>
       </Flex>
@@ -248,15 +248,25 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: 'CrowdFunding',
+    label: '크라우드 펀드',
     href: '/crowdfunding',
+    children: [
+      {
+        label: '모두 보기',
+        href: '/crowdfunding',
+      },
+      {
+        label: '내가 만든 펀드',
+        href: '/crowdfunding',
+      },
+    ],
   },
   {
-    label: 'Profiles',
+    label: '프로필',
     href: '/profile',
   },
   {
-    label: 'Recruits',
+    label: '구인 / 구직',
     children: [
       {
         label: '배우 / 스탭',
@@ -265,7 +275,8 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'Community',
+    label: '커뮤니티',
+    href: '/freeboard',
     children: [
       {
         label: '게시판',
@@ -280,10 +291,6 @@ const NAV_ITEMS = [
       {
         label: 'crowdfundingTest',
         href: '/test',
-      },
-      {
-        label: 'Solidity',
-        href: '/solidity',
       },
     ],
   },

@@ -37,6 +37,7 @@ export const useWeb3 = () => {
   const [DBUserContract, setDBUserContract] = useState();
   const [crowdfundContract, setCrowdfundContract] = useState();
   const [rewardContract, setRewardContract] = useState();
+  const [ownerPayContract, setOwnerPayContract] = useState();
 
   useEffect(() => {
     if (!window.ethereum) return;
@@ -70,6 +71,7 @@ export const useWeb3 = () => {
           process.env.REACT_APP_CONTRACT_REWARD_ADDRESS
         )
       );
+      await getOwnerPayContract();
       return {
         web3,
         DBContract,
@@ -86,12 +88,29 @@ export const useWeb3 = () => {
   useEffect(() => {
     getContracts();
   }, [web3]);
+
+  function getOwnerPayContract() {
+    const ethers = require('ethers');
+    const provider = new ethers.providers.AlchemyProvider(
+      'goerli',
+      process.env.REACT_APP_ALCHEMY_KEY
+    );
+    const signer = new ethers.Wallet(process.env.REACT_APP_PVK, provider);
+    const payContract = new ethers.Contract(
+      process.env.REACT_APP_CONTRACT_CROWDFUND_ADDRESS,
+      CFABI,
+      signer
+    );
+    setOwnerPayContract(payContract);
+  }
+
   return {
     web3,
     DBContract,
     DBUserContract,
     crowdfundContract,
     rewardContract,
+    ownerPayContract,
     getContracts,
   };
 };

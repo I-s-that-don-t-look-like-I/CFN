@@ -26,7 +26,7 @@ export default function Profiles() {
           actors.push(doc.data());
         });
         actors.sort((a, b) => (a.upload_time < b.upload_time ? 1 : -1));
-        console.log(actors);
+        // console.log(actors);
         setActorData(actors);
       } catch (error) {
         console.error(error);

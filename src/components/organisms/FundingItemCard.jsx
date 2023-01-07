@@ -150,7 +150,7 @@ export default function FundingItemCard({ item, index, filmName, status }) {
                 onClick={() => {
                   buyItem(filmName, index, 1);
                 }}
-                disabled={'true'}
+                disabled={true}
               >
                 <Flex justifyContent={'center'} alignItems={'center'}>
                   <Text color={'white'} className="hover-underline-animation">

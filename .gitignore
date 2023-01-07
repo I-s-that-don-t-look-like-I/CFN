@@ -28,3 +28,4 @@ yarn-error.log*
 /solidity/hardhat.config.js
 /solidity/artifacts
 /solidity/cache
+.env

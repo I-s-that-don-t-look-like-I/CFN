@@ -26,7 +26,9 @@ export default function Layout() {
     <Flex direction={'column'} wrap={'nowrap'}>
       <NavBar googleUser={googleUser} />
       <Box w={'100wh'} mt={'73px'} />
-      <Outlet minH={'100vh'} context={[googleUser, setGoogleUser]} />
+      <Box minH={'calc(100vh - 329px)'}>
+        <Outlet minH={'100vh'} context={[googleUser, setGoogleUser]} />
+      </Box>
       <Footer />
     </Flex>
   );

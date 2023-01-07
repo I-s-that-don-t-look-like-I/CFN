@@ -68,3 +68,27 @@ contract C is A{
     //     A.exterFunction();
     // }
 }
+
+contract FundingReward is ERC1155 {
+    string public name;
+    string public symbol;
+    mapping(uint => string) metadataUri;
+    struct RewardNFT {
+        uint[] storage NFTId;
+        uint[] storage NFTAmount;
+    }
+    
+    constructor(string memory _name, string memory _symbol) ERC1155("") {
+        name = _name;
+        symbol = _symbol;
+     
+    }
+
+    function setPostNFT(uint _nftID, uint _amount) public {
+        RewardNFT memory rN;
+        rN.NFTId.length++;
+        rN.NFTId[rN.NFTId.length - 1] = _nftID;
+        rN.NFTAmount.length++;
+        rN.NFTAmount[rN.NFTAmount.length - 1] = _amount;
+    }
+}
