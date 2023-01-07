@@ -1,5 +1,10 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 export default function MyCrowdfund() {
-  return <div>MyCrowdfund</div>;
+  return (
+    <Box>
+      <Box>test</Box>
+    </Box>
+  );
 }
