@@ -257,7 +257,7 @@ const NAV_ITEMS = [
       },
       {
         label: '내가 만든 펀드',
-        href: '/crowdfunding',
+        href: '/mycrowdfund',
       },
     ],
   },

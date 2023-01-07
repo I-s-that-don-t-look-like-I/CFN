@@ -12,6 +12,7 @@ import CrowdFunding from './CrowdFunding';
 import Solidity from './CrowdfundDetail';
 import MakeCrowdfund from './MakeCrowdfund';
 import AccountSetting from './AccountSetting';
+import MyCrowdfund from './MyCrowdfund';
 
 function AppRouter() {
   return (
@@ -28,6 +29,7 @@ function AppRouter() {
         <Route path="/detail" element={<Solidity />} />
         <Route path="/makeCrowdfund" element={<MakeCrowdfund />} />
         <Route path="/account" element={<AccountSetting />} />
+        <Route path="/mycrowdfund" element={<MyCrowdfund />} />
       </Route>
     </Routes>
   );
