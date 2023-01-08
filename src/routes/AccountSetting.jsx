@@ -52,6 +52,7 @@ export default function AccountSetting() {
             toast.error(error);
           });
       }
+
       localStorage.setItem('_user', user);
     } catch (error) {
       console.error(error);

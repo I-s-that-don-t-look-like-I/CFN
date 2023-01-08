@@ -38,5 +38,6 @@ async function readData(_filmName) {
 // readData('보살 미안 랩소리__BJ풀소유');
 // readData('야수가 미녀__김지킬');
 // readData('Wall Street Art__Worry John Bur-Fit');
-readData('WIAR__Harry Copter');
+// readData('WIAR__Harry Copter');
+readData('연어공주__Salmon Dal-gyal');
 // readData('TestData__DirectorName');

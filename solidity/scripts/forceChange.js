@@ -19,11 +19,12 @@ function getTimeAfter(_time) {
 }
 
 async function main() {
+  await CFcontract.ForceChangeCrowdfundStatus('연어공주__Salmon Dal-gyal', '3');
   // await CFcontract.ForceChangeCrowdfundStatus(
   //   'Wall Street Art__Worry John Bur-Fit',
   //   '1'
   // );
-  await CFcontract.setCrowdfundStatus('Wall Street Art__Worry John Bur-Fit');
+  // await CFcontract.setCrowdfundStatus('Wall Street Art__Worry John Bur-Fit');
   // await DBcontract.changeCrowdfundData(
   //   'Wall Street Art__Worry John Bur-Fit',
   //   'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Wall%20Street%20Art.png',

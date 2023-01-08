@@ -7,7 +7,6 @@ import { timeLeftCal } from 'src/hooks/useTimeLeft';
 import Ether from '../atoms/Ether';
 import { eStatus } from '../atoms/EnumArray';
 import { toast } from 'react-toastify';
-import { GiCoinsPile } from 'react-icons/gi';
 
 export default function FundCard({
   filmName,
@@ -50,6 +49,7 @@ export default function FundCard({
         if (!isChanged) {
           if (ownerPayContract) {
             setIsChanged(true);
+            console.log(isChanged);
             changeStatus();
           }
         }

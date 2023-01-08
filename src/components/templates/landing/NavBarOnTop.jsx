@@ -63,7 +63,7 @@ export default function NavBarOnTop({ googleUser }) {
             <DesktopNav />
           </Flex>
         </Flex>
-        <Text mr={'5px'}>{googleUser ? googleUser.email : '구글 로그인'}</Text>
+        {/* <Text mr={'5px'}>{googleUser ? metaAddr : '구글 로그인'}</Text> */}
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
