@@ -3,6 +3,8 @@ import * as colors from 'src/styles/colors.js';
 import HideScrollX from '../molecules/HideScrollX';
 import SectionLayout from '../molecules/SectionLayout';
 import EventCard from '../molecules/EventCard';
+import { FirebaseRead } from '../molecules/FirebaseDbManager';
+import { useState, useEffect } from 'react';
 import eventImageOne from 'src/assets/img/한자와나오키.jpg';
 import eventImageTwo from 'src/assets/img/천원짜리변호사.jpg';
 import eventImageThree from 'src/assets/img/너의췌장을먹고싶어.jpg';
@@ -71,7 +73,33 @@ const eventData = [
   },
 ];
 
-function Events() {
+export default function Events() {
+  const [filmData, setFilmData] = useState();
+
+  useEffect(() => {
+    async function getFilmSimpleData() {
+      let today = new Date();
+      let films = []; // films 배열 생성
+
+      try {
+        const response = await FirebaseRead({
+          _collection: 'crowdfunding.film',
+          _column: 'end_date',
+          _compOpt: '>=',
+          _value: today,
+        });
+        response.docs.map(doc => {
+          films.push(doc.data());
+        });
+        films.sort((a, b) => (a.end_date < b.end_date ? 1 : -1));
+        console.log(films);
+        setFilmData(films);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getFilmSimpleData();
+  }, []);
   return (
     <SectionLayout>
       <EventsTopWrapper>
@@ -79,12 +107,12 @@ function Events() {
         <ShowAllText>클라우드 펀딩전체 보기</ShowAllText>
       </EventsTopWrapper>
       <HideScrollX>
-        {eventData.map(event => (
-          <EventCard {...event} key={event.id} />
-        ))}
+        {filmData
+          ? filmData.map(films => (
+              <EventCard key={films.upload_time} props={films} />
+            ))
+          : ''}
       </HideScrollX>
     </SectionLayout>
   );
 }
-
-export default Events;

@@ -33,20 +33,19 @@ const EventTitle = styled.div`
   font-size: 16px;
 `;
 
-export default function EventCard({
-  title,
-  subtitle,
-  imgUrl,
-  targetDate,
-} = {}) {
+export default function EventCard({ props }) {
+  const _targetDate = new Date(props.end_date.seconds * 1000)
+    .toISOString()
+    .split('T')[0];
+
   return (
     <div>
-      <EventCardWrapper imgUrl={imgUrl}>
-        <CountDown targetDate={targetDate} />
+      <EventCardWrapper imgUrl={props.imgUrl}>
+        <CountDown targetDate={_targetDate} />
       </EventCardWrapper>
       <EventTitles>
-        <EventSubTitle>{subtitle}</EventSubTitle>
-        <EventTitle>{title}</EventTitle>
+        <EventSubTitle>{props.film_director}</EventSubTitle>
+        <EventTitle>{props.film_name}</EventTitle>
       </EventTitles>
     </div>
   );

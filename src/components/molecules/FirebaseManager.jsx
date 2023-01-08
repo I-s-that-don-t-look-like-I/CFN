@@ -23,7 +23,7 @@ const FirebaseManager = ({ userObj }) => {
         attachment,
         'data_url'
       );
-      console.log(response);
+      // console.log(response);
       attachmentUrl = await getDownloadURL(response.ref);
     }
     const articleObj = {

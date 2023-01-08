@@ -17,16 +17,16 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <StrictMode>
-    <ChakraProvider theme={theme}>
-      <Fonts />
-      <ColorModeScript />
-      <KaikasAuthPorvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </KaikasAuthPorvider>
-      <ToastContainer theme="colored" />
-    </ChakraProvider>
-  </StrictMode>
+  // <StrictMode>
+  <ChakraProvider theme={theme}>
+    <Fonts />
+    <ColorModeScript />
+    <KaikasAuthPorvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </KaikasAuthPorvider>
+    <ToastContainer theme="colored" />
+  </ChakraProvider>
+  // </StrictMode>
 );

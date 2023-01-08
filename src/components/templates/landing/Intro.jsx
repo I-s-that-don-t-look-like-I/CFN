@@ -46,11 +46,11 @@ export default function CallToActionWithIllustration() {
         textAlign={'center'}
         align={'center'}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}
+        py={{ base: 10, md: 15 }}
       >
         <Heading
           fontWeight={600}
-          fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+          fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
           lineHeight={'110%'}
         >
           <Text as={'span'} color={'pink.400'}>
@@ -73,7 +73,7 @@ export default function CallToActionWithIllustration() {
           <Orange />
           <rolling>
             <Text
-              fontSize={100}
+              fontSize={120}
               animation={spinAnimation}
               position={'absolute'}
             >
@@ -81,9 +81,9 @@ export default function CallToActionWithIllustration() {
             </Text>
           </rolling>
           <Box
-            mt={150}
-            w={600}
-            h={500}
+            mt={130}
+            w={500}
+            h={380}
             bgGradient="linear(to-r, #FBAB7E, #F7CE68)"
             rounded={'full'}
             pos={'absolute'}

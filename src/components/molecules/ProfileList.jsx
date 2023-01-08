@@ -66,7 +66,7 @@ export default function ProfileList() {
                     수정
                   </Button>
                   <Button variant="ghost" colorScheme="pink">
-                    삭제
+                    프로필 삭제하기
                   </Button>
                 </ButtonGroup>
               </CardFooter>

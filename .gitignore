@@ -22,3 +22,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/solidity/node_modules
+/solidity/.env
+/solidity/hardhat.config.js
+/solidity/artifacts
+/solidity/cache
+.env
