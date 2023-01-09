@@ -75,12 +75,16 @@ export async function FirebaseGoogleLogin({
     _value: _googleId,
     _compOpt: '==',
   });
-  const idCount = user._snapshot.docChanges.length;
-  if (idCount > 1) {
-    alert('동일 이메일 계정이 2개 이상 존재합니다. 관리자에게 문의하세요');
-  } else if (idCount === 1) {
-    alert('기존에 가입한 내역이 존재합니다.');
-  } else if (idCount === 0) {
+  console.log('USER:', user);
+  if (user) {
+    console.log('isUser?');
+    const idCount = user._snapshot.docChanges.length;
+    if (idCount > 1) {
+      alert('동일 이메일 계정이 2개 이상 존재합니다. 관리자에게 문의하세요');
+    } else if (idCount === 1) {
+      alert('기존에 가입한 내역이 존재합니다.');
+    }
+  } else {
     FirebaseWrite({
       _collection: 'users',
       _dataObj: {
@@ -91,7 +95,5 @@ export async function FirebaseGoogleLogin({
         created_at: Date.now(),
       },
     });
-  } else {
-    alert('이메일 계정 조회 중 알 수 없는 오류 발생');
   }
 }

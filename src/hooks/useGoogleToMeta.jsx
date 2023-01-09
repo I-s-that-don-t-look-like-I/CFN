@@ -15,17 +15,22 @@ export const useGoogleToWalletAddr = () => {
     getAccount();
     try {
       // console.log(user.email);
-      const res = await FirebaseRead({
+      await FirebaseRead({
         _collection: 'users',
         _column: 'google_id',
-        _value: user.email,
+        _value: localStorage.getItem('email'),
         _compOpt: '==',
+      }).then(res => {
+        console.log(res);
+        try {
+          setMetaAddr(
+            res.docChanges()[0].doc._document.data.value.mapValue.fields
+              .metaAddr.stringValue
+          );
+        } catch (error) {
+          setMetaAddr(undefined);
+        }
       });
-
-      setMetaAddr(
-        res.docChanges()[0].doc._document.data.value.mapValue.fields.metaAddr
-          .stringValue
-      );
     } catch (error) {
       console.error(error);
     }

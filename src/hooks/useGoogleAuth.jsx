@@ -11,20 +11,27 @@ export const useGoogleAuth = () => {
   const [user, setUser] = useState('');
 
   const signInAccount = async () => {
+    getAccount();
     try {
       const provider = new GoogleAuthProvider();
-      const response = await signInWithPopup(authService, provider);
-      const us = response.user;
-      setUser(us);
-      FirebaseGoogleLogin({
-        _googleId: us.email,
-        _googleName: us.displayName,
-        _googleProfileUrl: us.photoURL,
-        _googleUid: us.uid,
+      await signInWithPopup(authService, provider)
+        .then(res => {
+          localStorage.setItem('email', res.user.email);
+          localStorage.setItem('displayName', res.user.displayName);
+          localStorage.setItem('photoURL', res.user.photoURL);
+          localStorage.setItem('uid', res.user.uid);
+          setUser(res.user);
+          // console.log(user);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      await FirebaseGoogleLogin({
+        _googleId: localStorage.getItem('email'),
+        _googleName: localStorage.getItem('displayName'),
+        _googleProfileUrl: localStorage.getItem('photoURL'),
+        _googleUid: localStorage.getItem('uid'),
       });
-      // console.log(us);
-
-      localStorage.setItem('_user', user);
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +40,7 @@ export const useGoogleAuth = () => {
   const signOutAccount = async () => {
     try {
       const response = await authService.signOut();
-      console.log(response);
+      localStorage.removeItem('_user');
       setUser('');
     } catch (error) {
       console.error(error);
