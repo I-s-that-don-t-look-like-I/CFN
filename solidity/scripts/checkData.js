@@ -24,9 +24,9 @@ async function readData(_filmName) {
   // await DBcontract.getCrowdfundListByStatus('0').then(console.log);
   // await DBcontract.getFundingItemList(_filmName).then(console.log);
   // await DBUcontract.getUser('0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0').then(
-  await DBUcontract.getUser('0xC325c51Eb14804196E655A98D71837a80fB67001').then(
-    console.log
-  );
+  // await DBUcontract.getUser('0xC325c51Eb14804196E655A98D71837a80fB67001').then(
+  //   console.log
+  // );
 }
 
 // readData('Mafia__JY LEE');
@@ -41,5 +41,6 @@ async function readData(_filmName) {
 // readData('Wall Street Art__Worry John Bur-Fit');
 // readData('WIAR__Harry Copter');
 // readData('연어공주__Salmon Dal-gyal');
-readData('지금 잡으러 갑니다__이지금');
+// readData('지금 잡으러 갑니다__이지금');
+readData('이긴 이계인__임형준');
 // readData('TestData__DirectorName');
