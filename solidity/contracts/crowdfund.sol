@@ -65,7 +65,7 @@ contract CrowdfundContract is Ownable {
             }
         } else if(timeNow >= crowdFund.endTime && timeNow < crowdFund.endTime + 3 days){
             statusNext = DBContract.eStatus.PENDING;
-        } else if(timeNow >= crowdFund.endTime + 3 days) {
+        } else if(timeNow >= crowdFund.endTime + 15 minutes) {
             uint totalAmount = getTotalPriceByFilmName(_filmName);
             if(totalAmount >= DBCont.getCrowdfundByFilmName(_filmName).targetAmount){
                 statusNext = DBContract.eStatus.SUCCESS;
@@ -138,6 +138,9 @@ contract CrowdfundContract is Ownable {
         DBCont.pushFundReceiptList(_filmName, msg.sender, _itemIndex, _amount, msg.value, block.timestamp, DBContract.eReceiptStatus.PENDING);
         DBCont.pushUserToFundReceiptList(msg.sender, _itemIndex, _amount, msg.value, block.timestamp, DBContract.eReceiptStatus.PENDING);
         DBUserCont.pushUserFundedList(msg.sender, _filmName);
+        DBCont.subRemainItemAmount(_filmName, _itemIndex, _amount);
+
+        DBCont.rContract().mintReward(msg.sender, _filmName,DBContract.eOptions.IMG_NFT);
     }
 
     function getTotalPriceByFilmName(string memory _filmName)

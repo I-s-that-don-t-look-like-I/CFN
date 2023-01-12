@@ -63,7 +63,7 @@ contract DBUserContract is Ownable{
     function setUser(address _sender, string memory _nickName)
      external {
         require(mUserList[_sender].timestamp == 0, "USER ALREADY EXIST");
-        mUserList[_sender] = sUser(_nickName, 100, block.timestamp, new string[](0), new string[](0), new string[](0));
+        mUserList[_sender] = sUser(_nickName, 5, block.timestamp, new string[](0), new string[](0), new string[](0));
     }
 
     function setUserVoteList(address _userAddr, string memory _filmName, bool _side, uint _count)

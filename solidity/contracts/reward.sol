@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./DataStore.sol";
 import "./DataStoreUser.sol";
+import "./crowdfund.sol";
 
 /////////////////////////////////////////////
 ////////////////// REWARD ///////////////////
@@ -28,7 +29,7 @@ contract RewardContract is ERC721Enumerable, Ownable {
     mapping(string => string) mFilmNameToMetadataURI;
     mapping(uint => string) tokenIdToFilmName;
 
-    function setMetadataURI(string memory _filmName, string memory _metadataURI) public onlyOwner {
+    function setMetadataURI(string memory _filmName, string memory _metadataURI) public {
         mFilmNameToMetadataURI[_filmName] = _metadataURI;
     }
 
@@ -37,13 +38,13 @@ contract RewardContract is ERC721Enumerable, Ownable {
         return string.concat(metaURI, Strings.toString(_tokenId), ".json");
     }
 
-    function mintReward(string memory _filmName, DBContract.eOptions _opt) public onlyOwner {
+    function mintReward(address userAddr, string memory _filmName, DBContract.eOptions _opt) public {
         require(DBCont.getRewardOptionAmount(_filmName, _opt) > 0,"ITEM DOES NOT EXIST");
         require(DBCont.getRewardOptionAmount(_filmName, _opt) >= mtokenIdList[_filmName][_opt].length,
          "CANNOT MINT MORE");
         uint tokenId = totalSupply() + 1;
         tokenIdToFilmName[tokenId] = _filmName;
         mtokenIdList[_filmName][_opt].push(tokenId);
-        _mint(msg.sender, tokenId);
+        _mint(userAddr, tokenId);
     }
 }

@@ -35,10 +35,22 @@ async function insertTestData() {
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Wall%20Street%20Art.png',
     '돈 워리 비 해피. 월스트리트의 대부 워리 존버 핏의 예술과도 같은 성공 신화가 영화로 제작됐다. `인생은 버티는거야` 모두가 부자가 되는 그 날까지. 가즈아.',
     ethers.utils.parseEther('7.77777'),
-    getTimeAfter(120),
-    getTimeAfter(240),
-    getTimeAfter(360),
-    getTimeAfter(480),
+    getTimeAfter(86400 * 365),
+    getTimeAfter(86400 * 366),
+    getTimeAfter(86400 * 367),
+    getTimeAfter(86400 * 368),
+    { value: ethers.utils.parseEther('0.001') }
+  );
+
+  await CFcontract.makeCrowdfund(
+    'WIAR__Harry Copter',
+    'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/We Are Wizard.png',
+    '마법사 : 물의 길. 세상을 위협하는 악의 무리를 막기 위해 네 명의 마법사가 모였다. 어느날 갑자기 안개로 뒤덮혀버린 뉴욕. 어둠이 찾아오고 종말의 분위기가 형성되자 온갖 범죄가 들끓기 시작한다. 안개의 원인은 무엇이며, 누가 꾸민 짓인가. 인류를 지키려는 네 명의 마법사는 팀을 이뤄 활동하게 되는데.',
+    ethers.utils.parseEther('3'),
+    getTimeAfter(86400 * 30),
+    getTimeAfter(86400 * 31),
+    getTimeAfter(86400 * 32),
+    getTimeAfter(86400 * 33),
     { value: ethers.utils.parseEther('0.001') }
   );
 
@@ -57,6 +69,7 @@ async function insertTestData() {
     '2200000000',
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     'Coffee Cafe__Lionel Messi',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/CoffeCafe.png',
@@ -68,6 +81,7 @@ async function insertTestData() {
     '2200000000',
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     'Dancing__Ronaldinho',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Dancing.png',
@@ -79,6 +93,7 @@ async function insertTestData() {
     '2200000000',
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     'Before Met You__Sun Ri-Se',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Before Met You.png',
@@ -90,6 +105,7 @@ async function insertTestData() {
     '2200000000',
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     'LOVE Spy__Nero Nambul',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/Love Spy.png',
@@ -107,16 +123,17 @@ async function insertTestData() {
   // ------------------------------------------------------------
 
   await CFcontract.makeCrowdfund(
-    'LA Land__Tae Jin-A',
-    'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/LA Land.png',
-    '라 라라라 LA에 울려퍼지는 K-Pop. 비가 오던 그 날 전설이 시작됐다. 태진아 감독 연출. 주연 배우 비 확정. LA에서 펼쳐지는 그들의 춤선과 음악.',
-    ethers.utils.parseEther('0.1'),
+    '연어공주__Salmon Dal-gyal',
+    'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/연어공주.png',
+    '연어를 너무 사랑한 나머지 새해 소원을 바다에 살게 해달라고 빌었던 노르웨이 공주의 이야기. 살몬 달걀 감독의 풍부한 해양지식과 이국적인 분위기를 가진 제주도 숨은 스팟이 조화를 이뤄 노르웨이 느낌의 촬영을 진행한다.     다시 육지로 돌아가고 싶은 연어공주는 해양동굴로 들어가 100일 동안 다시마와 해파리 냉채만 먹게 되는데. 과연 연어공주는 다시 육지로 돌아갈 수 있을지.',
+    ethers.utils.parseEther('0.25'),
     getTimeAfter(-60),
     getTimeAfter(30),
     getTimeAfter(120),
-    '1673600400',
+    getTimeAfter(86400 * 30),
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     '불씨에 사랑착__손현빈',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/불씨에 사랑착.png',
@@ -128,6 +145,7 @@ async function insertTestData() {
     getTimeAfter(86400 * 30),
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     '보살 미안 랩소리__BJ풀소유',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/보살 미안 랩소리 .png',
@@ -139,6 +157,7 @@ async function insertTestData() {
     getTimeAfter(86400 * 45),
     { value: ethers.utils.parseEther('0.001') }
   );
+
   await CFcontract.makeCrowdfund(
     '야수가 미녀__김지킬',
     'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/야수가 미녀.png',
@@ -148,6 +167,18 @@ async function insertTestData() {
     getTimeAfter(30),
     getTimeAfter(120),
     getTimeAfter(86400 * 50),
+    { value: ethers.utils.parseEther('0.001') }
+  );
+
+  await CFcontract.makeCrowdfund(
+    'LA Land__Tae Jin-A',
+    'https://gateway.pinata.cloud/ipfs/QmeizXq32ih3HtTvDLoN6U3wPQGG1V18xrWset2wfLS168/LA Land.png',
+    '라 라라라 LA에 울려퍼지는 K-Pop. 비가 오던 그 날 전설이 시작됐다. 태진아 감독 연출. 주연 배우 비 확정. LA에서 펼쳐지는 그들의 춤선과 음악.',
+    ethers.utils.parseEther('0.1'),
+    getTimeAfter(-60),
+    getTimeAfter(30),
+    getTimeAfter(120),
+    '1673600400',
     { value: ethers.utils.parseEther('0.001') }
   );
 
@@ -172,14 +203,27 @@ async function setFundStatus() {
   // ------------------------------------------------------------
   // F U N D I N G ----------------------------------------------
   // ------------------------------------------------------------
-  await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('연어공주__Salmon Dal-gyal', '1');
   await CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '1');
   await CFcontract.ForceChangeCrowdfundStatus(
     '보살 미안 랩소리__BJ풀소유',
     '1'
   );
   await CFcontract.ForceChangeCrowdfundStatus('야수가 미녀__김지킬', '1');
+  await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '1');
 
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '연어공주__Salmon Dal-gyal',
+    true,
+    '72'
+  );
+  await CFcontract.voteCrowdfund(
+    '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
+    '연어공주__Salmon Dal-gyal',
+    false,
+    '34'
+  );
   await CFcontract.voteCrowdfund(
     '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
     'LA Land__Tae Jin-A',
@@ -229,6 +273,7 @@ async function setFundStatus() {
     '42'
   );
 
+  await CFcontract.ForceChangeCrowdfundStatus('연어공주__Salmon Dal-gyal', '3');
   await CFcontract.ForceChangeCrowdfundStatus('LA Land__Tae Jin-A', '3');
   await CFcontract.ForceChangeCrowdfundStatus('불씨에 사랑착__손현빈', '3');
   await CFcontract.ForceChangeCrowdfundStatus(

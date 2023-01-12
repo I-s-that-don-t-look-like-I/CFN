@@ -12,13 +12,13 @@ let cfaddr = process.env.CONTRACT_CROWDFUND_ADDRESS;
 const CFcontract = new ethers.Contract(cfaddr, cfABI, signer);
 
 async function main() {
-  await CFcontract.registUser('TEST USER 1');
+  await CFcontract.registUser('yy***@gmail.com');
   await CFcontract.addPoints(
     '0x9f6a0be1f3aEF6D826d98f8A2D865acbfBb467D0',
     '1000'
   );
 
-  console.log('REGISTER USER & ADD DEFAULT 100 POINTS COMPLETE');
+  console.log('REGISTER USER & ADD DEFAULT 10 POINTS COMPLETE');
   console.log('ADD 1000 POINTS COMPLETE');
 }
 

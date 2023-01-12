@@ -16,10 +16,11 @@ async function setFundStatusToFunding() {
   // ------------------------------------------------------------
   // F U N D I N G ----------------------------------------------
   // ------------------------------------------------------------
-  await CFcontract.setCrowdfundStatus('LA Land__Tae Jin-A');
-  await CFcontract.setCrowdfundStatus('불씨에 사랑착__손현빈');
-  await CFcontract.setCrowdfundStatus('보살 미안 랩소리__BJ풀소유');
-  await CFcontract.setCrowdfundStatus('야수가 미녀__김지킬');
+  // await CFcontract.setCrowdfundStatus('LA Land__Tae Jin-A');
+  // await CFcontract.setCrowdfundStatus('불씨에 사랑착__손현빈');
+  // await CFcontract.setCrowdfundStatus('보살 미안 랩소리__BJ풀소유');
+  // await CFcontract.setCrowdfundStatus('야수가 미녀__김지킬');
+  await CFcontract.setCrowdfundStatus('지금 잡으러 갑니다__이지금');
 
   console.log('SET STATUS TO FUNDING COMPLETE');
 }
